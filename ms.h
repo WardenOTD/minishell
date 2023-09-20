@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/09/20 13:37:16 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/09/20 17:32:33 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,17 @@
 # include <termios.h>
 # include <limits.h>
 
+typedef struct s_input{
+	char	**line;
+}				t_input;
 
-void		display_env(char **envp);
+typedef struct s_env{
+	char	**envp;
+}				t_env;
+
+void		display_env(t_env *env);
+void		call(t_input *input);
+void		echo(t_input *input);
+int			N(char *n);
 
 #endif

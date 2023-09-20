@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   call.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/20 13:35:30 by jteoh             #+#    #+#             */
-/*   Updated: 2023/09/20 14:05:55 by jteoh            ###   ########.fr       */
+/*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
+/*   Updated: 2023/09/20 17:23:50 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-void	display_env(t_env *env)
+void	call(t_input *input)
 {
-	int	i;
-
-	i = -1;
-	while (env->envp[++i] != 0)
-		printf("%s\n", env->envp[i]);
+	if (!ft_strncmp(input->line[0], "echo", 5))
+		echo(input);
 }

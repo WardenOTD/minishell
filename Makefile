@@ -1,9 +1,9 @@
-SRC			= main.c env.c \
+SRC			= main.c env.c call.c echo.c \
 
 CC			= gcc
 RM			= rm -rf
 CFLAGS		= -Wall -Wextra -Werror -I.
-FSANITIZE	= -fsanitize=thread -g3
+FSANITIZE	= -fsanitize=address -g3
 DSYM		= *.dSYM
 
 RAED		= -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
