@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/08/28 12:09:05 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/09/20 13:37:16 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,8 @@
 # include <dirent.h>
 # include <termios.h>
 # include <limits.h>
+
+
+void		display_env(char **envp);
 
 #endif

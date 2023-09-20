@@ -1,4 +1,4 @@
-SRC			= main.c \
+SRC			= main.c env.c \
 
 CC			= gcc
 RM			= rm -rf
