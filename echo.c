@@ -6,11 +6,16 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:49:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/09/20 17:38:40 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/09/20 17:47:23 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
+
+//handle echo -n -nnnnnnnnnnn a
+//>a>
+//handle echo -n -nnnnnnnnnnna a
+//>-nnnnnnnnnnna a>
 
 int	n(char *n)
 {
