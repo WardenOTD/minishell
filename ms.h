@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/09/20 17:32:33 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/09/20 17:38:45 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ typedef struct s_env{
 void		display_env(t_env *env);
 void		call(t_input *input);
 void		echo(t_input *input);
-int			N(char *n);
+int			n(char *n);
 
 #endif

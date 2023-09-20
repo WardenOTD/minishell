@@ -6,13 +6,13 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:49:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/09/20 17:30:59 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/09/20 17:38:40 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-int	N(char *n)
+int	n(char *n)
 {
 	int	i;
 
@@ -31,7 +31,7 @@ void	echo(t_input *input)
 	int	i;
 
 	i = 1;
-	if (!ft_strncmp(input->line[1], "-n", 2) && N(input->line[1]))
+	if (!ft_strncmp(input->line[1], "-n", 2) && n(input->line[1]))
 	{
 		i++;
 		while (input->line[i])
