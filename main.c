@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/09/20 17:23:05 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/09/21 12:17:04 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,20 @@ void	free2d(char **line)
 	free (line);
 }
 
+void	ctrlc(int sig)
+{
+	signal(sig, SIG_IGN);
+	write(0, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	signal(SIGINT, ctrlc);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
+	signal(SIGINT, ctrlc);
+	signal(SIGQUIT, SIG_IGN);
 	(void)argc;
 	(void)argv;
 	t_env	env;
