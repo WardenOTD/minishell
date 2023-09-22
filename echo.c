@@ -6,16 +6,11 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:49:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/09/21 10:00:54 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/09/22 15:02:50 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
-
-//handle echo -n -nnnnnnnnnnn a
-//>a>
-//handle echo -n -nnnnnnnnnnna a
-//>-nnnnnnnnnnna a>
 
 int	hyphen(char *hy)
 {
@@ -46,10 +41,10 @@ void	echo(t_input *input)
 	int	i;
 
 	i = 1;
-	if (!ft_strncmp(input->line[1], "-n", 2) && n(input->line[1]))
+	if (input->line[1] && hyphen(input->line[i]))
 	{
 		i++;
-		while (hyphen(input->line[i]))
+		while (input->line[i] && hyphen(input->line[i]))
 			i++;
 		while (input->line[i])
 		{
