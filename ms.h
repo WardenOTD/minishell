@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/09/21 13:07:28 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/10/13 15:38:40 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,20 @@
 # include <termios.h>
 # include <limits.h>
 
+
+typedef struct s_lexer{
+	char			**test;
+	struct s_list	*next;
+}				t_lexer;
+
 typedef struct s_input{
 	char	**line;
 }				t_input;
 
 typedef struct s_env{
-	char	**envp;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
 }				t_env;
 
 //--main.c--
