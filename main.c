@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/09/22 12:26:39 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/10/17 13:48:17 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,24 @@ void	ctrlc(int sig)
 	signal(SIGINT, ctrlc);
 }
 
+void	init(t_env *env)
+{
+	env = (t_env *)malloc(sizeof(t_env));
+	env->next = NULL;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_env	env;
 	t_input	input;
 	char	*line;
 
-	env.envp = envp;
 	signal(SIGINT, ctrlc);
 	signal(SIGQUIT, SIG_IGN);
 	(void)argc;
 	(void)argv;
+	init(&env);
+	get_env(&env, envp);
 	while (1)
 	{
 		line = readline("Minishell$ ");

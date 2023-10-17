@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/10/13 15:38:40 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/10/17 13:29:37 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 
 
 typedef struct s_lexer{
-	char			**test;
-	struct s_list	*next;
+	char			**arg;
+	struct s_lexer	*next;
 }				t_lexer;
 
 typedef struct s_input{
@@ -49,8 +49,15 @@ void		free2d(char **line);
 void		ctrlc(int sig);
 int			main(int argc, char **argv, char **envp);
 
+//--liststuff.c--
+t_lexer		*lexerlstnew(t_lexer *head);
+t_env		*envlstnew(t_env *head);
+t_lexer		*lexerlstappend(t_lexer *head, char **arr);
+t_env		*envlstappend(t_env *head, char *k, char *v);
+
 //--env.c--
 void		display_env(t_env *env);
+void		get_env(t_env *env, char **envp);
 
 //--echo.c--
 int			hyphen(char *hy);
