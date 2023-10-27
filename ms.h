@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/10/17 13:29:37 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/10/27 17:19:46 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,23 @@ void		ctrlc(int sig);
 int			main(int argc, char **argv, char **envp);
 
 //--liststuff.c--
-t_lexer		*lexerlstnew(t_lexer *head);
-t_env		*envlstnew(t_env *head);
-t_lexer		*lexerlstappend(t_lexer *head, char **arr);
-t_env		*envlstappend(t_env *head, char *k, char *v);
+t_lexer		*lexerlstnew(char **arr);
+t_env		*envlstnew(char *k, char *v);
 
 //--env.c--
 void		display_env(t_env *env);
-void		get_env(t_env *env, char **envp);
+t_env		*get_env(t_env *env, char **envp);
+
+//--lexer.c--
+t_lexer		*lexer(t_lexer *input, char *line);
+void		freelexer(t_lexer *input);
 
 //--echo.c--
 int			hyphen(char *hy);
 int			n(char *n);
-void		echo(t_input *input);
+void		echo(t_lexer *input);
 
 //--call.c--
-void		call(t_input *input);
+void		call(t_lexer *input);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/10/17 13:48:17 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/10/27 17:20:06 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	free2d(char **line)
 {
 	int	i;
 
-	i = 0;
-	while (line[i] != 0)
-		free(line[i++]);
+	i = -1;
+	while (line[++i] != 0)
+		free(line[i]);
 	free (line);
 }
 
@@ -39,24 +39,24 @@ void	ctrlc(int sig)
 	signal(SIGINT, ctrlc);
 }
 
-void	init(t_env *env)
+void	init(t_env **env, t_lexer **input)
 {
-	env = (t_env *)malloc(sizeof(t_env));
-	env->next = NULL;
+	(*env) = NULL;
+	(*input) = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_env	env;
-	t_input	input;
+	t_env	*env;
+	t_lexer *input;
 	char	*line;
 
 	signal(SIGINT, ctrlc);
 	signal(SIGQUIT, SIG_IGN);
 	(void)argc;
 	(void)argv;
-	init(&env);
-	get_env(&env, envp);
+	init(&env, &input);
+	env = get_env(env, envp);
 	while (1)
 	{
 		line = readline("Minishell$ ");
@@ -65,13 +65,11 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_strlen(line))
 			add_history(line);
 		if (!ft_strncmp(line, "env", 4))
-			display_env(&env);
+			display_env(env);
 		else if (ft_strlen(line))
 		{
-			input.line = ft_split(line, ' ');
-			if (input.line && input.line[0])
-				call(&input);
-			free2d(input.line);
+			input = lexer(input, line);
+			freelexer(input);
 		}
 		free(line);
 	}

@@ -6,14 +6,14 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
-/*   Updated: 2023/09/20 17:23:50 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/10/27 16:46:13 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-void	call(t_input *input)
+void	call(t_lexer *input)
 {
-	if (!ft_strncmp(input->line[0], "echo", 5))
+	if (!ft_strncmp(input->arg[0], "echo", 5))
 		echo(input);
 }

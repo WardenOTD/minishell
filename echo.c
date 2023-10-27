@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:49:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/09/22 15:02:50 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/10/27 16:47:36 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,29 @@ int	n(char *n)
 	return (1);
 }
 
-void	echo(t_input *input)
+void	echo(t_lexer *input)
 {
 	int	i;
 
 	i = 1;
-	if (input->line[1] && hyphen(input->line[i]))
+	if (input->arg[1] && hyphen(input->arg[i]))
 	{
 		i++;
-		while (input->line[i] && hyphen(input->line[i]))
+		while (input->arg[i] && hyphen(input->arg[i]))
 			i++;
-		while (input->line[i])
+		while (input->arg[i])
 		{
-			printf("%s", input->line[i++]);
-			if (input->line[i])
+			printf("%s", input->arg[i++]);
+			if (input->arg[i])
 				printf(" ");
 		}
 	}
 	else
 	{
-		while (input->line[i])
+		while (input->arg[i])
 		{
-			printf("%s", input->line[i++]);
-			if (input->line[i])
+			printf("%s", input->arg[i++]);
+			if (input->arg[i])
 				printf(" ");
 		}
 		printf("\n");
