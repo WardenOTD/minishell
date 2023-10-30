@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/10/27 17:19:46 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/10/30 14:38:33 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_env		*get_env(t_env *env, char **envp);
 
 //--lexer.c--
 t_lexer		*lexer(t_lexer *input, char *line);
-void		freelexer(t_lexer *input);
+t_lexer		*freelexer(t_lexer *input);
 
 //--echo.c--
 int			hyphen(char *hy);

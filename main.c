@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/10/27 17:20:06 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/10/30 14:43:17 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int	main(int argc, char **argv, char **envp)
 		else if (ft_strlen(line))
 		{
 			input = lexer(input, line);
-			freelexer(input);
+			call(input);
+			input = freelexer(input);
 		}
 		free(line);
 	}

@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:19:28 by jteoh             #+#    #+#             */
-/*   Updated: 2023/10/27 17:22:05 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/10/30 14:43:45 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_lexer	*lexer(t_lexer *input, char *line)
 	return (input);
 }
 
-void	freelexer(t_lexer *input)
+t_lexer	*freelexer(t_lexer *input)
 {
 	t_lexer	*head;
 	t_lexer	*tmp;
@@ -57,4 +57,6 @@ void	freelexer(t_lexer *input)
 	}
 	free2d(head->arg);
 	free(head);
+	input = NULL;
+	return (input);
 }
