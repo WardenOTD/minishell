@@ -1,5 +1,5 @@
 #include "ms.h"
-#include "libc.h"
+#include "libft/libft.h"
 int	main()
 {
 	t_lexer *list;

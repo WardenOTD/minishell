@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:35:30 by jteoh             #+#    #+#             */
-/*   Updated: 2023/10/27 16:58:03 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/07 00:00:11 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	display_env(t_env *env)
 {
-	int	i;
-
-	i = -1;
 	while (env)
 	{
 		if (!env->value)
@@ -38,7 +35,9 @@ t_env	*get_env(t_env *env, char **envp)
 
 	tail = NULL;
 	i = 0;
-	while (envp[i])
+	tmpp = (t_env *)malloc(sizeof(t_env));
+	tail = (t_env *)malloc(sizeof(t_env));
+	while (envp[i] && i <= 12)
 	{
 		tmp = ft_split(envp[i], '=');
 		tmpp = envlstnew(tmp[0], tmp[1]);
@@ -51,4 +50,20 @@ t_env	*get_env(t_env *env, char **envp)
 		i++;
 	}
 	return (env);
+}
+
+char *get_env_value(char *str, t_env *env)
+{
+	int 	len;
+	char	*ret;
+
+	ret = NULL;
+	len = ft_strlen(str);
+	while (env->next)
+	{
+		if (ft_strncmp(str, env->key, len) == 0)
+			ret = ft_strdup(env->value);
+		env = env->next;
+	}
+	return (ret);
 }

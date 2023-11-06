@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/10/30 14:43:17 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/07 00:00:15 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	init(&env, &input);
-	env = get_env(env, envp);
+	env = get_env(env, envp);		// segfault source
 	while (1)
 	{
 		line = readline("Minishell$ ");
@@ -69,7 +69,7 @@ int	main(int argc, char **argv, char **envp)
 		else if (ft_strlen(line))
 		{
 			input = lexer(input, line);
-			call(input);
+			call(input, env);
 			input = freelexer(input);
 		}
 		free(line);

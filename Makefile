@@ -1,4 +1,10 @@
-SRC			= main.c liststuff.c env.c lexer.c call.c echo.c \
+SRC			= main.c liststuff.c env.c\
+				lexer/lexer.c\
+				parser/parser.c\
+				executor/echo.c\
+				executor/call.c\
+				executor/pwd.c\
+				executor/cd.c\
 
 CC			= gcc
 RM			= rm -rf
@@ -15,7 +21,7 @@ NAME		= minishell
 all:	${NAME}
 
 ${NAME}: ${LIBFT} ${SRC}
-	${CC} ${CFLAGS} ${FSANITIZE} ${SRC} ${RAED} ${LIBFT} -o ${NAME} && ${RM} ${DSYM}
+	${CC} ${CFLAGS} ${SRC} ${RAED} ${LIBFT} -o ${NAME} && ${RM} ${DSYM}
 
 ${LIBFT}:
 	make -s all -C libft/
