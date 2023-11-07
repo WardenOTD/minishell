@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:49:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/03 19:20:35 by jutong           ###   ########.fr       */
+/*   Updated: 2023/11/07 14:44:16 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,24 @@ void	echo(t_lexer *input)
 	int	i;
 
 	i = 1;
-	if (input->token[1] && hyphen(input->token[i]))
+	if (input->arg[1] && hyphen(input->arg[i]))
 	{
 		i++;
-		while (input->token[i] && hyphen(input->token[i]))
+		while (input->arg[i] && hyphen(input->arg[i]))
 			i++;
-		while (input->token[i])
+		while (input->arg[i])
 		{
-			printf("%s", input->token[i++]);
-			if (input->token[i])
+			printf("%s", input->arg[i++]);
+			if (input->arg[i])
 				printf(" ");
 		}
 	}
 	else
 	{
-		while (input->token[i])
+		while (input->arg[i])
 		{
-			printf("%s", input->token[i++]);
-			if (input->token[i])
+			printf("%s", input->arg[i++]);
+			if (input->arg[i])
 				printf(" ");
 		}
 		printf("\n");

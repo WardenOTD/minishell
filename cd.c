@@ -20,15 +20,15 @@ int	cd(t_lexer *lexer, t_env *env)
 	option = NULL;
 	oldpwd = getcwd(NULL, 0);
 
-	if (get_arraysize(lexer->token) == 2)
-		option = ft_strdup(lexer->token[1]);
-	else if (get_arraysize(lexer->token) > 2)
+	if (get_arraysize(lexer->arg) == 2)
+		option = ft_strdup(lexer->arg[1]);
+	else if (get_arraysize(lexer->arg) > 2)
 	{
 		printf("bash: cd: too many arguments\n");
 		return (0);
 	}
 
-	if (get_arraysize(lexer->token) == 1 || !ft_strncmp(option, "~", 1))
+	if (get_arraysize(lexer->arg) == 1 || !ft_strncmp(option, "~", 1))
 		target_pwd = get_env_value("HOME", env);
 
 	else if (!ft_strncmp(option, "-", 1))

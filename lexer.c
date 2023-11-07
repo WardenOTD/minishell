@@ -39,11 +39,11 @@ t_lexer	*freelexer(t_lexer *input)
 	while (tmp)
 	{
 		tmpnxt = tmp->next;
-		free2d(tmp->token);
+		free2d(tmp->arg);
 		free(tmp);
 		tmp = tmpnxt;
 	}
-	free2d(head->token);
+	free2d(head->arg);
 	free(head);
 	input = NULL;
 	return (input);

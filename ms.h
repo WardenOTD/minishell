@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/07 00:08:28 by jutong           ###   ########.fr       */
+/*   Updated: 2023/11/07 14:43:00 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ typedef struct s_commandtable{
 
 	int						in_fd;
 	int						out_fd;
-	
+
 //	struct s_env			t_env;
-	
+
 	struct s_commandtable	*next;
 }				t_commandtable;
 
 typedef struct s_lexer{
-	char			**token;
+	char			**arg;
 	int				var_num;
 	struct s_lexer	*next;
 }				t_lexer;
