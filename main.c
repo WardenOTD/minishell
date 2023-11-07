@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/10/30 14:43:17 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/07 14:21:27 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,25 @@ void	ctrlc(int sig)
 	signal(SIGINT, ctrlc);
 }
 
-void	init(t_env **env, t_lexer **input)
+void	init(t_env **env, t_lexer **input, t_exp **exp)
 {
 	(*env) = NULL;
 	(*input) = NULL;
+	(*exp) = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_env	*env;
 	t_lexer *input;
+	t_exp	*exp;
 	char	*line;
 
 	signal(SIGINT, ctrlc);
 	signal(SIGQUIT, SIG_IGN);
 	(void)argc;
 	(void)argv;
-	init(&env, &input);
+	init(&env, &input, &exp);
 	env = get_env(env, envp);
 	while (1)
 	{
@@ -64,13 +66,13 @@ int	main(int argc, char **argv, char **envp)
 			handle(line);
 		if (ft_strlen(line))
 			add_history(line);
-		if (!ft_strncmp(line, "env", 4))
-			display_env(env);
-		else if (ft_strlen(line))
+		if (ft_strlen(line))
 		{
+			exp = get_exp(exp, env);
 			input = lexer(input, line);
-			call(input);
+			call(input, env, exp);
 			input = freelexer(input);
+			exp = free_exp(exp);
 		}
 		free(line);
 	}

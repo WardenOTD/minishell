@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:35:30 by jteoh             #+#    #+#             */
-/*   Updated: 2023/10/27 16:58:03 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/07 14:14:47 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	display_env(t_env *env)
 {
-	int	i;
-
-	i = -1;
 	while (env)
 	{
 		if (!env->value)
@@ -50,5 +47,31 @@ t_env	*get_env(t_env *env, char **envp)
 		free2d(tmp);
 		i++;
 	}
+	return (env);
+}
+
+t_env	*add_env(t_env *env, t_lexer *input)
+{
+	char	**tmp;
+	t_env	*head;
+	t_env	*tail;
+
+	tmp = ft_split(input->arg[1], '=');
+	head = NULL;
+	tail = env;
+	while (tail->next)
+	{
+		if (!ft_strncmp(tmp[0], tail->key, ft_strlen(tmp[0])))
+		{
+			free(tail->value);
+			tail->value = ft_strdup(tmp[1]);
+			free2d(tmp);
+			return (env);
+		}
+		tail = tail->next;
+	}
+	head = envlstnew(tmp[0], tmp[1]);
+	tail->next = head;
+	free2d(tmp);
 	return (env);
 }

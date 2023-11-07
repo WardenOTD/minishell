@@ -1,10 +1,10 @@
-SRC			= main.c liststuff.c env.c lexer.c call.c echo.c \
+SRC			= main.c liststuff.c env.c export.c export2.c lexer.c call.c echo.c \
 
 CC			= gcc
 RM			= rm -rf
 CFLAGS		= -Wall -Wextra -Werror -I.
 FSANITIZE	= -fsanitize=address -g3
-DSYM		= *.dSYM
+# DSYM		= *.dSYM
 
 RAED		= -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 
