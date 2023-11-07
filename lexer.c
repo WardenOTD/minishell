@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/27 16:19:28 by jteoh             #+#    #+#             */
-/*   Updated: 2023/10/30 14:43:45 by jteoh            ###   ########.fr       */
+/*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
+/*   Updated: 2023/11/07 14:58:07 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_lexer	*lexer(t_lexer *input, char *line)
 	while (arr[i])
 	{
 		arr2 = ft_split(arr[i], ' ');
-		temp =	lexerlstnew(arr2);
+		temp = lexerlstnew(arr2);
 		if (!input)
 			input = temp;
 		else

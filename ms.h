@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/07 14:20:28 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/07 15:20:19 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <dirent.h>
 # include <termios.h>
 # include <limits.h>
-
 
 typedef struct s_lexer{
 	char			**arg;
@@ -63,6 +62,7 @@ t_exp		*explstnew(char *k, char *v);
 void		display_env(t_env *env);
 t_env		*get_env(t_env *env, char **envp);
 t_env		*add_env(t_env *env, t_lexer *input);
+char 		*get_env_value(char *str, t_env *env);
 
 //--export.c--
 void		display_exp(t_exp *exp);
@@ -85,5 +85,12 @@ void		echo(t_lexer *input);
 
 //--call.c--
 void		call(t_lexer *input, t_env *env, t_exp *exp);
+
+//--pwd.c--
+int			ft_pwd(void);
+
+//--cd.c--
+int			cd(t_lexer *lexer, t_env *env);
+char		*update_env(t_env *env, char *current, char *new);
 
 #endif

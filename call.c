@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/07 13:47:29 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/07 14:46:43 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,8 @@ void	call(t_lexer *input, t_env *env, t_exp *exp)
 		export_get(input, env, exp);
 	if (!ft_strncmp(input->arg[0], "export", 7) && !input->arg[1])
 		display_exp(exp);
+	if (!ft_strncmp(input->arg[0], "pwd", 5))
+		ft_pwd();
+	if (!ft_strncmp(input->arg[0], "cd", 3))
+		cd(input, env);
 }

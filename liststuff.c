@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 15:31:18 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/07 13:14:51 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/07 15:02:14 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ t_env	*envlstnew(char *k, char *v)
 	if (!head)
 		return (0);
 	head->key = ft_strdup(k);
-	if (v)
-		head->value = ft_strdup(v);
+	if (!ft_strncmp(k, "HOME", 5))
+		head->value = getcwd(NULL, 0);
 	else
-		head->value = 0;
+		head->value = ft_strdup(v);
 	head->next = NULL;
 	return (head);
 }
