@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:35:30 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/07 00:00:11 by jutong           ###   ########.fr       */
+/*   Updated: 2023/11/07 10:17:26 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ t_env	*get_env(t_env *env, char **envp)
 
 	tail = NULL;
 	i = 0;
-	tmpp = (t_env *)malloc(sizeof(t_env));
-	tail = (t_env *)malloc(sizeof(t_env));
 	while (envp[i] && i <= 12)
 	{
 		tmp = ft_split(envp[i], '=');

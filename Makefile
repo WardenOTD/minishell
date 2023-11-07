@@ -1,10 +1,9 @@
 SRC			= main.c liststuff.c env.c\
-				lexer/lexer.c\
-				parser/parser.c\
-				executor/echo.c\
-				executor/call.c\
-				executor/pwd.c\
-				executor/cd.c\
+				lexer.c\
+				echo.c\
+				call.c\
+				pwd.c\
+				cd.c\
 
 CC			= gcc
 RM			= rm -rf

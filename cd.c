@@ -35,7 +35,7 @@ int	cd(t_lexer *lexer, t_env *env)
 	{
 		target_pwd = get_env_value("OLDPWD", env);
 		if (target_pwd == NULL)
-			printf ("OLDPWD not set\n");
+			printf ("bash: cd : OLDPWD not set\n");
 		else
 			printf ("%s\n", target_pwd);
 	}
@@ -43,7 +43,7 @@ int	cd(t_lexer *lexer, t_env *env)
 	else
 		target_pwd = option;
 
-	if (chdir(target_pwd) == 0)
+	if (chdir(target_pwd) == 0 || target_pwd == NULL)
 		update_env(env, oldpwd, target_pwd);
 	else
 		printf("bash: cd: %s: No such file or directory\n", target_pwd);
