@@ -6,11 +6,12 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 13:28:06 by jteoh             #+#    #+#             */
-/*   Updated: 2022/07/23 13:38:51 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/08 17:57:06 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 static void	copy(char *s, char *ss, int start, int len)
 {

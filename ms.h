@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/07 15:20:19 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/08 19:00:51 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,6 @@ typedef struct s_lexer{
 	char			**arg;
 	struct s_lexer	*next;
 }				t_lexer;
-
-typedef struct s_input{
-	char	**line;
-}				t_input;
 
 typedef struct s_exp{
 	char			*export;
@@ -78,6 +74,12 @@ void		export_get(t_lexer *input, t_env *env, t_exp *exp);
 t_lexer		*lexer(t_lexer *input, char *line);
 t_lexer		*freelexer(t_lexer *input);
 
+t_lexer		*requote(t_lexer *input);
+int			quote_count(char **arr);
+char		**dArray_join(char **front, char **back);
+char		*flatten_arr(char **arr);
+char		**inArray_join(char	**arr);
+
 //--echo.c--
 int			hyphen(char *hy);
 int			n(char *n);
@@ -92,5 +94,8 @@ int			ft_pwd(void);
 //--cd.c--
 int			cd(t_lexer *lexer, t_env *env);
 char		*update_env(t_env *env, char *current, char *new);
+
+//--split2.c--
+char		**split2(char const *s, char c);
 
 #endif
