@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/08 19:17:38 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/09 16:12:31 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	free2d(char **line)
 	i = -1;
 	// for (int i = 0; line[i]; i++)
 	// 	dprintf(1, "%s\n", line[i]);
-	while (line[++i] != 0)
+	while (line[++i])
 		free(line[i]);
-	free (line);
+	free(line);
 }
 
 void	ctrlc(int sig)

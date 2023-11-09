@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 12:45:06 by jteoh             #+#    #+#             */
-/*   Updated: 2022/07/19 17:31:12 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/09 14:33:20 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char			*ft_strdup(const char *s1);
 
 void			ft_striteri(char *s, void (*f)(unsigned int, char *));
 
-char			*ft_strjoin(char const *s1, char const *s2);
+char			*ft_strjoin(char *s1, char *s2);
 
 size_t			ft_strlcat(char *dst, const char *src, size_t size);
 

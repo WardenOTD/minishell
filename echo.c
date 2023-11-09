@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:49:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/08 18:05:12 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/09 11:49:22 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ void	echo(t_lexer *input)
 	int	i;
 
 	i = 1;
+	for (int i = 0; input->arg[i]; i++)
+	{
+		printf("%d  --  %s\n", i, input->arg[i]);
+	}
 	if (input->arg[1] && hyphen(input->arg[i]))
 	{
 		i++;
@@ -57,8 +61,8 @@ void	echo(t_lexer *input)
 	{
 		while (input->arg[i])
 		{
-			printf("%s", input->arg[i++]);
-			if (input->arg[i])
+			printf("%s", input->arg[i]);
+			if (input->arg[++i])
 				printf(" ");
 		}
 		printf("\n");

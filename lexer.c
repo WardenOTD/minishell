@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/08 19:25:16 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/09 16:17:04 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ t_lexer	*freelexer(t_lexer *input)
 	t_lexer	*tmp;
 	t_lexer *tmpnxt;
 
+	if (!input)
+		return (NULL);
 	head = input;
 	tmp = head->next;
 	while (tmp)
@@ -68,9 +70,10 @@ t_lexer	*requote(t_lexer *input)
 {
 	t_lexer	*head;
 	t_lexer	*tail;
-	// char	*tmp;
+	char	*tmp;
 
 	head = input;
+	tmp = NULL;
 	while (head)
 	{
 		tail = head->next;
@@ -78,6 +81,12 @@ t_lexer	*requote(t_lexer *input)
 		{
 			while (quote_count(head->arg) % 2 != 0)
 			{
+				if (head->next == NULL)
+				{
+					printf("Syntax Error: Unclosed Quote\n");
+					freelexer(input);
+					return (NULL);
+				}
 				head->arg = dArray_join(head->arg, tail->arg);
 				tail = tail->next;
 				free(head->next);
@@ -85,16 +94,25 @@ t_lexer	*requote(t_lexer *input)
 			}
 			head->arg = inArray_join(head->arg);
 		}
-		// else
-		// {
-		// 	tmp = flatten_arr(head->arg);
-		// 	free2d(head->arg);
-		// 	head->arg = ft_split(tmp, ' ');
-		// 	// for (int i = 0; head->arg[i]; i++)
-		// 	// 	dprintf(1, "%s\n", head->arg[i]);
-		// }
+		else
+		{
+			tmp = flatten_arr(head->arg);
+			head->arg = ft_split(tmp, ' ');
+			free(tmp);
+		}
 		head = tail;
 	}
+	//---debug printing
+	for (int i = 0; input->arg[i]; i++)
+	{
+		printf("%d -- ", i);
+		for (int j = 0; input->arg[i][j]; j++)
+		{
+			printf("%d ", input->arg[i][j]);
+		}
+		printf("\n");
+	}
+	//---
 	return (input);
 }
 
@@ -135,7 +153,7 @@ char	**dArray_join(char **front, char **back)
 	while (back[j])
 		j++;
 	result = (char **)malloc(sizeof(char *) * (i + j + 2));
-	result[i + j + 1] = 0;
+	result[i + j + 1] = NULL;
 	i = -1;
 	j = -1;
 	while (front[++i])
@@ -152,10 +170,12 @@ char	*flatten_arr(char **arr)
 {
 	int		i;
 	char	*rearray;
+	char	*tmp;
 
 	//  Turning 2d array into 1d array for easier indexing
 	i = 0;
 	rearray = NULL;
+	tmp = NULL;
 	while (arr[i])
 	{
 		printf("%s\n", arr[i]);
@@ -163,13 +183,14 @@ char	*flatten_arr(char **arr)
 			rearray = ft_strdup(arr[i]);
 		else
 		{
-			rearray = ft_strjoin(rearray, " ");
-			rearray = ft_strjoin(rearray, arr[i]);
+			tmp = ft_strjoin(rearray, arr[i]);
+			free(rearray);
+			rearray = ft_strdup(tmp);
+			free(tmp);
 		}
-		printf("%s\n", rearray);
 		i++;
 	}
-	printf("%s\n", rearray);
+	free2d(arr);
 	return (rearray);
 }
 
@@ -184,7 +205,7 @@ char	**inArray_join(char	**arr)
 	rearray = flatten_arr(arr);
 	//  Counting spaces for malloc 2d array [ Basically modified split to fit the quote shenanigans ]
 	j = 0;
-	i = 0;
+	i = 1;
 	flag = 0;
 	while (rearray[j])
 	{
@@ -201,7 +222,8 @@ char	**inArray_join(char	**arr)
 	}
 	//  Malloc 2d array according to spaces counted
 	result = (char **)malloc(sizeof(char *) * (i + 1));
-	result[i] = 0;
+	result[i] = NULL;
+	printf("2d array size -- %d\n", i);
 	//  Malloc and convert 1d array into 2d array
 	int	spacer;
 	int flag2;
@@ -235,6 +257,6 @@ char	**inArray_join(char	**arr)
 		j++;
 	}
 	free(rearray);
-	free(arr);
+	// free2d(arr);
 	return (result);
 }
