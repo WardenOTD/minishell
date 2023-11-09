@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   call.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/07 14:46:43 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/09 08:48:38 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,6 @@ void	call(t_lexer *input, t_env *env, t_exp *exp)
 		ft_pwd();
 	if (!ft_strncmp(input->arg[0], "cd", 3))
 		cd(input, env);
+	if (!ft_strncmp(input->arg[0], "unset", 6))
+		unset(input, env);
 }

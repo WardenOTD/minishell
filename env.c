@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:35:30 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/07 15:04:55 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/09 15:18:56 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_env	*get_env(t_env *env, char **envp)
 
 	tail = NULL;
 	i = 0;
-	while (envp[i])
+	while (envp[i] && i < 13)
 	{
 		tmp = ft_split(envp[i], '=');
 		tmpp = envlstnew(tmp[0], tmp[1]);
@@ -83,7 +83,7 @@ char *get_env_value(char *str, t_env *env)
 
 	ret = NULL;
 	len = ft_strlen(str);
-	while (env->next)
+	while (env != NULL)
 	{
 		if (ft_strncmp(str, env->key, len) == 0)
 			ret = ft_strdup(env->value);

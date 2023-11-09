@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/07 15:20:19 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/09 14:52:20 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,13 @@ int			ft_pwd(void);
 //--cd.c--
 int			cd(t_lexer *lexer, t_env *env);
 char		*update_env(t_env *env, char *current, char *new);
+void		add_oldpwd(t_lexer *lexer, t_env *env, char *oldpwd_str);
+
+//--unset.c--
+void		unset(t_lexer *lexer, t_env *env);
+void		remove_node(t_env **env, char *remove);
+
+//--utils.c--
+int			get_arraysize(char **array);
 
 #endif
