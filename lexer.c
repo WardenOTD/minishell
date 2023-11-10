@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/09 16:17:04 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/10 16:57:36 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_lexer	*lexer(t_lexer *input, char *line)
 	}
 	free2d(arr);
 	input = requote(input);
+	input = remove_quote(input);
 	return (input);
 }
 
@@ -110,7 +111,7 @@ t_lexer	*requote(t_lexer *input)
 		{
 			printf("%d ", input->arg[i][j]);
 		}
-		printf("\n");
+		printf("\n%s\n", input->arg[i]);
 	}
 	//---
 	return (input);
@@ -259,4 +260,99 @@ char	**inArray_join(char	**arr)
 	free(rearray);
 	// free2d(arr);
 	return (result);
+}
+
+
+t_lexer	*remove_quote(t_lexer *input)
+{
+	t_lexer	*head;
+	char	*tmp;
+	int		i;
+	int		j;
+	int		k;
+
+	head = input;
+	tmp = NULL;
+	while (head)
+	{
+		i = 0;
+		while (head->arg[i])
+		{
+			j = 0;
+			while (head->arg[i][j])
+			{
+				if (head->arg[i][j] == '"')
+				{
+					j = 0;
+					k = 0;
+					tmp = (char *)malloc(sizeof(char) * (ft_strlen(head->arg[i]) - 2));
+					tmp[ft_strlen(head->arg[i] - 2)] = 0;
+					while (head->arg[i][j] != '"' && head->arg[i][j])
+						tmp[k++] = head->arg[i][j++];
+					j++;
+					while (head->arg[i][j] != '"' && head->arg[i][j])
+					{
+						tmp[k++] = head->arg[i][j++];
+						if (!head->arg[i][j] || (head->arg[i][j] != '"' && !head->arg[i][j + 1]))
+						{
+							free(tmp);
+							freelexer(input);
+							printf("Syntax Error: Unclosed Quote\n");
+							return (NULL);
+						}
+					}
+					j++;
+					while (head->arg[i][j])
+						tmp[k++] = head->arg[i][j++];
+					free(head->arg[i]);
+					head->arg[i] = ft_strdup(tmp);
+					free(tmp);
+					break ;
+				}
+				else if (head->arg[i][j] == '\'')
+				{
+					j = 0;
+					k = 0;
+					tmp = (char *)malloc(sizeof(char) * (ft_strlen(head->arg[i]) - 2));
+					tmp[ft_strlen(head->arg[i] - 2)] = 0;
+					while (head->arg[i][j] != '\'' && head->arg[i][j])
+						tmp[k++] = head->arg[i][j++];
+					j++;
+					while (head->arg[i][j] != '\'' && head->arg[i][j])
+					{
+						tmp[k++] = head->arg[i][j++];
+						if (!head->arg[i][j] || (head->arg[i][j] != '\'' && !head->arg[i][j + 1]))
+						{
+							free(tmp);
+							freelexer(input);
+							printf("Syntax Error: Unclosed Quote\n");
+							return (NULL);
+						}
+					}
+					j++;
+					while (head->arg[i][j])
+						tmp[k++] = head->arg[i][j++];
+					free(head->arg[i]);
+					head->arg[i] = ft_strdup(tmp);
+					free(tmp);
+					break ;
+				}
+				j++;
+			}
+			i++;
+		}
+		head = head->next;
+	}
+	printf("\n++++++++++\n\n");
+	for (int i = 0; input->arg[i]; i++)
+	{
+		printf("%d -- ", i);
+		for (int j = 0; input->arg[i][j]; j++)
+		{
+			printf("%d ", input->arg[i][j]);
+		}
+		printf("\n%s\n", input->arg[i]);
+	}
+	printf("\n++++++++++\n\n");
+	return (input);
 }

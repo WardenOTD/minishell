@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/08 19:00:51 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/10 16:08:12 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int			quote_count(char **arr);
 char		**dArray_join(char **front, char **back);
 char		*flatten_arr(char **arr);
 char		**inArray_join(char	**arr);
+t_lexer		*remove_quote(t_lexer *input);
 
 //--echo.c--
 int			hyphen(char *hy);
