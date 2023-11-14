@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 15:31:18 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/07 15:02:14 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/14 17:19:26 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,20 @@ t_exp	*explstnew(char *k, char *v)
 	head = (t_exp *)malloc(sizeof(t_exp));
 	if (!head)
 		return (0);
-	head->export = (char *)malloc(sizeof(char) * j);
+	head->export = (char *)malloc(sizeof(char) * (j + 2));
 	if (!head->export)
 		return (0);
-	head->export[--j] = 0;
+	head->export[j + 1] = 0;
 	j = -1;
 	if (v)
 	{
 		while (k[++i])
 			head->export[i] = k[i];
-		head->export[i] = '=';
+		head->export[i++] = '=';
+		head->export[i] = '"';
 		while (v[++j])
 			head->export[++i] = v[j];
+		head->export[++i] = '"';
 	}
 	else if (!v)
 	{

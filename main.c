@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/09 16:12:31 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/14 12:09:16 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_strlen(line))
 		{
 			exp = get_exp(exp, env);
-			input = lexer(input, line);
+			input = lexer(input, line, env);
 			call(input, env, exp);
 			input = freelexer(input);
 			exp = free_exp(exp);

@@ -6,13 +6,13 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/10 16:57:36 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/14 15:52:53 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-t_lexer	*lexer(t_lexer *input, char *line)
+t_lexer	*lexer(t_lexer *input, char *line, t_env *env)
 {
 	int		i;
 	t_lexer	*temp;
@@ -38,6 +38,8 @@ t_lexer	*lexer(t_lexer *input, char *line)
 	}
 	free2d(arr);
 	input = requote(input);
+	input = expand(input, env);
+	input = reorder(input);
 	input = remove_quote(input);
 	return (input);
 }
@@ -104,14 +106,17 @@ t_lexer	*requote(t_lexer *input)
 		head = tail;
 	}
 	//---debug printing
-	for (int i = 0; input->arg[i]; i++)
+	if (input)
 	{
-		printf("%d -- ", i);
-		for (int j = 0; input->arg[i][j]; j++)
+		for (int i = 0; input->arg[i]; i++)
 		{
-			printf("%d ", input->arg[i][j]);
+			printf("%d -- ", i);
+			for (int j = 0; input->arg[i][j]; j++)
+			{
+				printf("%d ", input->arg[i][j]);
+			}
+			printf("\n%s\n", input->arg[i]);
 		}
-		printf("\n%s\n", input->arg[i]);
 	}
 	//---
 	return (input);
@@ -184,6 +189,38 @@ char	*flatten_arr(char **arr)
 			rearray = ft_strdup(arr[i]);
 		else
 		{
+			tmp = ft_strjoin(rearray, arr[i]);
+			free(rearray);
+			rearray = ft_strdup(tmp);
+			free(tmp);
+		}
+		i++;
+	}
+	free2d(arr);
+	return (rearray);
+}
+
+char	*flatten_arr_w_space(char **arr)
+{
+	int		i;
+	char	*rearray;
+	char	*tmp;
+
+	//  Turning 2d array into 1d array for easier indexing
+	i = 0;
+	rearray = NULL;
+	tmp = NULL;
+	while (arr[i])
+	{
+		printf("%s\n", arr[i]);
+		if (!rearray)
+			rearray = ft_strdup(arr[i]);
+		else
+		{
+			tmp = ft_strjoin(rearray, " ");
+			free(rearray);
+			rearray = ft_strdup(tmp);
+			free(tmp);
 			tmp = ft_strjoin(rearray, arr[i]);
 			free(rearray);
 			rearray = ft_strdup(tmp);
@@ -343,16 +380,19 @@ t_lexer	*remove_quote(t_lexer *input)
 		}
 		head = head->next;
 	}
-	printf("\n++++++++++\n\n");
-	for (int i = 0; input->arg[i]; i++)
+	if (input)
 	{
-		printf("%d -- ", i);
-		for (int j = 0; input->arg[i][j]; j++)
+		printf("\n++++++++++\n\n");
+		for (int i = 0; input->arg[i]; i++)
 		{
-			printf("%d ", input->arg[i][j]);
+			printf("%d -- ", i);
+			for (int j = 0; input->arg[i][j]; j++)
+			{
+				printf("%d ", input->arg[i][j]);
+			}
+			printf("\n%s\n", input->arg[i]);
 		}
-		printf("\n%s\n", input->arg[i]);
+		printf("\n++++++++++\n\n");
 	}
-	printf("\n++++++++++\n\n");
 	return (input);
 }

@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:35:30 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/07 15:04:55 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/14 17:30:31 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,13 @@ t_env	*add_env(t_env *env, t_lexer *input)
 	t_env	*head;
 	t_env	*tail;
 
-	tmp = ft_split(input->arg[1], '=');
+	tmp = env_split(input->arg[1]);
 	head = NULL;
 	tail = env;
-	while (tail->next)
+	while (tail)
 	{
+		head = tail;
+		printf("add_env --- tmp[0]: %s, tail->key: %s\n", tmp[0], tail->key);
 		if (!ft_strncmp(tmp[0], tail->key, ft_strlen(tmp[0])))
 		{
 			free(tail->value);
@@ -70,6 +72,7 @@ t_env	*add_env(t_env *env, t_lexer *input)
 		}
 		tail = tail->next;
 	}
+	tail = head;
 	head = envlstnew(tmp[0], tmp[1]);
 	tail->next = head;
 	free2d(tmp);
@@ -80,14 +83,56 @@ char *get_env_value(char *str, t_env *env)
 {
 	int 	len;
 	char	*ret;
+	char	*str2;
 
 	ret = NULL;
 	len = ft_strlen(str);
-	while (env->next)
+	if (str[0] == '$')
+		str2 = &str[1];
+	else
+		str2 = str;
+	while (env)
 	{
-		if (ft_strncmp(str, env->key, len) == 0)
+		if (ft_strncmp(str2, env->key, len) == 0)
 			ret = ft_strdup(env->value);
 		env = env->next;
+	}
+	return (ret);
+}
+
+char	**env_split(char *arr)
+{
+	int		i;
+	int		j;
+	char	**ret;
+
+	// printf("env_split:  __%s__\n", arr);
+	i = 0;
+	ret = (char **)malloc(sizeof(char *) * 3);
+	ret[2] = NULL;
+	while (arr[i] && arr[i] != '=')
+		i++;
+	ret[0] = (char *)malloc(sizeof(char) * (i + 1));
+	ret[0][i] = 0;
+	i = 0;
+	while (arr[i] && arr[i] != '=')
+	{
+		ret[0][i] = arr[i];
+		i++;
+	}
+	if (arr[i] == 0)
+		ret[1] = NULL;
+	else
+	{
+		i++;
+		j = i;
+		while (arr[j])
+			j++;
+		ret[1] = (char *)malloc(sizeof(char) * (j - i + 1));
+		ret[1][j - i] = 0;
+		j = 0;
+		while (arr[i])
+			ret[1][j++] = arr[i++];
 	}
 	return (ret);
 }

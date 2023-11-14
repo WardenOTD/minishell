@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:57:52 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/07 14:57:54 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/14 10:42:32 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	cd(t_lexer *lexer, t_env *env)
 		option = ft_strdup(lexer->arg[1]);
 	else if (get_arraysize(lexer->arg) > 2)
 	{
-		printf("bash: cd: too many arguments\n");
+		printf("Minishell: cd: too many arguments\n");
 		return (0);
 	}
 
@@ -47,7 +47,7 @@ int	cd(t_lexer *lexer, t_env *env)
 	{
 		target_pwd = get_env_value("OLDPWD", env);
 		if (target_pwd == NULL)
-			printf ("bash: cd : OLDPWD not set\n");
+			printf ("Minishell: cd : OLDPWD not set\n");
 		else
 			printf ("%s\n", target_pwd);
 	}
@@ -58,7 +58,7 @@ int	cd(t_lexer *lexer, t_env *env)
 	if (chdir(target_pwd) == 0 || target_pwd == NULL)
 		update_env(env, oldpwd, target_pwd);
 	else
-		printf("bash: cd: %s: No such file or directory\n", target_pwd);
+		printf("Minishell: cd: %s: No such file or directory\n", target_pwd);
 
 	// export OLDPWD = oldpwd;
 
