@@ -3,7 +3,7 @@
 int	exec_bin(char *line, char **envp)
 {
 	int		pidChild;
-	int		signal;
+	int		signal_int;
 	char	**arg;
 	char	**env_paths;
 	char	*path;
@@ -16,25 +16,28 @@ int	exec_bin(char *line, char **envp)
 	{
 		arg[0] = append_path(env_paths[i], arg[0]);
 		path = arg[0];
+		signal(SIGINT, SIG_DFL);
 		if (!(access(arg[0], X_OK)))
 		{
 			pidChild = fork();
 			if (pidChild == 0)
 			{
+				
 				if (execve(path, arg, envp) == -1)
 					exit (0);
 			}
 			else
 			{
-				waitpid(pidChild, &signal, 0);
+				signal(SIGINT, SIG_IGN);
+				waitpid(pidChild, &signal_int, 0);
 				free_2d_arr(arg);
-				return (1);
+				return (signal_int);
 			}
 		}
 		i++;
 	}
 	free_2d_arr(arg);
-	return (0);
+	return (signal_int);
 }
 
 char	*append_path(char *cmdpath, char *input_line)
