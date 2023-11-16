@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/07 14:51:14 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/16 09:53:08 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,10 @@ int	main(int argc, char **argv, char **envp)
 		{
 			exp = get_exp(exp, env);
 			input = lexer(input, line);
-			call(input, env, exp);
+			call(input, env, exp, line, envp);
 			input = freelexer(input);
 			exp = free_exp(exp);
+//			exec_bin(line, argv, envp);
 		}
 		free(line);
 	}

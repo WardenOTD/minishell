@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/09 14:52:20 by jutong           ###   ########.fr       */
+/*   Updated: 2023/11/16 09:55:35 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <dirent.h>
 # include <termios.h>
 # include <limits.h>
+# include <errno.h>
 
 typedef struct s_lexer{
 	char			**arg;
@@ -84,7 +85,7 @@ int			n(char *n);
 void		echo(t_lexer *input);
 
 //--call.c--
-void		call(t_lexer *input, t_env *env, t_exp *exp);
+void		call(t_lexer *input, t_env *env, t_exp *exp, char *line, char **envp);
 
 //--pwd.c--
 int			ft_pwd(void);
@@ -97,6 +98,12 @@ void		add_oldpwd(t_lexer *lexer, t_env *env, char *oldpwd_str);
 //--unset.c--
 void		unset(t_lexer *lexer, t_env *env);
 void		remove_node(t_env **env, char *remove);
+
+//--bultin_cmd--
+int			exec_bin(char *line, char **envp);
+char		*append_path(char *cmdpath, char *input_line);
+char		**get_env_paths(char **envp);
+void		free_2d_arr(char **arr_2d);
 
 //--utils.c--
 int			get_arraysize(char **array);
