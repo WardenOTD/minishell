@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/16 17:19:16 by jutong           ###   ########.fr       */
+/*   Updated: 2023/11/19 19:50:13 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	call(t_lexer *input, t_env *env, t_exp *exp, char *line, char **envp)
 	else if (!ft_strncmp(input->arg[0], "pwd", 5))
 		ft_pwd();
 	else if (!ft_strncmp(input->arg[0], "cd", 3))
-		cd(input, env);
+		cd(input, env, envp);
 	else if (!ft_strncmp(input->arg[0], "unset", 6))
 		unset(input, env);
 	else

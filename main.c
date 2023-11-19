@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/16 17:19:52 by jutong           ###   ########.fr       */
+/*   Updated: 2023/11/16 17:21:26 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int	main(int argc, char **argv, char **envp)
 			call(input, env, exp, line, envp);
 			input = freelexer(input);
 			exp = free_exp(exp);
-//			exec_bin(line, argv, envp);
 		}
 		signal(SIGINT, ctrlc);
 		free(line);

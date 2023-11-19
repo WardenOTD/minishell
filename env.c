@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:35:30 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/09 15:18:56 by jutong           ###   ########.fr       */
+/*   Updated: 2023/11/19 20:50:30 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,25 @@ char *get_env_value(char *str, t_env *env)
 	while (env != NULL)
 	{
 		if (ft_strncmp(str, env->key, len) == 0)
+		{
 			ret = ft_strdup(env->value);
+			return (ret);
+		}
 		env = env->next;
 	}
-	return (ret);
+	return (NULL);
+}
+
+int env_is_valid(char *str, t_env *env)
+{
+	int	len;
+
+	len = ft_strlen(str);
+	while (env != NULL)
+	{
+		if (ft_strncmp(str, env->key, len) == 0)
+			return (1);
+		env = env->next;
+	}
+	return (0);
 }

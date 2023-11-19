@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/16 09:55:35 by jutong           ###   ########.fr       */
+/*   Updated: 2023/11/19 20:57:48 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void		display_env(t_env *env);
 t_env		*get_env(t_env *env, char **envp);
 t_env		*add_env(t_env *env, t_lexer *input);
 char 		*get_env_value(char *str, t_env *env);
+int			env_is_valid(char *str, t_env *env);
 
 //--export.c--
 void		display_exp(t_exp *exp);
@@ -91,7 +92,9 @@ void		call(t_lexer *input, t_env *env, t_exp *exp, char *line, char **envp);
 int			ft_pwd(void);
 
 //--cd.c--
-int			cd(t_lexer *lexer, t_env *env);
+int			cd(t_lexer *lexer, t_env *env, char **envp);
+char		*get_target_path(t_lexer *lexer, t_env *env, char **envp, char *option);
+char		*cd_detect_error(t_lexer *lexer, t_env *env, char *target_pwd, char *option);
 char		*update_env(t_env *env, char *current, char *new);
 void		add_oldpwd(t_lexer *lexer, t_env *env, char *oldpwd_str);
 
