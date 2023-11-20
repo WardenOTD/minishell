@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/14 15:52:53 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/20 13:01:21 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,18 +106,18 @@ t_lexer	*requote(t_lexer *input)
 		head = tail;
 	}
 	//---debug printing
-	if (input)
-	{
-		for (int i = 0; input->arg[i]; i++)
-		{
-			printf("%d -- ", i);
-			for (int j = 0; input->arg[i][j]; j++)
-			{
-				printf("%d ", input->arg[i][j]);
-			}
-			printf("\n%s\n", input->arg[i]);
-		}
-	}
+	// if (input)
+	// {
+	// 	for (int i = 0; input->arg[i]; i++)
+	// 	{
+	// 		printf("%d -- ", i);
+	// 		for (int j = 0; input->arg[i][j]; j++)
+	// 		{
+	// 			printf("%d ", input->arg[i][j]);
+	// 		}
+	// 		printf("\n%s\n", input->arg[i]);
+	// 	}
+	// }
 	//---
 	return (input);
 }
@@ -184,7 +184,7 @@ char	*flatten_arr(char **arr)
 	tmp = NULL;
 	while (arr[i])
 	{
-		printf("%s\n", arr[i]);
+		// printf("%s\n", arr[i]);
 		if (!rearray)
 			rearray = ft_strdup(arr[i]);
 		else
@@ -212,7 +212,7 @@ char	*flatten_arr_w_space(char **arr)
 	tmp = NULL;
 	while (arr[i])
 	{
-		printf("%s\n", arr[i]);
+		// printf("%s\n", arr[i]);
 		if (!rearray)
 			rearray = ft_strdup(arr[i]);
 		else
@@ -261,7 +261,7 @@ char	**inArray_join(char	**arr)
 	//  Malloc 2d array according to spaces counted
 	result = (char **)malloc(sizeof(char *) * (i + 1));
 	result[i] = NULL;
-	printf("2d array size -- %d\n", i);
+	// printf("2d array size -- %d\n", i);
 	//  Malloc and convert 1d array into 2d array
 	int	spacer;
 	int flag2;
@@ -380,19 +380,19 @@ t_lexer	*remove_quote(t_lexer *input)
 		}
 		head = head->next;
 	}
-	if (input)
-	{
-		printf("\n++++++++++\n\n");
-		for (int i = 0; input->arg[i]; i++)
-		{
-			printf("%d -- ", i);
-			for (int j = 0; input->arg[i][j]; j++)
-			{
-				printf("%d ", input->arg[i][j]);
-			}
-			printf("\n%s\n", input->arg[i]);
-		}
-		printf("\n++++++++++\n\n");
-	}
+	// if (input)
+	// {
+	// 	printf("\n++++++++++\n\n");
+	// 	for (int i = 0; input->arg[i]; i++)
+	// 	{
+	// 		printf("%d -- ", i);
+	// 		for (int j = 0; input->arg[i][j]; j++)
+	// 		{
+	// 			printf("%d ", input->arg[i][j]);
+	// 		}
+	// 		printf("\n%s\n", input->arg[i]);
+	// 	}
+	// 	printf("\n++++++++++\n\n");
+	// }
 	return (input);
 }

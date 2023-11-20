@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:35:30 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/14 17:30:31 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/20 13:01:55 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_env	*add_env(t_env *env, t_lexer *input)
 	while (tail)
 	{
 		head = tail;
-		printf("add_env --- tmp[0]: %s, tail->key: %s\n", tmp[0], tail->key);
+		// printf("add_env --- tmp[0]: %s, tail->key: %s\n", tmp[0], tail->key);
 		if (!ft_strncmp(tmp[0], tail->key, ft_strlen(tmp[0])))
 		{
 			free(tail->value);
