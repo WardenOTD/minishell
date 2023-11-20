@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/14 12:09:16 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/20 13:15:23 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,11 @@ int	main(int argc, char **argv, char **envp)
 		{
 			exp = get_exp(exp, env);
 			input = lexer(input, line, env);
-			call(input, env, exp);
+			call(input, env, exp, line, envp);
 			input = freelexer(input);
 			exp = free_exp(exp);
 		}
+		signal(SIGINT, ctrlc);
 		free(line);
 	}
 }

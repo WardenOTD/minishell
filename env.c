@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:35:30 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/20 13:01:55 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/20 13:14:18 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_env	*get_env(t_env *env, char **envp)
 
 	tail = NULL;
 	i = 0;
-	while (envp[i])
+	while (envp[i] && i < 13)
 	{
 		tmp = ft_split(envp[i], '=');
 		tmpp = envlstnew(tmp[0], tmp[1]);
@@ -94,10 +94,13 @@ char *get_env_value(char *str, t_env *env)
 	while (env)
 	{
 		if (ft_strncmp(str2, env->key, len) == 0)
+		{
 			ret = ft_strdup(env->value);
+			return (ret);
+		}
 		env = env->next;
 	}
-	return (ret);
+	return (NULL);
 }
 
 char	**env_split(char *arr)
@@ -135,4 +138,18 @@ char	**env_split(char *arr)
 			ret[1][j++] = arr[i++];
 	}
 	return (ret);
+}
+
+int env_is_valid(char *str, t_env *env)
+{
+	int	len;
+
+	len = ft_strlen(str);
+	while (env != NULL)
+	{
+		if (ft_strncmp(str, env->key, len) == 0)
+			return (1);
+		env = env->next;
+	}
+	return (0);
 }

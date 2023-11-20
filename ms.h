@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/14 17:10:57 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/11/20 13:15:37 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <dirent.h>
 # include <termios.h>
 # include <limits.h>
+# include <errno.h>
 
 typedef struct s_lexer{
 	char			**arg;
@@ -60,6 +61,7 @@ t_env		*get_env(t_env *env, char **envp);
 t_env		*add_env(t_env *env, t_lexer *input);
 char 		*get_env_value(char *str, t_env *env);
 char		**env_split(char *arr);
+int			env_is_valid(char *str, t_env *env);
 
 //--export.c--
 void		display_exp(t_exp *exp);
@@ -90,14 +92,30 @@ int			n(char *n);
 void		echo(t_lexer *input);
 
 //--call.c--
-void		call(t_lexer *input, t_env *env, t_exp *exp);
+void		call(t_lexer *input, t_env *env, t_exp *exp, char *line, char **envp);
 
 //--pwd.c--
 int			ft_pwd(void);
 
 //--cd.c--
-int			cd(t_lexer *lexer, t_env *env);
+int			cd(t_lexer *lexer, t_env *env, char **envp);
+char		*get_target_path(t_lexer *lexer, t_env *env, char **envp, char *option);
+char		*cd_detect_error(t_lexer *lexer, t_env *env, char *target_pwd, char *option);
 char		*update_env(t_env *env, char *current, char *new);
+void		add_oldpwd(t_lexer *lexer, t_env *env, char *oldpwd_str);
+
+//--unset.c--
+void		unset(t_lexer *lexer, t_env *env);
+void		remove_node(t_env **env, char *remove);
+
+//--bultin_cmd--
+int			exec_bin(char *line, char **envp);
+char		*append_path(char *cmdpath, char *input_line);
+char		**get_env_paths(char **envp);
+void		free_2d_arr(char **arr_2d);
+
+//--utils.c--
+int			get_arraysize(char **array);
 
 //--split2.c--
 char		**split2(char const *s, char c);
