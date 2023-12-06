@@ -30,7 +30,7 @@ void	remove_node(t_env **env, char *remove)
 	{
 		(*env) = (*env)->next;
 		tmp->value = NULL;
-//		free(tmp);
+//		free_node(tmp);
 		return ;
 	}
 	while (ft_strncmp(tmp->key, remove, ft_strlen(remove)) && tmp->next)
@@ -39,5 +39,18 @@ void	remove_node(t_env **env, char *remove)
 		tmp = tmp->next;
 	}
 	if (!ft_strncmp(tmp->key, remove, ft_strlen(remove)))
+	{
 		prev->next = tmp->next;
+		free_node(tmp);
+	}
+}
+
+void	free_node(t_env *node)
+{
+	if (node->key)
+		free(node->key);
+	if (node->value)
+		free(node->value);
+	if (node)
+		free(node);
 }

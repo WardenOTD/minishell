@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/20 13:01:21 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/06 23:31:05 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ t_lexer	*lexer(t_lexer *input, char *line, t_env *env)
 	i = 0;
 	temp = NULL;
 	tail = NULL;
-	arr = ft_split(line, '|');
+	arr = true_split(line);
+//	input = get_token_data(line, input); //error
 	while (arr[i])
 	{
 		arr2 = split2(arr[i], ' ');
@@ -64,6 +65,8 @@ t_lexer	*freelexer(t_lexer *input)
 	}
 	if (head->arg)
 		free2d(head->arg);
+	// if (head->tokens)
+	// 	free2d(head->tokens);
 	free(head);
 	input = NULL;
 	return (input);

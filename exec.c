@@ -31,12 +31,14 @@ int	exec_bin(char *line, char **envp)
 				signal(SIGINT, SIG_IGN);
 				waitpid(pidChild, &signal_int, 0);
 				free_2d_arr(arg);
+				free_2d_arr(env_paths);
 				return (signal_int);
 			}
 		}
 		i++;
 	}
 	free_2d_arr(arg);
+	free_2d_arr(env_paths);
 	return (-1);
 }
 
@@ -55,8 +57,10 @@ char	*append_path(char *cmdpath, char *input_line)
 		i++;
 	tmp = ft_strjoin(path, "/");
 	full_cmd = ft_strjoin(tmp, split_by_slash[i - 1]);
+	free_2d_arr(split_by_slash);
 	free(tmp);
 	free(path);
+	free(input_line);
 	return (full_cmd);
 }
 

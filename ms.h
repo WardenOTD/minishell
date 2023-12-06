@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/20 13:15:37 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/06 22:58:50 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 typedef struct s_lexer{
 	char			**arg;
+	char			**tokens;
 	struct s_lexer	*next;
 }				t_lexer;
 
@@ -48,7 +49,7 @@ typedef struct s_env{
 void		handle(char *line);
 void		free2d(char **line);
 void		ctrlc(int sig);
-int			main(int argc, char **argv, char **envp);
+//int			main(int argc, char **argv, char **envp);
 
 //--liststuff.c--
 t_lexer		*lexerlstnew(char **arr);
@@ -86,6 +87,11 @@ char		*flatten_arr_w_space(char **arr);
 char		**inArray_join(char	**arr);
 t_lexer		*remove_quote(t_lexer *input);
 
+char		**true_split(char *line);
+char		*str_extract(char *str, int start, int end);
+char		*identify_token(char *str, int pos);
+t_lexer 	*get_token_data(char *line, t_lexer *input);
+
 //--echo.c--
 int			hyphen(char *hy);
 int			n(char *n);
@@ -107,6 +113,7 @@ void		add_oldpwd(t_lexer *lexer, t_env *env, char *oldpwd_str);
 //--unset.c--
 void		unset(t_lexer *lexer, t_env *env);
 void		remove_node(t_env **env, char *remove);
+void		free_node(t_env *node);
 
 //--bultin_cmd--
 int			exec_bin(char *line, char **envp);
