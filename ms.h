@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/06 22:58:50 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/11 00:42:10 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@
 # include <termios.h>
 # include <limits.h>
 # include <errno.h>
+
+// typedef struct s_data{
+// 	char			*line;
+
+// 	t_lexer			*input;
+// 	t_env			*env;
+// 	t_exp			*exp;
+// }				t_data;
 
 typedef struct s_lexer{
 	char			**arg;
@@ -98,7 +106,7 @@ int			n(char *n);
 void		echo(t_lexer *input);
 
 //--call.c--
-void		call(t_lexer *input, t_env *env, t_exp *exp, char *line, char **envp);
+void		call(t_lexer *input, t_env *env, t_exp *exp, char **envp);
 
 //--pwd.c--
 int			ft_pwd(void);
@@ -116,10 +124,10 @@ void		remove_node(t_env **env, char *remove);
 void		free_node(t_env *node);
 
 //--bultin_cmd--
-int			exec_bin(char *line, char **envp);
+int			exec_bin(t_lexer *input, char **envp);
 char		*append_path(char *cmdpath, char *input_line);
 char		**get_env_paths(char **envp);
-void		free_2d_arr(char **arr_2d);
+char		*turn_arr_into_str(char **arr);
 
 //--utils.c--
 int			get_arraysize(char **array);
@@ -132,5 +140,8 @@ t_lexer		*expand(t_lexer *input, t_env *env);
 char		*remove_exp(char *needle, char *haystack);
 char		*add_exp(char *needle, char *haystack, char *val);
 t_lexer		*reorder(t_lexer *input);
+
+//--redirection.c--
+int	run_cmd(t_lexer *input, t_env *env, t_exp *exp, char *line, char **envp);
 
 #endif

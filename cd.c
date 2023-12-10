@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:57:52 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/20 13:12:52 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/10 23:29:49 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char *get_target_path(t_lexer *lexer, t_env *env, char **envp, char *option)
 			i++;
 		tmp = ft_split(envp[i], '=');
 		target_pwd = ft_strdup(tmp[1]);
-		free_2d_arr(tmp);
+		free2d(tmp);
 	}
 	else if (!ft_strncmp(option, "-", 1))
 	{

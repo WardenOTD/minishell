@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/06 23:31:05 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/10 22:36:56 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_lexer	*lexer(t_lexer *input, char *line, t_env *env)
 	i = 0;
 	temp = NULL;
 	tail = NULL;
-	arr = true_split(line);
+	arr = ft_split(line, '|');
 //	input = get_token_data(line, input); //error
 	while (arr[i])
 	{

@@ -1,14 +1,17 @@
 #include "ms.h"
 
-int	exec_bin(char *line, char **envp)
+// int	exec_bin(char *line, char **envp)
+int	exec_bin(t_lexer *input, char **envp)
 {
 	int		pidChild;
 	int		signal_int;
+	char	*line;
 	char	**arg;
 	char	**env_paths;
 	char	*path;
 	int		i;
 
+	line = turn_arr_into_str(input->arg);
 	i = 0;
 	arg = ft_split(line, ' ');
 	env_paths = get_env_paths(envp);
@@ -30,15 +33,17 @@ int	exec_bin(char *line, char **envp)
 			{
 				signal(SIGINT, SIG_IGN);
 				waitpid(pidChild, &signal_int, 0);
-				free_2d_arr(arg);
-				free_2d_arr(env_paths);
+				free(line);
+				free2d(arg);
+				free2d(env_paths);
 				return (signal_int);
 			}
 		}
 		i++;
 	}
-	free_2d_arr(arg);
-	free_2d_arr(env_paths);
+	free(line);
+	free2d(arg);
+	free2d(env_paths);
 	return (-1);
 }
 
@@ -57,7 +62,7 @@ char	*append_path(char *cmdpath, char *input_line)
 		i++;
 	tmp = ft_strjoin(path, "/");
 	full_cmd = ft_strjoin(tmp, split_by_slash[i - 1]);
-	free_2d_arr(split_by_slash);
+	free2d(split_by_slash);
 	free(tmp);
 	free(path);
 	free(input_line);
@@ -75,19 +80,25 @@ char	**get_env_paths(char **envp)
 		i++;
 	tmp = ft_split(envp[i], '=');
 	cmdpaths = ft_split(tmp[1], ':');
-	free_2d_arr(tmp);
+	free2d(tmp);
 	return (cmdpaths);
 }
 
-void	free_2d_arr(char **arr_2d)
+char *turn_arr_into_str(char **arr)
 {
-	int	i;
+	char	*str;
+	char	*tmp;
+	int		i;
 
-	i = 0;
-	while (arr_2d[i])
+	i = 1;
+	str = ft_strdup(arr[0]);
+	while (arr[i])
 	{
-		free(arr_2d[i]);
+		tmp = ft_strjoin(str, " ");
+		free(str);
+		str = ft_strjoin(tmp, arr[i]);
+		free(tmp);
 		i++;
 	}
-	free(arr_2d);
+	return (str);
 }

@@ -1,20 +1,5 @@
 #include "ms.h"
 
-// int main()
-// {
-// 	int i = 0;
-// 	char *str = "wonk | wonk >> arara";
-// 	char **arr = true_split(str);
-
-// 	while(arr[i])
-// 	{
-// 		printf("%s\n", arr[i]);
-// 		i++;
-// 	}
-
-// 	return 0;
-// }
-
 char **true_split(char *line)
 {
 	int		i;
@@ -94,25 +79,18 @@ char	*str_extract(char *str, int start, int end)
 // << is 3
 // > is 4
 // >> is 5
-char	*identify_token(char *str, int pos)
-{
-	int i;
 
-	i = pos;
+// int main()
+// {
+// 	int i = 0;
+// 	char *str = "wonk | wonk >> arara";
+// 	char **arr = true_split(str);
 
-	if (str[i] == '|')
-		return ("|");
-	else if (str[i] == '<')
-	{
-		if (str[i + 1] == '<')
-			return ("<<");
-		return ("<");
-	}
-	else if (str[i] == '>')
-	{
-		if (str[i + 1] == '>')
-			return (">>");
-		return (">");
-	}
-	return (NULL);
-}
+// 	while(arr[i])
+// 	{
+// 		printf("%s\n", arr[i]);
+// 		i++;
+// 	}
+
+// 	return 0;
+// }

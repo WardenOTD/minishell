@@ -6,16 +6,15 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/04 17:47:52 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/11 00:41:58 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-void	call(t_lexer *input, t_env *env, t_exp *exp, char *line, char **envp)
+void	call(t_lexer *input, t_env *env, t_exp *exp, char **envp)
 {
 	int	i;
-
 	if (input == NULL)
 		return ;
 	if (!ft_strncmp(input->arg[0], "echo", 5))
@@ -34,7 +33,7 @@ void	call(t_lexer *input, t_env *env, t_exp *exp, char *line, char **envp)
 		unset(input, env);
 	else
 	{
-		if (exec_bin(line, envp) == -1)
+		if (exec_bin(input, envp) == -1)
 		{
 			i = 0;
 			while (input->arg[i])
