@@ -18,7 +18,7 @@ char **true_split(char *line)
 		token_len = 0;
 		if (identify_token(line, i))
 		{
-			token_len = ft_strlen(identify_token(line, i));
+			token_len = ft_strlen(identify_token(line));
 			arr[arr_i] = str_extract(line, j, i);
 			arr_i++;
 			j = i + token_len;
@@ -41,7 +41,7 @@ t_lexer *get_token_data(char *line, t_lexer *input)
 	input->tokens = (char **) malloc (sizeof (char *) * 100); //change
 	while (line[i])
 	{
-		if (identify_token(line, i))
+		if (identify_token(line))
 		{
 			input->tokens[j] = (char *) malloc (sizeof(char) * (ft_strlen(identify_token(line, i) + 1)));
 			input->tokens[j] = ft_strdup(identify_token(line, i));

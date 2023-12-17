@@ -6,11 +6,22 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/11 00:41:58 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/17 22:41:16 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
+
+void	execute_cmd(t_lexer *input, t_env *env, t_exp *exp, char **envp, t_fd_info *fd_info)
+{
+	if (handle_redirect(input->arg, fd_info) == -1)
+		return ;
+	input->arg = renew_arg_rm_redir(input->arg);
+	call(input, env, exp, envp);
+	dup2(fd_info->saved_out_fd, 1);
+	dup2(fd_info->saved_in_fd, 0);
+	// printf("wtf\n");
+}
 
 void	call(t_lexer *input, t_env *env, t_exp *exp, char **envp)
 {

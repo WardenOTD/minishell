@@ -9,10 +9,3 @@ int get_arraysize(char **array)
 		i++;
 	return (i);
 }
-
-/*
-char **array_dupe(char **arr_og)
-{
-	char **
-}
-*/

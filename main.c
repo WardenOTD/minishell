@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/11 00:42:39 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/17 23:25:58 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,41 @@ void	ctrlc(int sig)
 	signal(SIGINT, ctrlc);
 }
 
-void	init(t_env **env, t_lexer **input, t_exp **exp)
+// void	init(t_data *data)
+// {
+// 	data->env = NULL;
+// 	data->input = NULL;
+// 	data->exp = NULL;
+// 	data->in_fd = dup(STDIN_FILENO);
+// 	data->out_fd = dup(STDOUT_FILENO);
+// }
+
+void	init(t_env **env, t_lexer **input, t_exp **exp, t_fd_info *fd_info)
 {
 	(*env) = NULL;
 	(*input) = NULL;
 	(*exp) = NULL;
+	fd_info->in_fd = 0;
+	fd_info->out_fd = 1;
+	fd_info->saved_in_fd = dup(STDIN_FILENO);
+	fd_info->saved_out_fd = dup(STDOUT_FILENO);
+
+	tcgetattr(STDOUT_FILENO, &fd_info->term_attr);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_env	*env;
-	t_lexer *input;
-	t_exp	*exp;
+	t_env		*env;
+	t_lexer 	*input;
+	t_exp		*exp;
+	t_fd_info	fd_info;
 	char	*line;
 
 	signal(SIGINT, ctrlc);
 	signal(SIGQUIT, SIG_IGN);
 	(void)argc;
 	(void)argv;
-	init(&env, &input, &exp);
+	init(&env, &input, &exp, &fd_info);
 	env = get_env(env, envp);
 	while (1)
 	{
@@ -72,7 +88,8 @@ int	main(int argc, char **argv, char **envp)
 		{
 			exp = get_exp(exp, env);
 			input = lexer(input, line, env);
-			call(input, env, exp, envp);
+			execute_cmd(input, env, exp, envp, &fd_info);
+			// call(input, env, exp, envp);
 			input = freelexer(input);
 			exp = free_exp(exp);
 		}

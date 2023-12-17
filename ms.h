@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/11 00:42:10 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/17 23:22:00 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,8 @@
 # include <limits.h>
 # include <errno.h>
 
-// typedef struct s_data{
-// 	char			*line;
-
-// 	t_lexer			*input;
-// 	t_env			*env;
-// 	t_exp			*exp;
-// }				t_data;
-
 typedef struct s_lexer{
 	char			**arg;
-	char			**tokens;
 	struct s_lexer	*next;
 }				t_lexer;
 
@@ -52,6 +43,24 @@ typedef struct s_env{
 	char			*value;
 	struct s_env	*next;
 }				t_env;
+
+typedef struct s_fd_info{
+	int				in_fd;
+	int				out_fd;
+	int				saved_in_fd;
+	int				saved_out_fd;
+
+	struct termios	term_attr;
+	
+}				t_fd_info;
+
+// typedef struct s_data{
+// 	t_lexer			*input;
+// 	t_env			*env;
+// 	t_exp			*exp;
+// 	int				in_fd;
+// 	int				out_fd;
+// }				t_data;
 
 //--main.c--
 void		handle(char *line);
@@ -95,11 +104,6 @@ char		*flatten_arr_w_space(char **arr);
 char		**inArray_join(char	**arr);
 t_lexer		*remove_quote(t_lexer *input);
 
-char		**true_split(char *line);
-char		*str_extract(char *str, int start, int end);
-char		*identify_token(char *str, int pos);
-t_lexer 	*get_token_data(char *line, t_lexer *input);
-
 //--echo.c--
 int			hyphen(char *hy);
 int			n(char *n);
@@ -107,6 +111,7 @@ void		echo(t_lexer *input);
 
 //--call.c--
 void		call(t_lexer *input, t_env *env, t_exp *exp, char **envp);
+void		execute_cmd(t_lexer *input, t_env *env, t_exp *exp, char **envp, t_fd_info *fd_info);
 
 //--pwd.c--
 int			ft_pwd(void);
@@ -142,6 +147,20 @@ char		*add_exp(char *needle, char *haystack, char *val);
 t_lexer		*reorder(t_lexer *input);
 
 //--redirection.c--
-int	run_cmd(t_lexer *input, t_env *env, t_exp *exp, char *line, char **envp);
+int			handle_redirect(char **args, t_fd_info* fd_info);
+int			do_redirections(char *token_type, char **args, int token_pos, t_fd_info* fd_info);
+int			find_next_redir(char **args, int prev_i);
+char		*identify_token(char *str);
+
+char		**renew_arg_rm_redir(char **args);
+
+int			redir_output(char *filename, int out_fd);
+int			redir_output_append(char *filename, int out_fd);
+int			redir_input(char *filename, int in_fd);
+
+//--to trash--
+char		**true_split(char *line);
+char		*str_extract(char *str, int start, int end);
+t_lexer 	*get_token_data(char *line, t_lexer *input);
 
 #endif
