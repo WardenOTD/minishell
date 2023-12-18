@@ -27,7 +27,6 @@ int	handle_redirect(char **args, t_fd_info* fd_info)
 		free(token_type);
 		i = token_pos + 1;
 	}
-
 	return (0);
 }
 
@@ -39,8 +38,10 @@ int	do_redirections(char *token_type, char **args, int token_pos, t_fd_info* fd_
 		redir_output(args[token_pos + 1], fd_info->out_fd);
 	else if (!ft_strncmp(token_type, ">>", 3))
 		redir_output_append(args[token_pos + 1], fd_info->out_fd);
-	else if (!ft_strncmp(token_type, ">>", 3))
+	else if (!ft_strncmp(token_type, "<", 3))
 		redir_input(args[token_pos + 1], fd_info->in_fd);
+	else if (!ft_strncmp(token_type, "<<", 3))
+		redir_heredoc(args[token_pos + 1], fd_info->in_fd);
 	return (0);
 }
 

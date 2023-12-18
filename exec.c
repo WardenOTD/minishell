@@ -4,7 +4,6 @@
 int	exec_bin(t_lexer *input, char **envp)
 {
 	int		pidChild;
-	int		signal_int;
 	char	*line;
 	char	**arg;
 	char	**env_paths;
@@ -25,18 +24,13 @@ int	exec_bin(t_lexer *input, char **envp)
 			pidChild = fork();
 			if (pidChild == 0)
 			{
-
 				if (execve(path, arg, envp) == -1)
 					exit (2);
 			}
 			else
 			{
-				signal(SIGINT, SIG_IGN);
-				waitpid(pidChild, &signal_int, 0);
-				free(line);
-				free2d(arg);
-				free2d(env_paths);
-				return (signal_int);
+				signal(SIGINT, SIG_IGN);		
+				return (exec_bin_parent(pidChild, line, arg, env_paths));
 			}
 		}
 		i++;
@@ -45,6 +39,17 @@ int	exec_bin(t_lexer *input, char **envp)
 	free2d(arg);
 	free2d(env_paths);
 	return (-1);
+}
+
+int	exec_bin_parent(int pidChild, char *line, char **arg, char **env_paths)
+{
+	int	signal_int;
+
+	waitpid(pidChild, &signal_int, 0);
+	free(line);
+	free2d(arg);
+	free2d(env_paths);
+	return (signal_int);
 }
 
 char	*append_path(char *cmdpath, char *input_line)

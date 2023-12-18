@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/17 23:22:00 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/18 19:39:13 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,9 @@ int			n(char *n);
 void		echo(t_lexer *input);
 
 //--call.c--
-void		call(t_lexer *input, t_env *env, t_exp *exp, char **envp);
 void		execute_cmd(t_lexer *input, t_env *env, t_exp *exp, char **envp, t_fd_info *fd_info);
+void		call(t_lexer *input, t_env *env, t_exp *exp, char **envp);
+int			call_builtins(t_lexer *input, t_env *env, t_exp *exp, char **envp);
 
 //--pwd.c--
 int			ft_pwd(void);
@@ -130,6 +131,7 @@ void		free_node(t_env *node);
 
 //--bultin_cmd--
 int			exec_bin(t_lexer *input, char **envp);
+int			exec_bin_parent(int pidChild, char *line, char **arg, char **env_paths);
 char		*append_path(char *cmdpath, char *input_line);
 char		**get_env_paths(char **envp);
 char		*turn_arr_into_str(char **arr);
@@ -157,6 +159,8 @@ char		**renew_arg_rm_redir(char **args);
 int			redir_output(char *filename, int out_fd);
 int			redir_output_append(char *filename, int out_fd);
 int			redir_input(char *filename, int in_fd);
+int			redir_heredoc(char *delimiter, int in_fd);
+int			redir_heredoc_helper(char *delimiter, int *pipe_fd);
 
 //--to trash--
 char		**true_split(char *line);
