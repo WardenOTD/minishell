@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/18 19:39:13 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/19 16:24:43 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,14 @@ typedef struct s_fd_info{
 	int				saved_out_fd;
 
 	struct termios	term_attr;
-	
+
 }				t_fd_info;
+
+typedef struct s_root{
+	t_lexer	*input;
+	t_env	*env;
+	t_exp	*exp;
+}				t_root;
 
 // typedef struct s_data{
 // 	t_lexer			*input;
@@ -110,9 +116,9 @@ int			n(char *n);
 void		echo(t_lexer *input);
 
 //--call.c--
-void		execute_cmd(t_lexer *input, t_env *env, t_exp *exp, char **envp, t_fd_info *fd_info);
-void		call(t_lexer *input, t_env *env, t_exp *exp, char **envp);
-int			call_builtins(t_lexer *input, t_env *env, t_exp *exp, char **envp);
+void		execute_cmd(t_root *root, char **envp, t_fd_info *fd_info);
+void		call(t_root *root, char **envp);
+int			call_builtins(t_root *root, char **envp);
 
 //--pwd.c--
 int			ft_pwd(void);

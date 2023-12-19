@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/17 23:25:58 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/19 16:17:32 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,16 @@ void	init(t_env **env, t_lexer **input, t_exp **exp, t_fd_info *fd_info)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_env		*env;
-	t_lexer 	*input;
-	t_exp		*exp;
+	t_root		root;
 	t_fd_info	fd_info;
-	char	*line;
+	char		*line;
 
 	signal(SIGINT, ctrlc);
 	signal(SIGQUIT, SIG_IGN);
 	(void)argc;
 	(void)argv;
-	init(&env, &input, &exp, &fd_info);
-	env = get_env(env, envp);
+	init(&root.env, &root.input, &root.exp, &fd_info);
+	root.env = get_env(root.env, envp);
 	while (1)
 	{
 		line = readline("Minishell$ ");
@@ -86,12 +84,12 @@ int	main(int argc, char **argv, char **envp)
 			add_history(line);
 		if (ft_strlen(line))
 		{
-			exp = get_exp(exp, env);
-			input = lexer(input, line, env);
-			execute_cmd(input, env, exp, envp, &fd_info);
+			root.exp = get_exp(root.exp, root.env);
+			root.input = lexer(root.input, line, root.env);
+			execute_cmd(&root, envp, &fd_info);
 			// call(input, env, exp, envp);
-			input = freelexer(input);
-			exp = free_exp(exp);
+			root.input = freelexer(root.input);
+			root.exp = free_exp(root.exp);
 		}
 		signal(SIGINT, ctrlc);
 		free(line);
