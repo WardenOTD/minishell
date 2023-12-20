@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/20 15:12:37 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/20 18:37:00 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,9 @@ int			n(char *n);
 void		echo(t_lexer *input);
 
 //--call.c--
-void		execute_cmd(t_root *root, char **envp, t_fd_info *fd_info);
-void		call(t_root *root, char **envp);
-int			call_builtins(t_root *root, char **envp);
+void		execute_cmd(t_root *root, t_lexer *input, char **envp, t_fd_info *fd_info);
+void		call(t_root *root, t_lexer *input, char **envp);
+int			call_builtins(t_root *root, t_lexer *input, char **envp);
 
 //--pwd.c--
 int			ft_pwd(void);
@@ -169,9 +169,9 @@ int			redir_heredoc(char *delimiter, int in_fd);
 int			redir_heredoc_helper(char *delimiter, int *pipe_fd);
 
 //--pipe_init.c--
-pid_t		pipe_init(t_root *root, char *line);
+pid_t		pipe_init(t_root *root, char *line, char **envp, t_fd_info *fd_info);
 void		pipe_err(t_root *root, char *line);
-void		cp_function(int count, int fd[2]);
+void		cp_function(int count, int fd[2], int nig[2]);
 
 //--to trash--
 char		**true_split(char *line);
