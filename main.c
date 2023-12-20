@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/19 16:17:32 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/20 15:16:02 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	main(int argc, char **argv, char **envp)
 	t_root		root;
 	t_fd_info	fd_info;
 	char		*line;
+	int			pid;
 
 	signal(SIGINT, ctrlc);
 	signal(SIGQUIT, SIG_IGN);
@@ -86,7 +87,12 @@ int	main(int argc, char **argv, char **envp)
 		{
 			root.exp = get_exp(root.exp, root.env);
 			root.input = lexer(root.input, line, root.env);
-			execute_cmd(&root, envp, &fd_info);
+			pid = pipe_init(&root, line);
+			if (pid == 0)
+			{
+				execute_cmd(&root, envp, &fd_info);
+				// exit (0);
+			}
 			// call(input, env, exp, envp);
 			root.input = freelexer(root.input);
 			root.exp = free_exp(root.exp);

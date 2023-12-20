@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/19 16:24:43 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/20 15:12:37 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,11 @@ int			redir_output_append(char *filename, int out_fd);
 int			redir_input(char *filename, int in_fd);
 int			redir_heredoc(char *delimiter, int in_fd);
 int			redir_heredoc_helper(char *delimiter, int *pipe_fd);
+
+//--pipe_init.c--
+pid_t		pipe_init(t_root *root, char *line);
+void		pipe_err(t_root *root, char *line);
+void		cp_function(int count, int fd[2]);
 
 //--to trash--
 char		**true_split(char *line);
