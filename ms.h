@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/21 14:29:04 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/21 21:50:28 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <errno.h>
 
 
-int		g_status_code;
+extern int	g_status_code;
 
 typedef struct s_lexer{
 	char			**arg;

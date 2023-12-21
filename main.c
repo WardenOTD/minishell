@@ -6,11 +6,13 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/21 14:29:33 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/21 22:06:11 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
+
+int		g_status_code;
 
 void	handle(char *line)
 {
@@ -111,9 +113,9 @@ int	main(int argc, char **argv, char **envp)
 					pid--;
 				}
 				if (WIFSIGNALED(err))
-					g_status_code = WTERMSIG(err);
+					g_status_code = (WTERMSIG(err) + 128);
 				else
-					g_status_code = (WEXITSTATUS(err) + 128);
+					g_status_code = WEXITSTATUS(err);
 			}
 			root.input = freelexer(root.input);
 			root.exp = free_exp(root.exp);
