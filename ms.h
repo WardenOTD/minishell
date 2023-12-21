@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/20 18:37:00 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/21 14:29:04 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 # include <termios.h>
 # include <limits.h>
 # include <errno.h>
+
+
+int		g_status_code;
 
 typedef struct s_lexer{
 	char			**arg;

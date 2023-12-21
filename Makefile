@@ -4,9 +4,9 @@ SRC			= main.c liststuff.c env.c export.c export2.c lexer.c expansion.c\
 
 CC			= gcc
 RM			= rm -rf
-CFLAGS		= -Wall -Wextra -Werror -I.
+CFLAGS		= -Wall -Wextra -Werror
 # FSANITIZE	= -fsanitize=address -g3
-# DSYM		= *.dSYM
+# DSYM		= && rm -rf *.dSYM
 
 RAED		= -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 
@@ -17,7 +17,7 @@ NAME		= minishell
 all:	${NAME}
 
 ${NAME}: ${LIBFT} ${SRC}
-	${CC} ${CFLAGS} ${FSANITIZE} ${SRC} ${RAED} ${LIBFT} -o ${NAME} && ${RM} ${DSYM}
+	${CC} ${CFLAGS} ${FSANITIZE} ${SRC} ${RAED} ${LIBFT} -o ${NAME} ${DSYM}
 
 ${LIBFT}:
 	make -s all -C libft/

@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/20 18:43:07 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/21 14:29:33 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	free2d(char **line)
 void	ctrlc(int sig)
 {
 	signal(sig, SIG_IGN);
+	rl_replace_line("", 0);
 	write(0, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0);
 	rl_redisplay();
 	signal(SIGINT, ctrlc);
 }
@@ -69,13 +69,16 @@ int	main(int argc, char **argv, char **envp)
 	t_fd_info	fd_info;
 	char		*line;
 	pid_t		pid;
+	int			err;
 
+	g_status_code = 0;
 	signal(SIGINT, ctrlc);
 	signal(SIGQUIT, SIG_IGN);
 	(void)argc;
 	(void)argv;
 	init(&root.env, &root.input, &root.exp, &fd_info);
 	root.env = get_env(root.env, envp);
+	err = 0;
 	while (1)
 	{
 		line = readline("Minishell$ ");
@@ -86,7 +89,12 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_strlen(line))
 		{
 			root.exp = get_exp(root.exp, root.env);
-			root.input = lexer(root.input, line, root.env);
+			// if (WIFSIGNALED(status)){
+				// printf("signal");
+				// root.input = lexer(root.input, line, root.env, (const int)WTERMSIG(status));
+			// }
+			// else
+				root.input = lexer(root.input, line, root.env);
 			pid = pipe_init(&root, line, envp, &fd_info);
 			if (pid == 0)
 			{
@@ -98,9 +106,14 @@ int	main(int argc, char **argv, char **envp)
 			{
 				while (pid)
 				{
-					waitpid(-1, 0, 0);
+					signal(SIGINT, SIG_IGN);
+					waitpid(-1, &err, 0);
 					pid--;
 				}
+				if (WIFSIGNALED(err))
+					g_status_code = WTERMSIG(err);
+				else
+					g_status_code = (WEXITSTATUS(err) + 128);
 			}
 			root.input = freelexer(root.input);
 			root.exp = free_exp(root.exp);

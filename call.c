@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/20 18:44:41 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/21 12:40:16 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	call(t_root *root, t_lexer *input, char **envp)
 			// 	i++;
 			// }
 			printf("%s: command not found\n", input->arg[0]);
+			exit(127);
 		}
 	}
 }
