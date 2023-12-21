@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/17 23:25:58 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/21 18:37:39 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,13 @@ int	main(int argc, char **argv, char **envp)
 			handle(line);
 		if (ft_strlen(line))
 			add_history(line);
-		if (ft_strlen(line))
+		if (find_unclosed_quote(line))
+			printf("Unclosed quote detected\n");
+		else if (ft_strlen(line))
 		{
 			exp = get_exp(exp, env);
 			input = lexer(input, line, env);
 			execute_cmd(input, env, exp, envp, &fd_info);
-			// call(input, env, exp, envp);
 			input = freelexer(input);
 			exp = free_exp(exp);
 		}

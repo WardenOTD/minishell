@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/10 22:36:56 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/21 20:47:11 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ t_lexer	*lexer(t_lexer *input, char *line, t_env *env)
 	temp = NULL;
 	tail = NULL;
 	arr = ft_split(line, '|');
-//	input = get_token_data(line, input); //error
 	while (arr[i])
 	{
-		arr2 = split2(arr[i], ' ');
+		arr[i] = transform_str(arr[i]);
+		arr2 = ft_split(arr[i], 7);
+		arr2 = recreate_arr(arr2);
 		temp = lexerlstnew(arr2);
 		if (!input)
 			input = temp;
@@ -38,10 +39,7 @@ t_lexer	*lexer(t_lexer *input, char *line, t_env *env)
 		i++;
 	}
 	free2d(arr);
-	input = requote(input);
 	input = expand(input, env);
-	input = reorder(input);
-	input = remove_quote(input);
 	return (input);
 }
 
@@ -71,6 +69,8 @@ t_lexer	*freelexer(t_lexer *input)
 	input = NULL;
 	return (input);
 }
+
+// not used ---------------------------------------------------------------------------------------------------------
 
 t_lexer	*requote(t_lexer *input)
 {

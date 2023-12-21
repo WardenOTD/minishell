@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/18 19:39:13 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/21 21:00:32 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,15 @@ t_exp		*free_exp(t_exp *exp);
 void		export_get(t_lexer *input, t_env *env, t_exp *exp);
 int			has_slash(char *arr);
 
-//--lexer.c--
+//--lexer.c & lexer_mine.c--
 t_lexer		*lexer(t_lexer *input, char *line, t_env *env);
 t_lexer		*freelexer(t_lexer *input);
+int			find_unclosed_quote(char *str);
+char		*transform_str(char *str);
+char		*recreate_str(char *str);
+char		**recreate_arr(char **arr);
 
+//--lexer.c (unused)--
 t_lexer		*requote(t_lexer *input);
 int			quote_count(char **arr);
 char		**dArray_join(char **front, char **back);

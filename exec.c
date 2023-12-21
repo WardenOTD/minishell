@@ -10,9 +10,11 @@ int	exec_bin(t_lexer *input, char **envp)
 	char	*path;
 	int		i;
 
+	if (!ft_strncmp(input->arg[0], "", 1) || input->arg[0] == NULL)
+		return (-2);
 	line = turn_arr_into_str(input->arg);
 	i = 0;
-	arg = ft_split(line, ' ');
+	arg = ft_split(line, '\7');
 	env_paths = get_env_paths(envp);
 	while(env_paths[i] != NULL)
 	{
@@ -99,7 +101,7 @@ char *turn_arr_into_str(char **arr)
 	str = ft_strdup(arr[0]);
 	while (arr[i])
 	{
-		tmp = ft_strjoin(str, " ");
+		tmp = ft_strjoin(str, "\7");
 		free(str);
 		str = ft_strjoin(tmp, arr[i]);
 		free(tmp);

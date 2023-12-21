@@ -1,4 +1,4 @@
-SRC			= main.c liststuff.c env.c export.c export2.c lexer.c expansion.c call.c echo.c cd.c pwd.c split2.c unset.c utils.c exec.c redirection.c redirection_utils.c redirection_func.c\
+SRC			= main.c liststuff.c env.c export.c export2.c lexer.c lexer_mine.c expansion.c call.c echo.c cd.c pwd.c split2.c unset.c utils.c exec.c redirection.c redirection_utils.c redirection_func.c\
 
 CC			= gcc
 RM			= rm -rf
