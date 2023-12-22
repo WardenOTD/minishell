@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 19:07:28 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/20 12:59:22 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/21 21:50:28 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,18 @@ t_lexer	*expand(t_lexer *input, t_env *env)
 						j++;
 						continue ;
 					}
+					else if ((lhead->arg[i][j] == '$' && flag == 0) || (lhead->arg[i][j] == '$' && dflag == 1))
+					{
+						if (lhead->arg[i][j + 1] == '?')
+						{
+							lhead->arg[i] = add_exp("$?", lhead->arg[i], ft_itoa(g_status_code));
+							j = 0;
+							dflag = 0;
+							flag = 0;
+							continue ;
+						}
+
+					}
 					else
 					{
 						count = 1;
@@ -88,6 +100,7 @@ t_lexer	*expand(t_lexer *input, t_env *env)
 							lhead->arg[i] = add_exp(ex, lhead->arg[i], val);
 						// if (val != NULL)
 						free(val);
+						free(ex);
 						j = 0;
 						dflag = 0;
 						flag = 0;
@@ -166,7 +179,6 @@ char	*add_exp(char *needle, char *haystack, char *val)
 				while (haystack[++i])
 					ret[k++] = haystack[i];
 				free(haystack);
-				free(needle);
 				return (ret);
 			}
 			j++;

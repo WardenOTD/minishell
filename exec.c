@@ -31,7 +31,7 @@ int	exec_bin(t_lexer *input, char **envp)
 			}
 			else
 			{
-				signal(SIGINT, SIG_IGN);		
+				signal(SIGINT, SIG_IGN);
 				return (exec_bin_parent(pidChild, line, arg, env_paths));
 			}
 		}

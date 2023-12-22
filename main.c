@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/21 18:37:39 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/22 10:30:42 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
+
+int		g_status_code;
 
 void	handle(char *line)
 {
@@ -34,9 +36,9 @@ void	free2d(char **line)
 void	ctrlc(int sig)
 {
 	signal(sig, SIG_IGN);
+	rl_replace_line("", 0);
 	write(0, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0);
 	rl_redisplay();
 	signal(SIGINT, ctrlc);
 }
@@ -65,18 +67,20 @@ void	init(t_env **env, t_lexer **input, t_exp **exp, t_fd_info *fd_info)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_env		*env;
-	t_lexer 	*input;
-	t_exp		*exp;
+	t_root		root;
 	t_fd_info	fd_info;
-	char	*line;
+	char		*line;
+	pid_t		pid;
+	int			err;
 
+	g_status_code = 0;
 	signal(SIGINT, ctrlc);
 	signal(SIGQUIT, SIG_IGN);
 	(void)argc;
 	(void)argv;
-	init(&env, &input, &exp, &fd_info);
-	env = get_env(env, envp);
+	init(&root.env, &root.input, &root.exp, &fd_info);
+	root.env = get_env(root.env, envp);
+	err = 0;
 	while (1)
 	{
 		line = readline("Minishell$ ");
@@ -88,13 +92,39 @@ int	main(int argc, char **argv, char **envp)
 			printf("Unclosed quote detected\n");
 		else if (ft_strlen(line))
 		{
-			exp = get_exp(exp, env);
-			input = lexer(input, line, env);
-			execute_cmd(input, env, exp, envp, &fd_info);
-			input = freelexer(input);
-			exp = free_exp(exp);
+			root.exp = get_exp(root.exp, root.env);
+			// if (WIFSIGNALED(status)){
+				// printf("signal");
+				// root.input = lexer(root.input, line, root.env, (const int)WTERMSIG(status));
+			// }
+			// else
+				root.input = lexer(root.input, line, root.env);
+			pid = pipe_init(&root, line, envp, &fd_info);
+			if (pid == 0)
+			{
+				// execute_cmd(&root, envp, &fd_info);
+				exit (0);
+			}
+			// call(input, env, exp, envp);
+			else
+			{
+				while (pid)
+				{
+					signal(SIGINT, SIG_IGN);
+					waitpid(-1, &err, 0);
+					pid--;
+				}
+				if (WIFSIGNALED(err))
+					g_status_code = (WTERMSIG(err) + 128);
+				else
+					g_status_code = WEXITSTATUS(err);
+			}
+			root.input = freelexer(root.input);
+			root.exp = free_exp(root.exp);
 		}
 		signal(SIGINT, ctrlc);
 		free(line);
+		// if (pid == 0)
+		// 	exit(0);
 	}
 }

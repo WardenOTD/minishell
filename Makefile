@@ -1,10 +1,12 @@
-SRC			= main.c liststuff.c env.c export.c export2.c lexer.c lexer_mine.c expansion.c call.c echo.c cd.c pwd.c split2.c unset.c utils.c exec.c redirection.c redirection_utils.c redirection_func.c\
+SRC			= main.c liststuff.c env.c export.c export2.c lexer.c lexer_mine.c expansion.c\
+				call.c echo.c cd.c pwd.c split2.c unset.c utils.c\
+				exec.c redirection.c redirection_utils.c redirection_func.c pipe_init.c\
 
 CC			= gcc
 RM			= rm -rf
-CFLAGS		= -Wall -Wextra -Werror -I.
-FSANITIZE	= -fsanitize=address -g3
-# DSYM		= *.dSYM
+CFLAGS		= -Wall -Wextra -Werror
+# FSANITIZE	= -fsanitize=address -g3
+# DSYM		= && rm -rf *.dSYM
 
 RAED		= -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 
@@ -15,7 +17,7 @@ NAME		= minishell
 all:	${NAME}
 
 ${NAME}: ${LIBFT} ${SRC}
-	${CC} ${CFLAGS} ${FSANITIZE} ${SRC} ${RAED} ${LIBFT} -o ${NAME} && ${RM} ${DSYM}
+	${CC} ${CFLAGS} ${FSANITIZE} ${SRC} ${RAED} ${LIBFT} -o ${NAME} ${DSYM}
 
 ${LIBFT}:
 	make -s all -C libft/
