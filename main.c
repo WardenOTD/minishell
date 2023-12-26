@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/22 10:30:42 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/26 11:50:36 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,10 @@ int	main(int argc, char **argv, char **envp)
 					pid--;
 				}
 				if (WIFSIGNALED(err))
+				{
+					write(0, "\n", 1);
 					g_status_code = (WTERMSIG(err) + 128);
+				}
 				else
 					g_status_code = WEXITSTATUS(err);
 			}
