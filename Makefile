@@ -5,7 +5,7 @@ SRC			= main.c liststuff.c env.c export.c export2.c lexer.c lexer_mine.c expansi
 CC			= gcc
 RM			= rm -rf
 CFLAGS		= -Wall -Wextra -Werror
-# FSANITIZE	= -fsanitize=address -g3
+ FSANITIZE	= -fsanitize=address -g3
 # DSYM		= && rm -rf *.dSYM
 
 RAED		= -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include

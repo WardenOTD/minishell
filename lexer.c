@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/22 10:30:22 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/24 19:53:28 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,36 @@
 
 t_lexer	*lexer(t_lexer *input, char *line, t_env *env)
 {
+	char	*str;
 	int		i;
+	char	**arr2;
+	char	***tri_pp_arr;
 	t_lexer	*temp;
 	t_lexer	*tail;
-	char	**arr;
-	char	**arr2;
 
 	i = 0;
 	temp = NULL;
 	tail = NULL;
-	arr = ft_split(line, '|');
-	while (arr[i])
+	str = ft_strdup(line);
+	str = transform_str(str);
+	arr2 = ft_split(str, 7);
+	arr2 = recreate_arr(arr2);
+	tri_pp_arr = arr_arr_split(arr2);
+	while (tri_pp_arr[i])
 	{
-		arr[i] = transform_str(arr[i]);
-		arr2 = ft_split(arr[i], 7);
-		arr2 = recreate_arr(arr2);
-		temp = lexerlstnew(arr2);
+		// printf("test: %s\n", tri_pp_arr[i][0]);
+		temp = lexerlstnew(tri_pp_arr[i]);
 		if (!input)
 			input = temp;
 		else
 			tail->next = temp;
 		tail = temp;
-		free2d(arr2);
+		free2d(tri_pp_arr[i]);
 		i++;
 	}
-	free2d(arr);
+	free2d(arr2);
+	free(tri_pp_arr);
+	free(str);
 	input = expand(input, env);
 	return (input);
 }
