@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/22 10:31:06 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/25 18:54:47 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,11 @@ int			find_unclosed_quote(char *str);
 char		*transform_str(char *str);
 char		*recreate_str(char *str);
 char		**recreate_arr(char **arr);
+char		***arr_arr_split(char **arr);
+// t_lexer		*split_mods(char **arr, t_lexer *input);
+// int			is_token(char *str, int pos);
+// char **split_arr_by_mod(char **args, int start);
+// char	**dup_arr_n_ele(char **arr, int start, int max);
 
 //--lexer.c (unused)--
 t_lexer		*requote(t_lexer *input);
@@ -152,6 +157,9 @@ char		*turn_arr_into_str(char **arr);
 
 //--utils.c--
 int			get_arraysize(char **array);
+char		**arr_dup_n(char **arr, int start, int end);
+int			is_token_str(char *str, int pos);
+char		*str_dup_n(char *str, int start, int end);
 
 //--split2.c--
 char		**split2(char const *s, char c);

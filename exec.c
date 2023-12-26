@@ -3,7 +3,7 @@
 // int	exec_bin(char *line, char **envp)
 int	exec_bin(t_lexer *input, char **envp)
 {
-	int		pidChild;
+	// int		pidChild;
 	char	*line;
 	char	**arg;
 	char	**env_paths;
@@ -23,17 +23,18 @@ int	exec_bin(t_lexer *input, char **envp)
 		signal(SIGINT, SIG_DFL);
 		if (!(access(arg[0], X_OK)))
 		{
-			pidChild = fork();
-			if (pidChild == 0)
-			{
+			// pidChild = fork();
+			// if (pidChild == 0)
+			// {
 				if (execve(path, arg, envp) == -1)
 					exit (2);
-			}
-			else
-			{
+			// }
+			// else
+			// {
 				signal(SIGINT, SIG_IGN);
-				return (exec_bin_parent(pidChild, line, arg, env_paths));
-			}
+				return (0);
+			// 	return (exec_bin_parent(pidChild, line, arg, env_paths));
+			// }
 		}
 		i++;
 	}

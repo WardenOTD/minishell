@@ -1,5 +1,8 @@
+.
+..
+.git
+.gitignore
 Makefile
-a.out
 call.c
 cd.c
 echo.c
@@ -16,6 +19,7 @@ liststuff.c
 main.c
 minishell
 ms.h
+pipe_init.c
 pwd.c
 redirection.c
 redirection_func.c
