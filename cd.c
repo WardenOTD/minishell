@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:57:52 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/26 11:54:25 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/26 12:30:48 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char *update_env(t_env *env, char *current, char *new)
 		tmp = ft_strjoin(tmp, new);
 	}
 	env->value = tmp;
-	free(tmp);
+	// free(tmp);
 	return (env->value);
 }
 

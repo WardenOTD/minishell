@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/24 19:53:28 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/26 12:22:08 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-t_lexer	*lexer(t_lexer *input, char *line, t_env *env)
+int	lexer(t_root *root, char *line)
 {
 	char	*str;
 	int		i;
@@ -33,8 +33,8 @@ t_lexer	*lexer(t_lexer *input, char *line, t_env *env)
 	{
 		// printf("test: %s\n", tri_pp_arr[i][0]);
 		temp = lexerlstnew(tri_pp_arr[i]);
-		if (!input)
-			input = temp;
+		if (!root->input)
+			root->input = temp;
 		else
 			tail->next = temp;
 		tail = temp;
@@ -44,8 +44,10 @@ t_lexer	*lexer(t_lexer *input, char *line, t_env *env)
 	free2d(arr2);
 	free(tri_pp_arr);
 	free(str);
-	input = expand(input, env);
-	return (input);
+	root->input = expand(root->input, root->env);
+	if (root->input->next != NULL)
+		return (1);
+	return (0);
 }
 
 t_lexer	*freelexer(t_lexer *input)

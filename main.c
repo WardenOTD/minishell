@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/26 12:02:37 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/26 12:52:02 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 int		g_status_code;
 
-void	handle(char *line)
+void	handle(char *line, t_env *env)
 {
 	printf("exit\n");
+	env = free_env(env);
 	free(line);
 	exit (0);
 }
@@ -52,11 +53,11 @@ void	ctrlc(int sig)
 // 	data->out_fd = dup(STDOUT_FILENO);
 // }
 
-void	init(t_env **env, t_lexer **input, t_exp **exp, t_fd_info *fd_info)
+void	init(t_root *root, t_fd_info *fd_info)
 {
-	(*env) = NULL;
-	(*input) = NULL;
-	(*exp) = NULL;
+	(root->env) = NULL;
+	(root->input) = NULL;
+	(root->exp) = NULL;
 	fd_info->in_fd = 0;
 	fd_info->out_fd = 1;
 	fd_info->saved_in_fd = dup(STDIN_FILENO);
@@ -78,14 +79,15 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	(void)argc;
 	(void)argv;
-	init(&root.env, &root.input, &root.exp, &fd_info);
+	init(&root, &fd_info);
 	root.env = get_env(root.env, envp);
 	err = 0;
 	while (1)
 	{
+		root.has_pipe = 0;
 		line = readline("Minishell$ ");
 		if (line == NULL || !ft_strncmp(line, "exit", 5))
-			handle(line);
+			handle(line, root.env);
 		if (ft_strlen(line))
 			add_history(line);
 		if (find_unclosed_quote(line))
@@ -98,30 +100,35 @@ int	main(int argc, char **argv, char **envp)
 				// root.input = lexer(root.input, line, root.env, (const int)WTERMSIG(status));
 			// }
 			// else
-				root.input = lexer(root.input, line, root.env);
-			pid = pipe_init(&root, line, envp, &fd_info);
-			if (pid == 0)
+			if (lexer(&root, line) == 1)
 			{
-				// execute_cmd(&root, envp, &fd_info);
-				exit (0);
-			}
-			// call(input, env, exp, envp);
-			else
-			{
-				while (pid)
+				root.has_pipe = 1;
+				pid = pipe_init(&root, line, envp, &fd_info);
+				if (pid == 0)
 				{
-					signal(SIGINT, SIG_IGN);
-					waitpid(-1, &err, 0);
-					pid--;
+					// execute_cmd(&root, envp, &fd_info);
+					exit (0);
 				}
-				if (WIFSIGNALED(err))
-				{
-					write(0, "\n", 1);
-					g_status_code = (WTERMSIG(err) + 128);
-				}
+				// call(input, env, exp, envp);
 				else
-					g_status_code = WEXITSTATUS(err);
+				{
+					while (pid)
+					{
+						signal(SIGINT, SIG_IGN);
+						waitpid(-1, &err, 0);
+						pid--;
+					}
+					if (WIFSIGNALED(err))
+					{
+						write(0, "\n", 1);
+						g_status_code = (WTERMSIG(err) + 128);
+					}
+					else
+						g_status_code = WEXITSTATUS(err);
+				}
 			}
+			else
+				execute_cmd(&root, root.input, envp, &fd_info);
 			root.input = freelexer(root.input);
 			root.exp = free_exp(root.exp);
 		}

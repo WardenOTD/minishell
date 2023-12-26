@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:19 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/07 14:58:22 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/26 12:34:20 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ int	ft_pwd(void)
 	if (!cwd)
 		return (1);
 	printf("%s\n", cwd);
+	free(cwd);
 	return (0);
 }

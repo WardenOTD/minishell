@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/25 18:54:47 by jutong           ###   ########.fr       */
+/*   Updated: 2023/12/26 12:46:18 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_root{
 	t_lexer	*input;
 	t_env	*env;
 	t_exp	*exp;
+	int		has_pipe;
 }				t_root;
 
 // typedef struct s_data{
@@ -72,7 +73,7 @@ typedef struct s_root{
 // }				t_data;
 
 //--main.c--
-void		handle(char *line);
+void		handle(char *line, t_env *env);
 void		free2d(char **line);
 void		ctrlc(int sig);
 //int			main(int argc, char **argv, char **envp);
@@ -89,6 +90,7 @@ t_env		*add_env(t_env *env, t_lexer *input);
 char 		*get_env_value(char *str, t_env *env);
 char		**env_split(char *arr);
 int			env_is_valid(char *str, t_env *env);
+t_env		*free_env(t_env *env);
 
 //--export.c--
 void		display_exp(t_exp *exp);
@@ -102,7 +104,7 @@ void		export_get(t_lexer *input, t_env *env, t_exp *exp);
 int			has_slash(char *arr);
 
 //--lexer.c & lexer_mine.c--
-t_lexer		*lexer(t_lexer *input, char *line, t_env *env);
+int			lexer(t_root *root, char *line);
 t_lexer		*freelexer(t_lexer *input);
 int			find_unclosed_quote(char *str);
 char		*transform_str(char *str);
@@ -149,7 +151,7 @@ void		remove_node(t_env **env, char *remove);
 void		free_node(t_env *node);
 
 //--bultin_cmd--
-int			exec_bin(t_lexer *input, char **envp);
+int			exec_bin(t_root *root, t_lexer *input, char **envp);
 int			exec_bin_parent(int pidChild, char *line, char **arg, char **env_paths);
 char		*append_path(char *cmdpath, char *input_line);
 char		**get_env_paths(char **envp);

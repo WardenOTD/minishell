@@ -6,16 +6,16 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:06:25 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/26 12:06:26 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/26 12:49:28 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
 // int	exec_bin(char *line, char **envp)
-int	exec_bin(t_lexer *input, char **envp)
+int	exec_bin(t_root *root, t_lexer *input, char **envp)
 {
-	// int		pidChild;
+	int		pidChild;
 	char	*line;
 	char	**arg;
 	char	**env_paths;
@@ -35,17 +35,23 @@ int	exec_bin(t_lexer *input, char **envp)
 		signal(SIGINT, SIG_DFL);
 		if (!(access(arg[0], X_OK)))
 		{
-			// pidChild = fork();
-			// if (pidChild == 0)
-			// {
+			if (root->has_pipe == 0)
+			{
+				pidChild = fork();
+				if (pidChild == 0)
+				{
+					if (execve(path, arg, envp) == -1)
+						exit (2);
+				}
+				else
+				{
+					signal(SIGINT, SIG_IGN);
+					return (exec_bin_parent(pidChild, line, arg, env_paths));
+				}
+			}
+			else
 				if (execve(path, arg, envp) == -1)
 					exit (2);
-			// }
-			// else
-			// {
-			// 	signal(SIGINT, SIG_IGN);
-			// 	return (exec_bin_parent(pidChild, line, arg, env_paths));
-			// }
 		}
 		i++;
 	}
@@ -60,6 +66,13 @@ int	exec_bin_parent(int pidChild, char *line, char **arg, char **env_paths)
 	int	signal_int;
 
 	waitpid(pidChild, &signal_int, 0);
+	if (WIFSIGNALED(signal_int))
+	{
+		write(0, "\n", 1);
+		g_status_code = (WTERMSIG(signal_int) + 128);
+	}
+	else
+		g_status_code = WEXITSTATUS(signal_int);
 	free(line);
 	free2d(arg);
 	free2d(env_paths);

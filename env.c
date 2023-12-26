@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:35:30 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/20 13:14:18 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/26 12:39:53 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,4 +152,27 @@ int env_is_valid(char *str, t_env *env)
 		env = env->next;
 	}
 	return (0);
+}
+
+t_env	*free_env(t_env *env)
+{
+	t_env	*head;
+	t_env	*tmp;
+	t_env	*tmpnxt;
+
+	head = env;
+	tmp = head->next;
+	while (tmp)
+	{
+		tmpnxt = tmp->next;
+		free(tmp->key);
+		free(tmp->value);
+		free(tmp);
+		tmp = tmpnxt;
+	}
+	free(head->key);
+	free(head->value);
+	free(head);
+	env = NULL;
+	return (env);
 }
