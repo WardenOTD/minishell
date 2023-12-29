@@ -1,7 +1,3 @@
-.
-..
-.git
-.gitignore
 Makefile
 call.c
 cd.c

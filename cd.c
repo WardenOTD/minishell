@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:57:52 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/26 12:30:48 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/28 18:10:04 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,16 @@ int	cd(t_lexer *lexer, t_env *env, char **envp)
 	target_pwd = NULL;
 	option = NULL;
 	if (get_arraysize(lexer->arg) == 2)
-		option = ft_strdup(lexer->arg[1]);
+		option = lexer->arg[1];
 	else if (get_arraysize(lexer->arg) > 2)
 	{
 		printf("Minishell: cd: too many arguments\n");
 		return (0);
 	}
-
 	target_pwd = get_target_path(lexer, env, envp, option);
 	cd_detect_error(lexer, env, target_pwd, option);
-
-	free(option);
+	if (target_pwd && get_arraysize(lexer->arg) == 1)
+		free(target_pwd);
 	return (0);
 }
 
@@ -42,18 +41,22 @@ char *cd_detect_error(t_lexer *lexer, t_env *env, char *target_pwd, char *option
 	oldpwd = getcwd(NULL, 0);
 	if (target_pwd == NULL && (get_arraysize(lexer->arg) == 1))
 		printf("bash: cd: HOME not set\n");
-	else if (target_pwd == NULL)
+	else if (target_pwd == NULL && !ft_strncmp(option, "-", 2))
 	{
 		printf("bash: cd: OLDPWD not set\n");
-		add_oldpwd(lexer, env, oldpwd);
+		// add_oldpwd(lexer, env, oldpwd);
 	}
 	else if (chdir(target_pwd) == 0)
 	{
 		update_env(env, oldpwd, target_pwd);
 		add_oldpwd(lexer, env, oldpwd);
+		if (option != NULL)
+			if (!ft_strncmp(option, "~", 1) || !ft_strncmp(option, "-", 1))
+				free (target_pwd);
 	}
 	else
 		printf("bash: cd: %s: No such file or directory\n", target_pwd);
+	free(oldpwd);
 	return (NULL);
 }
 
@@ -80,7 +83,8 @@ char *get_target_path(t_lexer *lexer, t_env *env, char **envp, char *option)
 	else if (!ft_strncmp(option, "-", 1))
 	{
 		target_pwd = get_env_value("OLDPWD", env);
-		printf("%s\n", target_pwd);
+		if (target_pwd != NULL)
+			printf("%s\n", target_pwd);
 	}
 	else
 		target_pwd = option;
@@ -100,19 +104,23 @@ char *update_env(t_env *env, char *current, char *new)
 	else
 	{
 		tmp = ft_strjoin(env->value, "/");
-		tmp = ft_strjoin(tmp, new);
+		tmp = ft_strjoin_free(tmp, new);
 	}
-	env->value = tmp;
-	// free(tmp);
+	if (env->value)
+		free(env->value);
+	env->value = ft_strdup(tmp);
+	free(tmp);
 	return (env->value);
 }
 
 void add_oldpwd(t_lexer *lexer, t_env *env, char *oldpwd_str)
 {
-	t_env *new;
+	t_env	*new;
+	char	*oldpwd_value;
 
 	(void)lexer;
-	if (get_env_value("OLDPWD", env) == NULL)
+	oldpwd_value = get_env_value("OLDPWD", env);
+	if (oldpwd_value == NULL)
 	{
 		while (env->next)
 			env = env->next;
@@ -126,4 +134,5 @@ void add_oldpwd(t_lexer *lexer, t_env *env, char *oldpwd_str)
 		free(env->value);
 		env->value = ft_strdup(oldpwd_str);
 	}
+	free (oldpwd_value);
 }

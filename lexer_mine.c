@@ -1,23 +1,28 @@
 #include "ms.h"
 
-int		find_unclosed_quote(char *str)
-{
-	int	i;
-	int	pendulum;
+// int		find_unclosed_quote(char *str)
+// {
+// 	int	i;
+// 	int	pendulum;
+// 	char	type;
 
-	i = 0;
-	pendulum = -1;
-	while (str[i])
-	{
-		if (str[i] == '\"' || str[i] == '\'')
-			pendulum *= -1;
-		i++;
-	}
-	if (pendulum < 0)
-		return (0);
-	else
-		return (pendulum);
-}
+// 	i = 0;
+// 	type = 0;
+// 	pendulum = 0;
+// 	while (str[i])
+// 	{
+// 		if ((str[i] == '\"' || str[i] == '\'') && pendulum == 0)
+// 		{
+// 			type = str[i];
+// 			pendulum = 1;
+// 		}
+// 		else if ((str[i] == '\"' || str[i] == '\'') && pendulum > 0)
+// 			if (str[i] == type)
+// 				pendulum = 0;
+// 		i++;
+// 	}
+// 	return (pendulum);
+// }
 
 // char	*extend_str(char *str)
 // {
@@ -133,34 +138,6 @@ char	**recreate_arr(char **arr)
 	}
 	ret[j] = 0;
 	free2d(arr);
-	return (ret);
-}
-
-char	***arr_arr_split(char **arr)
-{
-	int		i;
-	int		j;
-	int		pp_i;
-	char	***ret;
-
-	i = 0;
-	j = 0;
-	pp_i = 0;
-	ret = (char ***) malloc (sizeof(char **) * 20);
-	while (arr[i])
-	{
-		if (!ft_strncmp(arr[i], "|", 2))
-		{
-			ret[pp_i] = arr_dup_n(arr, j, i);
-			i++;
-			j = i;
-			pp_i++;
-		}
-		i++;
-	}
-	ret[pp_i] = arr_dup_n(arr, j, i);
-	pp_i++;
-	ret[pp_i] = 0;
 	return (ret);
 }
 

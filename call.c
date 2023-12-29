@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   call.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/26 12:46:09 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/28 10:15:47 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ void	call(t_root *root, t_lexer *input, char **envp)
 			// 	i++;
 			// }
 			printf("%s: command not found\n", input->arg[0]);
-			exit(127);
+			if (root->has_pipe == 1)
+				exit(127);
+			else
+				return ;
 		}
 		else if (err_num == -2)
 			printf("Command '' not found\n");

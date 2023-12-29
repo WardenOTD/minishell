@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/26 12:46:18 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/28 18:10:55 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,13 @@ t_exp		*free_exp(t_exp *exp);
 void		export_get(t_lexer *input, t_env *env, t_exp *exp);
 int			has_slash(char *arr);
 
-//--lexer.c & lexer_mine.c--
+//--lexer.c & lexer_new.c--
 int			lexer(t_root *root, char *line);
 t_lexer		*freelexer(t_lexer *input);
 int			find_unclosed_quote(char *str);
+char		**splitter(char *str);
+
+// these are now trash
 char		*transform_str(char *str);
 char		*recreate_str(char *str);
 char		**recreate_arr(char **arr);
@@ -162,6 +165,7 @@ int			get_arraysize(char **array);
 char		**arr_dup_n(char **arr, int start, int end);
 int			is_token_str(char *str, int pos);
 char		*str_dup_n(char *str, int start, int end);
+char		*ft_strjoin_free(char *s1, char *s2);
 
 //--split2.c--
 char		**split2(char const *s, char c);

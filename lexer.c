@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/26 12:22:08 by jteoh            ###   ########.fr       */
+/*   Updated: 2023/12/28 17:00:10 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	lexer(t_root *root, char *line)
 {
-	char	*str;
+	// char	*str;
 	int		i;
 	char	**arr2;
 	char	***tri_pp_arr;
@@ -24,10 +24,7 @@ int	lexer(t_root *root, char *line)
 	i = 0;
 	temp = NULL;
 	tail = NULL;
-	str = ft_strdup(line);
-	str = transform_str(str);
-	arr2 = ft_split(str, 7);
-	arr2 = recreate_arr(arr2);
+	arr2 = splitter(line);
 	tri_pp_arr = arr_arr_split(arr2);
 	while (tri_pp_arr[i])
 	{
@@ -43,7 +40,7 @@ int	lexer(t_root *root, char *line)
 	}
 	free2d(arr2);
 	free(tri_pp_arr);
-	free(str);
+	// free(str);
 	root->input = expand(root->input, root->env);
 	if (root->input->next != NULL)
 		return (1);
