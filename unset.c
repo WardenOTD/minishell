@@ -29,8 +29,8 @@ void	remove_node(t_env **env, char *remove)
 	if (!ft_strncmp(tmp->key, remove, ft_strlen(remove)) && tmp)
 	{
 		(*env) = (*env)->next;
+		free(tmp->value);
 		tmp->value = NULL;
-//		free_node(tmp);
 		return ;
 	}
 	while (ft_strncmp(tmp->key, remove, ft_strlen(remove)) && tmp->next)
