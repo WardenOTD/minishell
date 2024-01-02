@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:35:30 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/26 12:39:53 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/02 11:23:32 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ t_env	*add_env(t_env *env, t_lexer *input)
 	while (tail)
 	{
 		head = tail;
-		// printf("add_env --- tmp[0]: %s, tail->key: %s\n", tmp[0], tail->key);
 		if (!ft_strncmp(tmp[0], tail->key, ft_strlen(tmp[0])))
 		{
 			free(tail->value);
@@ -79,9 +78,9 @@ t_env	*add_env(t_env *env, t_lexer *input)
 	return (env);
 }
 
-char *get_env_value(char *str, t_env *env)
+char	*get_env_value(char *str, t_env *env)
 {
-	int 	len;
+	int		len;
 	char	*ret;
 	char	*str2;
 
@@ -106,10 +105,8 @@ char *get_env_value(char *str, t_env *env)
 char	**env_split(char *arr)
 {
 	int		i;
-	int		j;
 	char	**ret;
 
-	// printf("env_split:  __%s__\n", arr);
 	i = 0;
 	ret = (char **)malloc(sizeof(char *) * 3);
 	ret[2] = NULL;
@@ -126,21 +123,27 @@ char	**env_split(char *arr)
 	if (arr[i] == 0)
 		ret[1] = NULL;
 	else
-	{
-		i++;
-		j = i;
-		while (arr[j])
-			j++;
-		ret[1] = (char *)malloc(sizeof(char) * (j - i + 1));
-		ret[1][j - i] = 0;
-		j = 0;
-		while (arr[i])
-			ret[1][j++] = arr[i++];
-	}
+		ret = env_split_helper(i, arr, ret);
 	return (ret);
 }
 
-int env_is_valid(char *str, t_env *env)
+char	**env_split_helper(int i, char *arr, char **ret)
+{
+	int	j;
+
+	i++;
+	j = i;
+	while (arr[j])
+		j++;
+	ret[1] = (char *)malloc(sizeof(char) * (j - i + 1));
+	ret[1][j - i] = 0;
+	j = 0;
+	while (arr[i])
+		ret[1][j++] = arr[i++];
+	return (ret);
+}
+
+int	env_is_valid(char *str, t_env *env)
 {
 	int	len;
 

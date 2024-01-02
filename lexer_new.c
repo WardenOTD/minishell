@@ -54,12 +54,13 @@ char	*get_str_token(char *str, int *pos)
 	char	*ret;
 
 	i = *pos;
+	ret = NULL;
 	if (str[i] == '|')
 		ret = strdup("|");
 	else if (str[i] == '<' && str[i + 1] == '<')
 		ret = strdup("<<");
 	else if (str[i] == '<' && str[i + 1] != '<')
-			ret = strdup("<");
+		ret = strdup("<");
 	else if (str[i] == '>' && str[i + 1] == '>')
 		ret = strdup(">>");
 	else if (str[i] == '>' && str[i + 1] != '>')

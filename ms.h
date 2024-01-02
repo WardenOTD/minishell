@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/28 18:10:55 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/02 17:27:24 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_env		*get_env(t_env *env, char **envp);
 t_env		*add_env(t_env *env, t_lexer *input);
 char 		*get_env_value(char *str, t_env *env);
 char		**env_split(char *arr);
+char		**env_split_helper(int i, char *arr, char **ret);
 int			env_is_valid(char *str, t_env *env);
 t_env		*free_env(t_env *env);
 
@@ -144,6 +145,7 @@ int			ft_pwd(void);
 //--cd.c--
 int			cd(t_lexer *lexer, t_env *env, char **envp);
 char		*get_target_path(t_lexer *lexer, t_env *env, char **envp, char *option);
+char		**get_target_pwd_helper(char **envp);
 char		*cd_detect_error(t_lexer *lexer, t_env *env, char *target_pwd, char *option);
 char		*update_env(t_env *env, char *current, char *new);
 void		add_oldpwd(t_lexer *lexer, t_env *env, char *oldpwd_str);
@@ -153,12 +155,12 @@ void		unset(t_lexer *lexer, t_env *env);
 void		remove_node(t_env **env, char *remove);
 void		free_node(t_env *node);
 
-//--bultin_cmd--
-int			exec_bin(t_root *root, t_lexer *input, char **envp);
-int			exec_bin_parent(int pidChild, char *line, char **arg, char **env_paths);
+//--exec.c--
+int			exec_bin(t_root *root, t_lexer *input);
+int			exec_bin_parent(int pidchild, char **arg, char **env_paths);
 char		*append_path(char *cmdpath, char *input_line);
-char		**get_env_paths(char **envp);
-char		*turn_arr_into_str(char **arr);
+char		**get_env_paths(t_env *env);
+char		**turn_arr_into_str(char **arr);
 
 //--utils.c--
 int			get_arraysize(char **array);
@@ -172,9 +174,21 @@ char		**split2(char const *s, char c);
 
 //--expansion.c--
 t_lexer		*expand(t_lexer *input, t_env *env);
+void		expand_helper_1(char *arg, t_env *env, int j);
+void		expand_helper_purge(int *j, int *dflag, int *flag);
+
+//--expansion_helper.c--
+void		expand_flags_set(char arg, int *flag, int *dflag);
+int			expand_helper_if(char *arg, int j, int flag, int dflag);
+int			expand_helper_else_if(char *arg, int j, int flag, int dflag);
+void		expand_helper_else(char *arg, t_env *env, int j);
+char		*expand_helper_else_helper(char *arg, int count, int j);
+
+//--expansion_helper_2.c--
 char		*remove_exp(char *needle, char *haystack);
+char		*remove_exp_helper(int i, int j, char *haystack, char *needle);
 char		*add_exp(char *needle, char *haystack, char *val);
-t_lexer		*reorder(t_lexer *input);
+char		*add_exp_helper(int ij[2], char *haystack, char *needle, char *val);
 
 //--redirection.c--
 int			handle_redirect(char **args, t_fd_info* fd_info);

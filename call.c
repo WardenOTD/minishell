@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   call.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/28 10:15:47 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/02 10:39:15 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-void	execute_cmd(t_root *root, t_lexer *input, char **envp, t_fd_info *fd_info)
+void	execute_cmd(t_root *root, t_lexer *input,
+	char **envp, t_fd_info *fd_info)
 {
 	if (handle_redirect(input->arg, fd_info) == -1)
 		return ;
@@ -33,15 +34,6 @@ void	call(t_root *root, t_lexer *input, char **envp)
 		err_num = exec_bin(root, input, envp);
 		if (err_num == -1)
 		{
-			// i = 0;
-			// while (input->arg[i])
-			// {
-			// 	if (input->arg[i + 1])
-			// 		printf("%s ", input->arg[i]);
-			// 	else if (input->arg[i + 1] == 0)
-			// 		printf("%s", input->arg[i]);
-			// 	i++;
-			// }
 			printf("%s: command not found\n", input->arg[0]);
 			if (root->has_pipe == 1)
 				exit(127);

@@ -1,6 +1,19 @@
-SRC			= main.c liststuff.c env.c export.c export2.c lexer.c lexer_mine.c expansion.c lexer_new.c\
-				call.c echo.c cd.c pwd.c split2.c unset.c utils.c\
-				exec.c redirection.c redirection_utils.c redirection_func.c pipe_init.c\
+SRC			= main.c\
+				liststuff.c\
+				env.c\
+				export.c export2.c\
+				unset.c\
+				lexer.c lexer_mine.c lexer_new.c\
+				expansion.c expansion_helper.c expansion_helper_2.c\
+				pipe_init.c\
+				redirection.c redirection_utils.c redirection_func.c\
+				call.c\
+				exec.c\
+				echo.c\
+				cd.c\
+				pwd.c\
+				split2.c\
+				utils.c\
 
 CC			= gcc
 RM			= rm -rf

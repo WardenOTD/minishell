@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:49:04 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/18 19:39:22 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/02 11:17:58 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,6 @@ void	echo(t_lexer *input)
 	int	i;
 
 	i = 1;
-	// for (int i = 0; input->arg[i]; i++)
-	// {
-	// 	printf("%d  --  %s\n", i, input->arg[i]);
-	// }
 	if (input->arg[1] && hyphen(input->arg[i]))
 	{
 		i++;
