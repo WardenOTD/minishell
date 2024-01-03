@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:07:20 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/02 17:08:36 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/03 13:56:07 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,38 +30,38 @@ void	expand_flags_set(char arg, int *flag, int *dflag)
 	}
 }
 
-int	expand_helper_if(char *arg, int j, int flag, int dflag)
+int	expand_helper_if(char **arg, int j, int flag, int dflag)
 {
-	if (arg[j + 1] == ' ' || arg[j + 1] == '"'
-		|| arg[j + 1] == '\'' || arg[j + 1] == '$'
-		|| !arg[j + 1])
+	if (*arg[j + 1] == ' ' || *arg[j + 1] == '"'
+		|| *arg[j + 1] == '\'' || *arg[j + 1] == '$'
+		|| !*arg[j + 1])
 	{
-		if (arg[j + 1] == 0)
+		if (*arg[j + 1] == 0)
 			return (0);
 		if (flag == 0 && dflag == 0
-			&& (arg[j + 1] == '"' || arg[j + 1] == '\''))
+			&& (*arg[j + 1] == '"' || *arg[j + 1] == '\''))
 		{
-			arg = remove_exp("$", arg);
+			*arg = remove_exp("$", *arg);
 			return (1);
 		}
 	}
 	return (-1);
 }
 
-int	expand_helper_else_if(char *arg, int j, int flag, int dflag)
+int	expand_helper_else_if(char **arg, int j, int flag, int dflag)
 {
-	if ((arg[j] == '$' && flag == 0) || (arg[j] == '$' && dflag == 1))
+	if ((*arg[j] == '$' && flag == 0) || (*arg[j] == '$' && dflag == 1))
 	{
-		if (arg[j + 1] == '?')
+		if (*arg[j + 1] == '?')
 		{
-			arg = add_exp("$?", arg, ft_itoa(g_status_code));
+			*arg = add_exp("$?", *arg, ft_itoa(g_status_code));
 			return (1);
 		}
 	}
 	return (-1);
 }
 
-void	expand_helper_else(char *arg, t_env *env, int j)
+void	expand_helper_else(char **arg, t_env *env, int j)
 {
 	char	*ex;
 	char	*val;
@@ -70,19 +70,19 @@ void	expand_helper_else(char *arg, t_env *env, int j)
 	count = 1;
 	ex = NULL;
 	val = NULL;
-	while (arg[j] && arg[j] != ' '
-		&& arg[j + 1] != '$' && arg[j] != '"'
-		&& arg[j] != '\'')
+	while (*arg[j] && *arg[j] != ' '
+		&& *arg[j + 1] != '$' && *arg[j] != '"'
+		&& *arg[j] != '\'')
 	{
 		count++;
 		j++;
 	}
-	ex = expand_helper_else_helper(arg, count, j);
+	ex = expand_helper_else_helper(*arg, count, j);
 	val = get_env_value(ex, env);
 	if (val == NULL)
-		arg = remove_exp(ex, arg);
+		*arg = remove_exp(ex, *arg);
 	else
-		arg = add_exp(ex, arg, val);
+		*arg = add_exp(ex, *arg, val);
 	free(val);
 	free(ex);
 }

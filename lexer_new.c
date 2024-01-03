@@ -34,7 +34,8 @@ char	*get_str_outquote(char *str, int *pos)
 	i = *pos;
 	j = i;
 	k = 0;
-	while (str[i] && str[i] != ' ' && str[i] != '|' && str[i] != '<' && str[i] != '>')
+	while (str[i] && str[i] != ' ' && str[i] != '|'
+		&& str[i] != '<' && str[i] != '>')
 		i++;
 	ret = malloc (sizeof(char) * (i - *pos + 1));
 	while (j < i)
@@ -154,17 +155,3 @@ char	***arr_arr_split(char **arr)
 	ret[pp_i] = 0;
 	return (ret);
 }
-
-// int main()
-// {
-// 	char **arr2 = splitter(">\"\'hello\" a<<beautiful \"\" |  world ");
-// 	printf("test: %s\n", arr2[3]);
-// 	for (int i = 0; arr2[i]; i++)
-// 		printf("%s\n", arr2[i]);
-// 	for (int i = 0; arr2[i]; i++)
-// 		free (arr2[i]);
-// 	free(arr2);
-// 	// if (!strcmp(arr2[5], ""))
-// 	// 	printf("here: %ld\n", strlen(arr2[5]));
-// 	return (0);
-// }

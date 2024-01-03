@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/02 10:39:15 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/03 11:42:52 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	call(t_root *root, t_lexer *input, char **envp)
 		return ;
 	if (call_builtins(root, input, envp) == 0)
 	{
-		err_num = exec_bin(root, input, envp);
+		err_num = exec_bin(root, input);
 		if (err_num == -1)
 		{
 			printf("%s: command not found\n", input->arg[0]);

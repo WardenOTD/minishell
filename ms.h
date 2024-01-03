@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/02 17:27:24 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/03 13:31:20 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ typedef struct s_root{
 	t_lexer	*input;
 	t_env	*env;
 	t_exp	*exp;
+	char	**envp;
+	char	**env_paths;
 	int		has_pipe;
 }				t_root;
 
@@ -86,8 +88,8 @@ t_exp		*explstnew(char *k, char *v);
 //--env.c--
 void		display_env(t_env *env);
 t_env		*get_env(t_env *env, char **envp);
-t_env		*add_env(t_env *env, t_lexer *input);
-char 		*get_env_value(char *str, t_env *env);
+t_env		*add_env(t_env *env, char *arg);
+char		*get_env_value(char *str, t_env *env);
 char		**env_split(char *arr);
 char		**env_split_helper(int i, char *arr, char **ret);
 int			env_is_valid(char *str, t_env *env);
@@ -104,30 +106,18 @@ t_exp		*free_exp(t_exp *exp);
 void		export_get(t_lexer *input, t_env *env, t_exp *exp);
 int			has_slash(char *arr);
 
-//--lexer.c & lexer_new.c--
+//--lexer.c--
 int			lexer(t_root *root, char *line);
+void		lexer_helper(t_root *root, char *line);
 t_lexer		*freelexer(t_lexer *input);
-int			find_unclosed_quote(char *str);
+
+//--lexer_new.c--
+char		*get_str_inquote(char *str, int info, int *pos);
+char		*get_str_outquote(char *str, int *pos);
+char		*get_str_token(char *str, int *pos);
 char		**splitter(char *str);
-
-// these are now trash
-char		*transform_str(char *str);
-char		*recreate_str(char *str);
-char		**recreate_arr(char **arr);
+int			find_unclosed_quote(char *str);
 char		***arr_arr_split(char **arr);
-// t_lexer		*split_mods(char **arr, t_lexer *input);
-// int			is_token(char *str, int pos);
-// char **split_arr_by_mod(char **args, int start);
-// char	**dup_arr_n_ele(char **arr, int start, int max);
-
-//--lexer.c (unused)--
-t_lexer		*requote(t_lexer *input);
-int			quote_count(char **arr);
-char		**dArray_join(char **front, char **back);
-char		*flatten_arr(char **arr);
-char		*flatten_arr_w_space(char **arr);
-char		**inArray_join(char	**arr);
-t_lexer		*remove_quote(t_lexer *input);
 
 //--echo.c--
 int			hyphen(char *hy);
@@ -147,7 +137,7 @@ int			cd(t_lexer *lexer, t_env *env, char **envp);
 char		*get_target_path(t_lexer *lexer, t_env *env, char **envp, char *option);
 char		**get_target_pwd_helper(char **envp);
 char		*cd_detect_error(t_lexer *lexer, t_env *env, char *target_pwd, char *option);
-char		*update_env(t_env *env, char *current, char *new);
+char		*update_env(t_env *env, char *current, char *neww);
 void		add_oldpwd(t_lexer *lexer, t_env *env, char *oldpwd_str);
 
 //--unset.c--
@@ -157,6 +147,7 @@ void		free_node(t_env *node);
 
 //--exec.c--
 int			exec_bin(t_root *root, t_lexer *input);
+int			exec_bin_helper(t_root *root, char *path, int pidchild, char **arg);
 int			exec_bin_parent(int pidchild, char **arg, char **env_paths);
 char		*append_path(char *cmdpath, char *input_line);
 char		**get_env_paths(t_env *env);
@@ -179,9 +170,9 @@ void		expand_helper_purge(int *j, int *dflag, int *flag);
 
 //--expansion_helper.c--
 void		expand_flags_set(char arg, int *flag, int *dflag);
-int			expand_helper_if(char *arg, int j, int flag, int dflag);
-int			expand_helper_else_if(char *arg, int j, int flag, int dflag);
-void		expand_helper_else(char *arg, t_env *env, int j);
+int			expand_helper_if(char **arg, int j, int flag, int dflag);
+int			expand_helper_else_if(char **arg, int j, int flag, int dflag);
+void		expand_helper_else(char **arg, t_env *env, int j);
 char		*expand_helper_else_helper(char *arg, int count, int j);
 
 //--expansion_helper_2.c--
@@ -192,7 +183,7 @@ char		*add_exp_helper(int ij[2], char *haystack, char *needle, char *val);
 
 //--redirection.c--
 int			handle_redirect(char **args, t_fd_info* fd_info);
-int			do_redirections(char *token_type, char **args, int token_pos, t_fd_info* fd_info);
+int			do_redirections(char *token_type, char **args, int token_pos, t_fd_info *fd_info);
 int			find_next_redir(char **args, int prev_i);
 char		*identify_token(char *str);
 

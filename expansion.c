@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 19:07:28 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/02 17:09:52 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/03 12:20:28 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ void	expand_helper_1(char *arg, t_env *env, int j)
 		if ((arg[j] == '$' && flag == 0)
 			|| (arg[j] == '$' && dflag == 1))
 		{
-			retv = expand_helper_if(arg, j, flag, dflag);
+			retv = expand_helper_if(&arg, j, flag, dflag);
 			if (retv == 0)
 				break ;
 			else if (retv == -1)
 			{
-				if (expand_helper_else_if(arg, j, flag, dflag) == -1)
-					expand_helper_else(arg, env, j);
+				if (expand_helper_else_if(&arg, j, flag, dflag) == -1)
+					expand_helper_else(&arg, env, j);
 			}
 			expand_helper_purge(&j, &dflag, &flag);
 			continue ;

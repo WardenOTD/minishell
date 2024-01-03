@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:06:25 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/02 17:27:02 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/03 11:46:42 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,44 +17,48 @@ int	exec_bin(t_root *root, t_lexer *input)
 {
 	int		pidchild;
 	char	**arg;
-	char	**env_paths;
 	char	*path;
 	int		i;
 
+	pidchild = 0;
 	if (!ft_strncmp(input->arg[0], "", 1) || input->arg[0] == NULL)
 		return (-2);
 	arg = turn_arr_into_str(input->arg);
 	i = 0;
-	env_paths = get_env_paths(root->env);
-	while (env_paths[i] != NULL)
+	root->env_paths = get_env_paths(root->env);
+	while (root->env_paths[i] != NULL)
 	{
-		arg[0] = append_path(env_paths[i], arg[0]);
+		arg[0] = append_path(root->env_paths[i], arg[0]);
 		path = arg[0];
 		signal(SIGINT, SIG_DFL);
 		if (!(access(arg[0], X_OK)))
-		{
-			if (root->has_pipe == 0)
-			{
-				pidchild = fork();
-				if (pidchild == 0)
-				{
-					if (execve(path, arg, envp) == -1)
-						exit (2);
-				}
-				else
-				{
-					signal(SIGINT, SIG_IGN);
-					return (exec_bin_parent(pidchild, arg, env_paths));
-				}
-			}
-			else
-				if (execve(path, arg, envp) == -1)
-					exit (2);
-		}
+			return (exec_bin_helper(root, path, pidchild, arg));
 		i++;
 	}
 	free2d(arg);
-	free2d(env_paths);
+	free2d(root->env_paths);
+	return (-1);
+}
+
+int	exec_bin_helper(t_root *root, char *path, int pidchild, char **arg)
+{
+	if (root->has_pipe == 0)
+	{
+		pidchild = fork();
+		if (pidchild == 0)
+		{
+			if (execve(path, arg, root->envp) == -1)
+				exit (2);
+		}
+		else
+		{
+			signal(SIGINT, SIG_IGN);
+			return (exec_bin_parent(pidchild, arg, root->env_paths));
+		}
+	}
+	else
+		if (execve(path, arg, root->envp) == -1)
+			exit (2);
 	return (-1);
 }
 
@@ -103,7 +107,7 @@ char	**get_env_paths(t_env *env)
 	t_env	*head;
 
 	head = env;
-	while (ft_strncmp(head->key, "PATH", 4))
+	while (ft_strncmp(head->key, "PATH", 5))
 		head = head->next;
 	cmdpaths = ft_split(head->value, ':');
 	return (cmdpaths);

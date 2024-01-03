@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:57:52 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/02 11:17:21 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/03 12:17:34 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,19 +96,19 @@ char	**get_target_pwd_helper(char **envp)
 	return (tmp);
 }
 
-char	*update_env(t_env *env, char *current, char *new)
+char	*update_env(t_env *env, char *current, char *neww)
 {
 	char	*tmp;
 
 	tmp = NULL;
 	while (ft_strncmp(env->key, "PWD", 4))
 		env = env->next;
-	if (new == NULL)
+	if (neww == NULL)
 		tmp = ft_strdup(current);
 	else
 	{
 		tmp = ft_strjoin(env->value, "/");
-		tmp = ft_strjoin_free(tmp, new);
+		tmp = ft_strjoin_free(tmp, neww);
 	}
 	if (env->value)
 		free(env->value);

@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:09:27 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/02 17:09:58 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/03 13:32:38 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ char	*remove_exp(char *needle, char *haystack)
 		while (haystack[i + j] == needle[j] && haystack[i + j])
 		{
 			if (needle[j + 1] == 0 && (haystack[i + j + 1] == '\''
-					|| haystack[i + j + 1] == '"' || haystack[i + j + 1] == ' '
+					|| haystack[i + j + 1] == '"'
+					|| haystack[i + j + 1] == ' '
 					|| !haystack[i + j + 1]))
 				return (remove_exp_helper(i, j, haystack, needle));
 			j++;
@@ -49,7 +50,6 @@ char	*remove_exp_helper(int i, int j, char *haystack, char *needle)
 	while (haystack[++i])
 		ret[k++] = haystack[i];
 	free(haystack);
-	// free(needle);
 	return (ret);
 }
 
@@ -66,7 +66,8 @@ char	*add_exp(char *needle, char *haystack, char *val)
 		while (haystack[i + j] == needle[j] && haystack[i + j])
 		{
 			if (needle[j + 1] == 0 && (haystack[i + j + 1] == '\''
-					|| haystack[i + j + 1] == '"' || haystack[i + j + 1] == ' '
+					|| haystack[i + j + 1] == '"'
+					|| haystack[i + j + 1] == ' '
 					|| haystack[i + j + 1] == '$' || !haystack[i + j + 1]))
 			{
 				ij[0] = i;
