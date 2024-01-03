@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:35:30 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/03 11:09:53 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/03 17:15:04 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 void	display_env(t_env *env)
 {
-	while (env)
+	t_env	*head;
+
+	head = env;
+	while (head)
 	{
-		if (!env->value)
+		if (!head->value)
 		{
-			env = env->next;
+			head = head->next;
 			continue ;
 		}
-		printf("%s=%s\n", env->key, env->value);
-		env = env->next;
+		printf("%s=%s\n", head->key, head->value);
+		head = head->next;
 	}
 }
 
@@ -33,9 +36,9 @@ t_env	*get_env(t_env *env, char **envp)
 	t_env	*tmpp;
 	t_env	*tail;
 
-	tail = NULL;
 	i = 0;
-	while (envp[i] && i < 13)
+	tail = NULL;
+	while (envp[i])
 	{
 		tmp = ft_split(envp[i], '=');
 		tmpp = envlstnew(tmp[0], tmp[1]);
@@ -64,8 +67,12 @@ t_env	*add_env(t_env *env, char *arg)
 		head = tail;
 		if (!ft_strncmp(tmp[0], tail->key, ft_strlen(tmp[0])))
 		{
-			free(tail->value);
-			tail->value = ft_strdup(tmp[1]);
+			if (tail->value)
+				free(tail->value);
+			if (tmp[1])
+				tail->value = ft_strdup(tmp[1]);
+			else
+				tail->value = NULL;
 			free2d(tmp);
 			return (env);
 		}
@@ -133,6 +140,11 @@ char	**env_split_helper(int i, char *arr, char **ret)
 
 	i++;
 	j = i;
+	if (arr[j] == 0)
+	{
+		ret[1] = ft_strdup("");
+		return (ret);
+	}
 	while (arr[j])
 		j++;
 	ret[1] = (char *)malloc(sizeof(char) * (j - i + 1));
@@ -169,12 +181,14 @@ t_env	*free_env(t_env *env)
 	{
 		tmpnxt = tmp->next;
 		free(tmp->key);
-		free(tmp->value);
+		if (tmp->value)
+			free(tmp->value);
 		free(tmp);
 		tmp = tmpnxt;
 	}
 	free(head->key);
-	free(head->value);
+	if (head->value)
+		free(head->value);
 	free(head);
 	env = NULL;
 	return (env);

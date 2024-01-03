@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/03 13:31:20 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/03 17:22:58 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void		ctrlc(int sig);
 t_lexer		*lexerlstnew(char **arr);
 t_env		*envlstnew(char *k, char *v);
 t_exp		*explstnew(char *k, char *v);
+t_exp		*explstnew_helper(t_exp *head, char *k, char *v);
+t_exp		*explstnew_helper_helper(t_exp *head, int i);
 
 //--env.c--
 void		display_env(t_env *env);
@@ -165,7 +167,7 @@ char		**split2(char const *s, char c);
 
 //--expansion.c--
 t_lexer		*expand(t_lexer *input, t_env *env);
-void		expand_helper_1(char *arg, t_env *env, int j);
+char		*expand_helper_1(char *arg, t_env *env, int j);
 void		expand_helper_purge(int *j, int *dflag, int *flag);
 
 //--expansion_helper.c--

@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:28:29 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/03 11:08:24 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/03 16:09:41 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	export_get(t_lexer *input, t_env *env, t_exp *exp)
 	int	i;
 
 	(void)exp;
-	i = 0;
+	i = 1;
 	while (input->arg[i])
 	{
 		if (ft_isdigit(input->arg[i][0]) || has_slash(input->arg[i]) == 1)

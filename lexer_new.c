@@ -82,20 +82,13 @@ char	**splitter(char *str)
 	while (str[i])
 	{
 		if (str[i] == '|' || str[i] == '<' || str[i] == '>')
-		{
-			ret[j] = get_str_token(str, &i);
-			j++;
-		}
+			ret[j++] = get_str_token(str, &i);
 		else if (str[i] != ' ' && str[i] != '\"' && str[i] != '\'')
-		{
-			ret[j] = get_str_outquote(str, &i);
-			j++;
-		}
+			ret[j++] = get_str_outquote(str, &i);
 		else if (str[i] == '\"' || str[i] == '\'')
 		{
 			i++;
-			ret[j] = get_str_inquote(str, str[i - 1], &i);
-			j++;
+			ret[j++] = get_str_inquote(str, str[i - 1], &i);
 		}
 		else
 			i++;
@@ -104,10 +97,10 @@ char	**splitter(char *str)
 	return (ret);
 }
 
-int		find_unclosed_quote(char *str)
+int	find_unclosed_quote(char *str)
 {
-	int	i;
-	int	pendulum;
+	int		i;
+	int		pendulum;
 	char	type;
 
 	i = 0;

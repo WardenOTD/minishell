@@ -18,8 +18,8 @@ SRC			= main.c\
 CC			= gcc
 RM			= rm -rf
 CFLAGS		= -Wall -Wextra -Werror
- FSANITIZE	= -fsanitize=address -g3
-# DSYM		= && rm -rf *.dSYM
+FSANITIZE	= -fsanitize=address -g3
+DSYM		= && rm -rf *.dSYM
 
 RAED		= -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 
