@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:27:34 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 12:47:08 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 16:10:15 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	do_redirections(char *token_type, char **args,
 		redir_output(args[token_pos + 1], fd_info->out_fd);
 	else if (!ft_strncmp(token_type, ">>", 3))
 		redir_output_append(args[token_pos + 1], fd_info->out_fd);
-	else if (!ft_strncmp(token_type, "<", 3))
+	else if (!ft_strncmp(token_type, "<", 2))
 		redir_input(args[token_pos + 1], fd_info->in_fd);
 	else if (!ft_strncmp(token_type, "<<", 3))
 		redir_heredoc(args[token_pos + 1], fd_info->in_fd);
