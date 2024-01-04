@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 16:09:19 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 16:12:24 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ pid_t		pipe_init_helper_2(t_root *root, t_lexer *head, t_fd_info *fd_info);
 
 //--pipe_init2.c--
 void		cp_function(int count, int fd[2], int nig[2]);
+int			invalid_pipe(char *str);
 
 //--redirection.c--
 int			handle_redirect(char **args, t_fd_info *fd_info);
@@ -182,11 +183,8 @@ int			do_redirections(char *token_type, char **args,
 int			find_next_redir(char **args, int prev_i);
 char		*identify_token(char *str);
 
-<<<<<<< HEAD
 //--redirection_utils.c--
-=======
 int			check_first_arg(char **args);
->>>>>>> justyn
 char		**renew_arg_rm_redir(char **args);
 
 //--redirection_func.c--
@@ -196,7 +194,6 @@ int			redir_input(char *filename, int in_fd);
 int			redir_heredoc(char *delimiter, int in_fd);
 int			redir_heredoc_helper(char *delimiter, int *pipe_fd);
 
-<<<<<<< HEAD
 //--call.c--
 void		execute_cmd(t_root *root, t_lexer *input,
 				char **envp, t_fd_info *fd_info);
@@ -237,15 +234,5 @@ int			ft_pwd(void);
 int			get_arraysize(char **array);
 char		**arr_dup_n(char **arr, int start, int end);
 char		*ft_strjoin_free(char *s1, char *s2);
-=======
-//--pipe_init.c--
-void		pipe_var_init(t_root *root);
-pid_t		pipe_init(t_root *root, char *line, t_fd_info *fd_info);
-void		pipe_init_helper(t_lexer *head, t_root *root);
-pid_t		pipe_init_helper_2(t_root *root, t_lexer *head, t_fd_info *fd_info);
-void		pipe_err(t_root *root, char *line);
-void		cp_function(int count, int fd[2], int nig[2]);
-int			invalid_pipe(char *str);
->>>>>>> justyn
 
 #endif
