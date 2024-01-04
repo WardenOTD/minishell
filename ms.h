@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 12:32:32 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 14:26:33 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,29 @@
 # include <limits.h>
 # include <errno.h>
 
-
 extern int	g_status_code;
 
-typedef struct s_lexer{
+typedef struct s_lexer
+{
 	char			**arg;
 	struct s_lexer	*next;
 }				t_lexer;
 
-typedef struct s_exp{
+typedef struct s_exp
+{
 	char			*export;
 	struct s_exp	*next;
 }				t_exp;
 
-typedef struct s_env{
+typedef struct s_env
+{
 	char			*key;
 	char			*value;
 	struct s_env	*next;
 }				t_env;
 
-typedef struct s_fd_info{
+typedef struct s_fd_info
+{
 	int				in_fd;
 	int				out_fd;
 	int				saved_in_fd;
@@ -57,7 +60,8 @@ typedef struct s_fd_info{
 	struct termios	saved_attr;
 }				t_fd_info;
 
-typedef struct s_pipe{
+typedef struct s_pipe
+{
 	int		fd[2];
 	pid_t	pid;
 	int		fd_last[2];
@@ -65,8 +69,8 @@ typedef struct s_pipe{
 	int		total_count;
 }				t_pipe;
 
-
-typedef struct s_root{
+typedef struct s_root
+{
 	t_lexer	*input;
 	t_env	*env;
 	t_exp	*exp;
@@ -103,6 +107,8 @@ t_env		*get_env(t_env *env, char **envp);
 t_env		*add_env(t_env *env, char *arg);
 t_env		*add_env_helper(t_env *env, t_env *tail, char **tmp);
 char		*get_env_value(char *str, t_env *env);
+
+//--env2.c--
 char		**env_split(char *arr);
 char		**env_split_helper(int i, char *arr, char **ret);
 int			env_is_valid(char *str, t_env *env);
@@ -110,8 +116,8 @@ t_env		*free_env(t_env *env);
 
 //--export.c--
 void		display_exp(t_exp *exp);
-int			bubble_sort(char *str1, char *str2);
 int			sort_check(t_exp *exp);
+int			bubble_sort(char *str1, char *str2);
 t_exp		*get_exp(t_exp *exp, t_env *env);
 t_exp		*free_exp(t_exp *exp);
 
@@ -119,57 +125,25 @@ t_exp		*free_exp(t_exp *exp);
 void		export_get(t_lexer *input, t_env *env, t_exp *exp);
 int			has_slash(char *arr);
 
-//--lexer.c--
-int			lexer(t_root *root, char *line);
-void		lexer_helper(t_root *root, char *line);
-t_lexer		*freelexer(t_lexer *input);
-
-//--lexer_new.c--
-char		*get_str_inquote(char *str, int info, int *pos);
-char		*get_str_outquote(char *str, int *pos);
-char		*get_str_token(char *str, int *pos);
-char		**splitter(char *str);
-int			find_unclosed_quote(char *str);
-char		***arr_arr_split(char **arr);
-
-//--echo.c--
-int			hyphen(char *hy);
-int			n(char *n);
-void		echo(t_lexer *input);
-
-//--call.c--
-void		execute_cmd(t_root *root, t_lexer *input, char **envp, t_fd_info *fd_info);
-void		call(t_root *root, t_lexer *input, char **envp);
-int			call_builtins(t_root *root, t_lexer *input, char **envp);
-
-//--pwd.c--
-int			ft_pwd(void);
-
-//--cd.c--
-int			cd(t_lexer *lexer, t_env *env, char **envp);
-char		*get_target_path(t_lexer *lexer, t_env *env, char **envp, char *option);
-char		**get_target_pwd_helper(char **envp);
-char		*cd_detect_error(t_lexer *lexer, t_env *env, char *target_pwd, char *option);
-char		*update_env(t_env *env, char *current, char *neww);
-void		add_oldpwd(t_lexer *lexer, t_env *env, char *oldpwd_str);
-
 //--unset.c--
 void		unset(t_lexer *lexer, t_env *env);
 void		remove_node(t_env **env, char *remove);
 void		free_node(t_env *node);
 
-//--exec.c--
-int			exec_bin(t_root *root, t_lexer *input);
-int			exec_bin_helper(t_root *root, char *path, int pidchild, char **arg);
-int			exec_bin_parent(int pidchild, char **arg, char **env_paths);
-char		*append_path(char *cmdpath, char *input_line);
-char		**get_env_paths(t_env *env);
-char		**turn_arr_into_str(char **arr);
+//--lexer.c--
+int			lexer(t_root *root, char *line);
+void		lexer_helper(t_root *root, char *line);
+t_lexer		*freelexer(t_lexer *input);
 
-//--utils.c--
-int			get_arraysize(char **array);
-char		**arr_dup_n(char **arr, int start, int end);
-char		*ft_strjoin_free(char *s1, char *s2);
+//--lexer2.c--
+char		*get_str_inquote(char *str, int info, int *pos);
+char		*get_str_outquote(char *str, int *pos);
+char		*get_str_token(char *str, int *pos);
+char		**splitter(char *str);
+int			find_unclosed_quote(char *str);
+
+//--lexer3.c--
+char		***arr_arr_split(char **arr);
 
 //--expansion.c--
 t_lexer		*expand(t_lexer *input, t_env *env);
@@ -189,27 +163,74 @@ char		*remove_exp_helper(int i, int j, char *haystack, char *needle);
 char		*add_exp(char *needle, char *haystack, char *val);
 char		*add_exp_helper(int ij[2], char *haystack, char *needle, char *val);
 
+//--pipe_init.c--
+void		pipe_err(t_root *root, char *line);
+void		pipe_var_init(t_root *root);
+pid_t		pipe_init(t_root *root, char *line, t_fd_info *fd_info);
+void		pipe_init_helper(t_lexer *head, t_root *root);
+pid_t		pipe_init_helper_2(t_root *root, t_lexer *head, t_fd_info *fd_info);
+
+//--pipe_init2.c--
+void		cp_function(int count, int fd[2], int nig[2]);
+
 //--redirection.c--
-int			handle_redirect(char **args, t_fd_info* fd_info);
-int			handle_redirect_helper(char *token_type, char **args, int token_pos);
-int			do_redirections(char *token_type, char **args, int token_pos, t_fd_info *fd_info);
+int			handle_redirect(char **args, t_fd_info *fd_info);
+int			handle_redirect_helper(char *token_type,
+				char **args, int token_pos);
+int			do_redirections(char *token_type, char **args,
+				int token_pos, t_fd_info *fd_info);
 int			find_next_redir(char **args, int prev_i);
 char		*identify_token(char *str);
 
+//--redirection_utils.c--
 char		**renew_arg_rm_redir(char **args);
 
+//--redirection_func.c--
 int			redir_output(char *filename, int out_fd);
 int			redir_output_append(char *filename, int out_fd);
 int			redir_input(char *filename, int in_fd);
 int			redir_heredoc(char *delimiter, int in_fd);
 int			redir_heredoc_helper(char *delimiter, int *pipe_fd);
 
-//--pipe_init.c--
-void		pipe_var_init(t_root *root);
-pid_t		pipe_init(t_root *root, char *line, t_fd_info *fd_info);
-void		pipe_init_helper(t_lexer *head, t_root *root);
-pid_t		pipe_init_helper_2(t_root *root, t_lexer *head, t_fd_info *fd_info);
-void		pipe_err(t_root *root, char *line);
-void		cp_function(int count, int fd[2], int nig[2]);
+//--call.c--
+void		execute_cmd(t_root *root, t_lexer *input,
+				char **envp, t_fd_info *fd_info);
+void		call(t_root *root, t_lexer *input, char **envp);
+int			call_builtins(t_root *root, t_lexer *input, char **envp);
+
+//--exec.c--
+int			exec_bin(t_root *root, t_lexer *input);
+int			exec_bin_helper(t_root *root, char *path, int pidchild, char **arg);
+int			exec_bin_parent(int pidchild, char **arg, char **env_paths);
+char		*append_path(char *cmdpath, char *input_line);
+char		**get_env_paths(t_env *env);
+
+//--exec2.c--
+char		**turn_arr_into_str(char **arr);
+
+//--echo.c--
+int			hyphen(char *hy);
+int			n(char *n);
+void		echo(t_lexer *input);
+
+//--cd.c--
+int			cd(t_lexer *lexer, t_env *env, char **envp);
+char		*cd_detect_error(t_lexer *lexer, t_env *env,
+				char *target_pwd, char *option);
+char		*get_target_path(t_lexer *lexer, t_env *env,
+				char **envp, char *option);
+char		**get_target_pwd_helper(char **envp);
+char		*update_env(t_env *env, char *current, char *neww);
+
+//--cd2.c--
+void		add_oldpwd(t_lexer *lexer, t_env *env, char *oldpwd_str);
+
+//--pwd.c--
+int			ft_pwd(void);
+
+//--utils.c--
+int			get_arraysize(char **array);
+char		**arr_dup_n(char **arr, int start, int end);
+char		*ft_strjoin_free(char *s1, char *s2);
 
 #endif
