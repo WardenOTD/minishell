@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/04 11:27:34 by jteoh             #+#    #+#             */
+/*   Updated: 2024/01/04 12:47:08 by jteoh            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ms.h"
 
-int	handle_redirect(char **args, t_fd_info* fd_info)
+int	handle_redirect(char **args, t_fd_info *fd_info)
 {
 	int		token_pos;
 	char	*token_type;
@@ -17,22 +29,28 @@ int	handle_redirect(char **args, t_fd_info* fd_info)
 		token_pos = find_next_redir(args, i);
 		token_type = ft_strdup(identify_token(args[token_pos]));
 		if (do_redirections(token_type, args, token_pos, fd_info) == -1)
-		{
-			free(token_type);
-			token_type = ft_strdup(identify_token(args[token_pos + 1]));
-			printf("-minishell: syntax error near unexpected token '%s'\n", token_type);
-			free(token_type);
-			return (-1);
-		}
+			return (handle_redirect_helper(token_type, args, token_pos));
 		free(token_type);
 		i = token_pos + 1;
 	}
 	return (0);
 }
 
-int	do_redirections(char *token_type, char **args, int token_pos, t_fd_info* fd_info)
+int	handle_redirect_helper(char *token_type, char **args, int token_pos)
 {
-	if (find_next_redir(args, token_pos) == token_pos && find_next_redir(args, token_pos + 1) == token_pos + 1)
+	free(token_type);
+	token_type = ft_strdup(identify_token(args[token_pos + 1]));
+	printf("-minishell: syntax error near ");
+	printf("unexpected token '%s'\n", token_type);
+	free(token_type);
+	return (-1);
+}
+
+int	do_redirections(char *token_type, char **args,
+	int token_pos, t_fd_info *fd_info)
+{
+	if (find_next_redir(args, token_pos) == token_pos
+		&& find_next_redir(args, token_pos + 1) == token_pos + 1)
 		return (-1);
 	if (!ft_strncmp(token_type, ">", 2))
 		redir_output(args[token_pos + 1], fd_info->out_fd);
@@ -47,13 +65,14 @@ int	do_redirections(char *token_type, char **args, int token_pos, t_fd_info* fd_
 
 int	find_next_redir(char **args, int prev_i)
 {
-	int i;
+	int	i;
 
 	i = prev_i;
 	while (args[i])
 	{
 		if (!ft_strncmp(args[i], ">", 2) || !ft_strncmp(args[i], "<", 2)
-				|| !ft_strncmp(args[i], ">>", 3) || !ft_strncmp(args[i], "<<", 3))
+			|| !ft_strncmp(args[i], ">>", 3)
+			|| !ft_strncmp(args[i], "<<", 3))
 			return (i);
 		i++;
 	}
@@ -62,10 +81,9 @@ int	find_next_redir(char **args, int prev_i)
 
 char	*identify_token(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-
 	if (str[i] == '<')
 	{
 		if (str[i + 1] == '<')

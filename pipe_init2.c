@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection_utils.c                                :+:      :+:    :+:   */
+/*   pipe_init2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/04 11:27:29 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 11:27:30 by jteoh            ###   ########.fr       */
+/*   Created: 2024/01/04 12:26:41 by jteoh             #+#    #+#             */
+/*   Updated: 2024/01/04 12:26:46 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-char	**renew_arg_rm_redir(char **args)
+void	cp_function(int count, int fd[2], int prev_fd[2])
 {
-	char	**new;
-	int		i;
-	int		max_len;
-
-	i = 0;
-	max_len = find_next_redir(args, 0);
-	if (max_len == -1)
-		return (args);
-	new = malloc (sizeof(char *) * (max_len + 1));
-	while (i < max_len)
+	if (count == 1)
 	{
-		new[i] = ft_strdup(args[i]);
-		i++;
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
 	}
-	new[i] = NULL;
-	free2d(args);
-	return (new);
+	else if (count == 0)
+		dup2(prev_fd[0], STDIN_FILENO);
+	else
+	{
+		close(fd[0]);
+		dup2(prev_fd[0], STDIN_FILENO);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+		close(prev_fd[0]);
+	}
 }

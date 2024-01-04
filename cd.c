@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:57:52 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/02 18:52:07 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/04 12:21:47 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,17 @@ int	cd(t_lexer *lexer, t_env *env, char **envp)
 	return (0);
 }
 
-char *cd_detect_error(t_lexer *lexer, t_env *env, char *target_pwd, char *option)
+char	*cd_detect_error(t_lexer *lexer, t_env *env,
+	char *target_pwd, char *option)
 {
-	char *oldpwd;
+	char	*oldpwd;
 
 	(void)option;
 	oldpwd = getcwd(NULL, 0);
 	if (target_pwd == NULL && (get_arraysize(lexer->arg) == 1))
 		printf("bash: cd: HOME not set\n");
 	else if (target_pwd == NULL && !ft_strncmp(option, "-", 2))
-	{
 		printf("bash: cd: OLDPWD not set\n");
-		// add_oldpwd(lexer, env, oldpwd);
-	}
 	else if (chdir(target_pwd) == 0)
 	{
 		update_env(env, oldpwd, target_pwd);
@@ -60,23 +58,18 @@ char *cd_detect_error(t_lexer *lexer, t_env *env, char *target_pwd, char *option
 	return (NULL);
 }
 
-char *get_target_path(t_lexer *lexer, t_env *env, char **envp, char *option)
+char	*get_target_path(t_lexer *lexer, t_env *env, char **envp, char *option)
 {
 	char	*target_pwd;
-	int		i;
 	char	**tmp;
 
-	target_pwd = NULL;
 	if (get_arraysize(lexer->arg) == 1 && env_is_valid("HOME", env))
 		target_pwd = get_env_value("HOME", env);
 	else if (get_arraysize(lexer->arg) == 1 && !env_is_valid("HOME", env))
 		target_pwd = NULL;
 	else if (!ft_strncmp(option, "~", 1))
 	{
-		i = 0;
-		while (ft_strncmp(envp[i], "HOME", 4))
-			i++;
-		tmp = ft_split(envp[i], '=');
+		tmp = get_target_pwd_helper(envp);
 		target_pwd = ft_strdup(tmp[1]);
 		free2d(tmp);
 	}
@@ -91,48 +84,35 @@ char *get_target_path(t_lexer *lexer, t_env *env, char **envp, char *option)
 	return (target_pwd);
 }
 
-char *update_env(t_env *env, char *current, char *new)
+char	**get_target_pwd_helper(char **envp)
 {
-	char *tmp;
+	int		i;
+	char	**tmp;
+
+	i = 0;
+	while (ft_strncmp(envp[i], "HOME", 4))
+		i++;
+	tmp = ft_split(envp[i], '=');
+	return (tmp);
+}
+
+char	*update_env(t_env *env, char *current, char *neww)
+{
+	char	*tmp;
 
 	tmp = NULL;
-//	(void)current;
 	while (ft_strncmp(env->key, "PWD", 4))
 		env = env->next;
-	if (new == NULL)
+	if (neww == NULL)
 		tmp = ft_strdup(current);
 	else
 	{
 		tmp = ft_strjoin(env->value, "/");
-		tmp = ft_strjoin_free(tmp, new);
+		tmp = ft_strjoin_free(tmp, neww);
 	}
 	if (env->value)
 		free(env->value);
 	env->value = ft_strdup(tmp);
 	free(tmp);
 	return (env->value);
-}
-
-void add_oldpwd(t_lexer *lexer, t_env *env, char *oldpwd_str)
-{
-	t_env	*new;
-	char	*oldpwd_value;
-
-	(void)lexer;
-	oldpwd_value = get_env_value("OLDPWD", env);
-	if (oldpwd_value == NULL)
-	{
-		while (env->next)
-			env = env->next;
-		new = envlstnew("OLDPWD", oldpwd_str);
-		env->next = new;
-	}
-	else
-	{
-		while (ft_strncmp("OLDPWD", env->key, 6))
-			env = env->next;
-		free(env->value);
-		env->value = ft_strdup(oldpwd_str);
-	}
-	free (oldpwd_value);
 }

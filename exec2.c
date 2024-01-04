@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection_utils.c                                :+:      :+:    :+:   */
+/*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/04 11:27:29 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 11:27:30 by jteoh            ###   ########.fr       */
+/*   Created: 2024/01/04 12:23:03 by jteoh             #+#    #+#             */
+/*   Updated: 2024/01/04 12:23:10 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-char	**renew_arg_rm_redir(char **args)
+char	**turn_arr_into_str(char **arr)
 {
-	char	**new;
+	char	*str;
+	char	*tmp;
 	int		i;
-	int		max_len;
+	char	**arg;
 
-	i = 0;
-	max_len = find_next_redir(args, 0);
-	if (max_len == -1)
-		return (args);
-	new = malloc (sizeof(char *) * (max_len + 1));
-	while (i < max_len)
+	i = 1;
+	str = ft_strdup(arr[0]);
+	while (arr[i])
 	{
-		new[i] = ft_strdup(args[i]);
+		tmp = ft_strjoin(str, "\7");
+		free(str);
+		str = ft_strjoin(tmp, arr[i]);
+		free(tmp);
 		i++;
 	}
-	new[i] = NULL;
-	free2d(args);
-	return (new);
+	arg = ft_split(str, '\7');
+	free(str);
+	return (arg);
 }

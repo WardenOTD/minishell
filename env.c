@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:35:30 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/26 12:39:53 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 12:22:22 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 void	display_env(t_env *env)
 {
-	while (env)
+	t_env	*head;
+
+	head = env;
+	while (head)
 	{
-		if (!env->value)
+		if (!head->value)
 		{
-			env = env->next;
+			head = head->next;
 			continue ;
 		}
-		printf("%s=%s\n", env->key, env->value);
-		env = env->next;
+		printf("%s=%s\n", head->key, head->value);
+		head = head->next;
 	}
 }
 
@@ -33,9 +36,9 @@ t_env	*get_env(t_env *env, char **envp)
 	t_env	*tmpp;
 	t_env	*tail;
 
-	tail = NULL;
 	i = 0;
-	while (envp[i] && i < 13)
+	tail = NULL;
+	while (envp[i])
 	{
 		tmp = ft_split(envp[i], '=');
 		tmpp = envlstnew(tmp[0], tmp[1]);
@@ -50,26 +53,20 @@ t_env	*get_env(t_env *env, char **envp)
 	return (env);
 }
 
-t_env	*add_env(t_env *env, t_lexer *input)
+t_env	*add_env(t_env *env, char *arg)
 {
 	char	**tmp;
 	t_env	*head;
 	t_env	*tail;
 
-	tmp = env_split(input->arg[1]);
+	tmp = env_split(arg);
 	head = NULL;
 	tail = env;
 	while (tail)
 	{
 		head = tail;
-		// printf("add_env --- tmp[0]: %s, tail->key: %s\n", tmp[0], tail->key);
 		if (!ft_strncmp(tmp[0], tail->key, ft_strlen(tmp[0])))
-		{
-			free(tail->value);
-			tail->value = ft_strdup(tmp[1]);
-			free2d(tmp);
-			return (env);
-		}
+			return (add_env_helper(env, tail, tmp));
 		tail = tail->next;
 	}
 	tail = head;
@@ -79,9 +76,21 @@ t_env	*add_env(t_env *env, t_lexer *input)
 	return (env);
 }
 
-char *get_env_value(char *str, t_env *env)
+t_env	*add_env_helper(t_env *env, t_env *tail, char **tmp)
 {
-	int 	len;
+	if (tail->value)
+		free(tail->value);
+	if (tmp[1])
+		tail->value = ft_strdup(tmp[1]);
+	else
+		tail->value = NULL;
+	free2d(tmp);
+	return (env);
+}
+
+char	*get_env_value(char *str, t_env *env)
+{
+	int		len;
 	char	*ret;
 	char	*str2;
 
@@ -101,78 +110,4 @@ char *get_env_value(char *str, t_env *env)
 		env = env->next;
 	}
 	return (NULL);
-}
-
-char	**env_split(char *arr)
-{
-	int		i;
-	int		j;
-	char	**ret;
-
-	// printf("env_split:  __%s__\n", arr);
-	i = 0;
-	ret = (char **)malloc(sizeof(char *) * 3);
-	ret[2] = NULL;
-	while (arr[i] && arr[i] != '=')
-		i++;
-	ret[0] = (char *)malloc(sizeof(char) * (i + 1));
-	ret[0][i] = 0;
-	i = 0;
-	while (arr[i] && arr[i] != '=')
-	{
-		ret[0][i] = arr[i];
-		i++;
-	}
-	if (arr[i] == 0)
-		ret[1] = NULL;
-	else
-	{
-		i++;
-		j = i;
-		while (arr[j])
-			j++;
-		ret[1] = (char *)malloc(sizeof(char) * (j - i + 1));
-		ret[1][j - i] = 0;
-		j = 0;
-		while (arr[i])
-			ret[1][j++] = arr[i++];
-	}
-	return (ret);
-}
-
-int env_is_valid(char *str, t_env *env)
-{
-	int	len;
-
-	len = ft_strlen(str);
-	while (env != NULL)
-	{
-		if (ft_strncmp(str, env->key, len) == 0)
-			return (1);
-		env = env->next;
-	}
-	return (0);
-}
-
-t_env	*free_env(t_env *env)
-{
-	t_env	*head;
-	t_env	*tmp;
-	t_env	*tmpnxt;
-
-	head = env;
-	tmp = head->next;
-	while (tmp)
-	{
-		tmpnxt = tmp->next;
-		free(tmp->key);
-		free(tmp->value);
-		free(tmp);
-		tmp = tmpnxt;
-	}
-	free(head->key);
-	free(head->value);
-	free(head);
-	env = NULL;
-	return (env);
 }

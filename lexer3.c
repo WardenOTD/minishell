@@ -1,34 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection_utils.c                                :+:      :+:    :+:   */
+/*   lexer3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/04 11:27:29 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 11:27:30 by jteoh            ###   ########.fr       */
+/*   Created: 2024/01/04 12:24:08 by jteoh             #+#    #+#             */
+/*   Updated: 2024/01/04 12:24:20 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-char	**renew_arg_rm_redir(char **args)
+char	***arr_arr_split(char **arr)
 {
-	char	**new;
 	int		i;
-	int		max_len;
+	int		j;
+	int		pp_i;
+	char	***ret;
 
 	i = 0;
-	max_len = find_next_redir(args, 0);
-	if (max_len == -1)
-		return (args);
-	new = malloc (sizeof(char *) * (max_len + 1));
-	while (i < max_len)
+	j = 0;
+	pp_i = 0;
+	ret = (char ***) malloc (sizeof(char **) * 20);
+	while (arr[i])
 	{
-		new[i] = ft_strdup(args[i]);
+		if (!ft_strncmp(arr[i], "|", 2))
+		{
+			ret[pp_i] = arr_dup_n(arr, j, i);
+			i++;
+			j = i;
+			pp_i++;
+		}
 		i++;
 	}
-	new[i] = NULL;
-	free2d(args);
-	return (new);
+	ret[pp_i] = arr_dup_n(arr, j, i);
+	pp_i++;
+	ret[pp_i] = 0;
+	return (ret);
 }

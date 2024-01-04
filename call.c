@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   call.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/28 10:15:47 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/04 12:40:17 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-void	execute_cmd(t_root *root, t_lexer *input, char **envp, t_fd_info *fd_info)
+void	execute_cmd(t_root *root, t_lexer *input,
+	char **envp, t_fd_info *fd_info)
 {
 	if (handle_redirect(input->arg, fd_info) == -1)
 		return ;
@@ -30,23 +31,17 @@ void	call(t_root *root, t_lexer *input, char **envp)
 		return ;
 	if (call_builtins(root, input, envp) == 0)
 	{
-		err_num = exec_bin(root, input, envp);
+		err_num = exec_bin(root, input);
 		if (err_num == -1)
 		{
-			// i = 0;
-			// while (input->arg[i])
-			// {
-			// 	if (input->arg[i + 1])
-			// 		printf("%s ", input->arg[i]);
-			// 	else if (input->arg[i + 1] == 0)
-			// 		printf("%s", input->arg[i]);
-			// 	i++;
-			// }
 			printf("%s: command not found\n", input->arg[0]);
 			if (root->has_pipe == 1)
 				exit(127);
 			else
+			{
+				g_status_code = 127;
 				return ;
+			}
 		}
 		else if (err_num == -2)
 			printf("Command '' not found\n");
@@ -71,5 +66,6 @@ int	call_builtins(t_root *root, t_lexer *input, char **envp)
 		unset(input, root->env);
 	else
 		return (0);
+	g_status_code = 0;
 	return (1);
 }

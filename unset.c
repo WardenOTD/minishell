@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/04 11:36:21 by jteoh             #+#    #+#             */
+/*   Updated: 2024/01/04 11:36:28 by jteoh            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ms.h"
 
 void	unset(t_lexer *lexer, t_env *env)
@@ -7,7 +19,6 @@ void	unset(t_lexer *lexer, t_env *env)
 
 	i = 1;
 	remove = NULL;
-
 	if (get_arraysize(lexer->arg) == 1)
 		return ;
 	while (lexer->arg[i] != NULL)

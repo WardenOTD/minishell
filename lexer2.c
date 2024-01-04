@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/04 12:16:08 by jteoh             #+#    #+#             */
+/*   Updated: 2024/01/04 12:24:02 by jteoh            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ms.h"
 
 char	*get_str_inquote(char *str, int info, int *pos)
@@ -34,7 +46,8 @@ char	*get_str_outquote(char *str, int *pos)
 	i = *pos;
 	j = i;
 	k = 0;
-	while (str[i] && str[i] != ' ' && str[i] != '|' && str[i] != '<' && str[i] != '>')
+	while (str[i] && str[i] != ' ' && str[i] != '|'
+		&& str[i] != '<' && str[i] != '>')
 		i++;
 	ret = malloc (sizeof(char) * (i - *pos + 1));
 	while (j < i)
@@ -54,12 +67,13 @@ char	*get_str_token(char *str, int *pos)
 	char	*ret;
 
 	i = *pos;
+	ret = NULL;
 	if (str[i] == '|')
 		ret = strdup("|");
 	else if (str[i] == '<' && str[i + 1] == '<')
 		ret = strdup("<<");
 	else if (str[i] == '<' && str[i + 1] != '<')
-			ret = strdup("<");
+		ret = strdup("<");
 	else if (str[i] == '>' && str[i + 1] == '>')
 		ret = strdup(">>");
 	else if (str[i] == '>' && str[i + 1] != '>')
@@ -80,20 +94,13 @@ char	**splitter(char *str)
 	while (str[i])
 	{
 		if (str[i] == '|' || str[i] == '<' || str[i] == '>')
-		{
-			ret[j] = get_str_token(str, &i);
-			j++;
-		}
+			ret[j++] = get_str_token(str, &i);
 		else if (str[i] != ' ' && str[i] != '\"' && str[i] != '\'')
-		{
-			ret[j] = get_str_outquote(str, &i);
-			j++;
-		}
+			ret[j++] = get_str_outquote(str, &i);
 		else if (str[i] == '\"' || str[i] == '\'')
 		{
 			i++;
-			ret[j] = get_str_inquote(str, str[i - 1], &i);
-			j++;
+			ret[j++] = get_str_inquote(str, str[i - 1], &i);
 		}
 		else
 			i++;
@@ -102,10 +109,10 @@ char	**splitter(char *str)
 	return (ret);
 }
 
-int		find_unclosed_quote(char *str)
+int	find_unclosed_quote(char *str)
 {
-	int	i;
-	int	pendulum;
+	int		i;
+	int		pendulum;
 	char	type;
 
 	i = 0;
@@ -125,45 +132,3 @@ int		find_unclosed_quote(char *str)
 	}
 	return (pendulum);
 }
-
-char	***arr_arr_split(char **arr)
-{
-	int		i;
-	int		j;
-	int		pp_i;
-	char	***ret;
-
-	i = 0;
-	j = 0;
-	pp_i = 0;
-	ret = (char ***) malloc (sizeof(char **) * 20);
-	while (arr[i])
-	{
-		if (!ft_strncmp(arr[i], "|", 2))
-		{
-			ret[pp_i] = arr_dup_n(arr, j, i);
-			i++;
-			j = i;
-			pp_i++;
-		}
-		i++;
-	}
-	ret[pp_i] = arr_dup_n(arr, j, i);
-	pp_i++;
-	ret[pp_i] = 0;
-	return (ret);
-}
-
-// int main()
-// {
-// 	char **arr2 = splitter(">\"\'hello\" a<<beautiful \"\" |  world ");
-// 	printf("test: %s\n", arr2[3]);
-// 	for (int i = 0; arr2[i]; i++)
-// 		printf("%s\n", arr2[i]);
-// 	for (int i = 0; arr2[i]; i++)
-// 		free (arr2[i]);
-// 	free(arr2);
-// 	// if (!strcmp(arr2[5], ""))
-// 	// 	printf("here: %ld\n", strlen(arr2[5]));
-// 	return (0);
-// }

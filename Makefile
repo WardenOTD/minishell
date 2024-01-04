@@ -1,12 +1,24 @@
-SRC			= main.c liststuff.c env.c export.c export2.c lexer.c lexer_mine.c expansion.c lexer_new.c\
-				call.c echo.c cd.c pwd.c split2.c unset.c utils.c\
-				exec.c redirection.c redirection_utils.c redirection_func.c pipe_init.c\
+SRC			= main.c main2.c\
+				liststuff.c\
+				env.c env2.c\
+				export.c export2.c\
+				unset.c\
+				lexer.c lexer2.c lexer3.c\
+				expansion.c expansion_helper.c expansion_helper_2.c\
+				pipe_init.c pipe_init2.c\
+				redirection.c redirection_utils.c redirection_func.c\
+				call.c\
+				exec.c exec2.c\
+				echo.c\
+				cd.c cd2.c\
+				pwd.c\
+				utils.c\
 
 CC			= gcc
 RM			= rm -rf
 CFLAGS		= -Wall -Wextra -Werror
- FSANITIZE	= -fsanitize=address -g3
-# DSYM		= && rm -rf *.dSYM
+FSANITIZE	= -fsanitize=address -g3
+DSYM		= && rm -rf *.dSYM
 
 RAED		= -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 
