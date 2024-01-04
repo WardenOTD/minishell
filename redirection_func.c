@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection_func.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/04 11:25:11 by jteoh             #+#    #+#             */
+/*   Updated: 2024/01/04 12:46:08 by jteoh            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ms.h"
 
 int	redir_output(char *filename, int out_fd)
@@ -66,7 +78,8 @@ int	redir_heredoc_helper(char *delimiter, int *pipe_fd)
 		line = readline("> ");
 		if (line == NULL)
 		{
-			printf("-minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", delimiter);
+			printf("-minishell: warning: here-document delimited");
+			printf(" by end-of-file (wanted `%s')\n", delimiter);
 			exit(0);
 		}
 		if (!ft_strncmp(line, delimiter, ft_strlen(line)))
@@ -77,6 +90,6 @@ int	redir_heredoc_helper(char *delimiter, int *pipe_fd)
 		write(pipe_fd[1], line, ft_strlen(line));
 		write(pipe_fd[1], "\n", 1);
 		free(line);
-	}	
+	}
 	exit(1);
 }

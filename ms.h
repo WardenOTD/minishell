@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 10:00:18 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 12:32:32 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ typedef struct s_fd_info{
 	int				saved_in_fd;
 	int				saved_out_fd;
 
-	struct termios	term_attr;
-
+	struct termios	new_attr;
+	struct termios	saved_attr;
 }				t_fd_info;
 
 typedef struct s_pipe{
@@ -73,22 +73,22 @@ typedef struct s_root{
 	char	**envp;
 	char	**env_paths;
 	int		has_pipe;
-	t_pipe	*pipe;
+	t_pipe	pipe;
 }				t_root;
 
-// typedef struct s_data{
-// 	t_lexer			*input;
-// 	t_env			*env;
-// 	t_exp			*exp;
-// 	int				in_fd;
-// 	int				out_fd;
-// }				t_data;
-
 //--main.c--
-void		handle(char *line, t_env *env);
 void		free2d(char **line);
+void		main_helper_1(char *line, t_root *root, t_fd_info *fd_info);
+void		main_helper_2(t_root *root, t_fd_info *fd_info, char *line);
+void		main_helper_3(pid_t pid);
+int			main(int argc, char **argv, char **envp);
+
+//--main2.c--
+void		handle(char *line, t_env *env, t_fd_info *fd_info);
+void		init(t_root *root, t_fd_info *fd_info, char **envp);
+void		init_2(t_root *root, t_fd_info *fd_info, char **envp);
 void		ctrlc(int sig);
-//int			main(int argc, char **argv, char **envp);
+void		handle_ctrlc(t_fd_info *fd_info);
 
 //--liststuff.c--
 t_lexer		*lexerlstnew(char **arr);
@@ -101,6 +101,7 @@ t_exp		*explstnew_helper_helper(t_exp *head, int i);
 void		display_env(t_env *env);
 t_env		*get_env(t_env *env, char **envp);
 t_env		*add_env(t_env *env, char *arg);
+t_env		*add_env_helper(t_env *env, t_env *tail, char **tmp);
 char		*get_env_value(char *str, t_env *env);
 char		**env_split(char *arr);
 char		**env_split_helper(int i, char *arr, char **ret);
@@ -168,12 +169,7 @@ char		**turn_arr_into_str(char **arr);
 //--utils.c--
 int			get_arraysize(char **array);
 char		**arr_dup_n(char **arr, int start, int end);
-int			is_token_str(char *str, int pos);
-char		*str_dup_n(char *str, int start, int end);
 char		*ft_strjoin_free(char *s1, char *s2);
-
-//--split2.c--
-char		**split2(char const *s, char c);
 
 //--expansion.c--
 t_lexer		*expand(t_lexer *input, t_env *env);
@@ -195,6 +191,7 @@ char		*add_exp_helper(int ij[2], char *haystack, char *needle, char *val);
 
 //--redirection.c--
 int			handle_redirect(char **args, t_fd_info* fd_info);
+int			handle_redirect_helper(char *token_type, char **args, int token_pos);
 int			do_redirections(char *token_type, char **args, int token_pos, t_fd_info *fd_info);
 int			find_next_redir(char **args, int prev_i);
 char		*identify_token(char *str);
@@ -214,10 +211,5 @@ void		pipe_init_helper(t_lexer *head, t_root *root);
 pid_t		pipe_init_helper_2(t_root *root, t_lexer *head, t_fd_info *fd_info);
 void		pipe_err(t_root *root, char *line);
 void		cp_function(int count, int fd[2], int nig[2]);
-
-//--to trash--
-char		**true_split(char *line);
-char		*str_extract(char *str, int start, int end);
-t_lexer 	*get_token_data(char *line, t_lexer *input);
 
 #endif

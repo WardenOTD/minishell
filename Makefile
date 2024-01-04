@@ -1,18 +1,17 @@
-SRC			= main.c\
+SRC			= main.c main2.c\
 				liststuff.c\
-				env.c\
+				env.c env2.c\
 				export.c export2.c\
 				unset.c\
-				lexer.c lexer_new.c\
+				lexer.c lexer2.c lexer3.c\
 				expansion.c expansion_helper.c expansion_helper_2.c\
-				pipe_init.c\
+				pipe_init.c pipe_init2.c\
 				redirection.c redirection_utils.c redirection_func.c\
 				call.c\
-				exec.c\
+				exec.c exec2.c\
 				echo.c\
-				cd.c\
+				cd.c cd2.c\
 				pwd.c\
-				split2.c\
 				utils.c\
 
 CC			= gcc

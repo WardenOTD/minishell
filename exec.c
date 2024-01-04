@@ -6,13 +6,12 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:06:25 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/03 11:46:42 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 12:22:57 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-// int	exec_bin(char *line, char **envp)
 int	exec_bin(t_root *root, t_lexer *input)
 {
 	int		pidchild;
@@ -111,26 +110,4 @@ char	**get_env_paths(t_env *env)
 		head = head->next;
 	cmdpaths = ft_split(head->value, ':');
 	return (cmdpaths);
-}
-
-char	**turn_arr_into_str(char **arr)
-{
-	char	*str;
-	char	*tmp;
-	int		i;
-	char	**arg;
-
-	i = 1;
-	str = ft_strdup(arr[0]);
-	while (arr[i])
-	{
-		tmp = ft_strjoin(str, "\7");
-		free(str);
-		str = ft_strjoin(tmp, arr[i]);
-		free(tmp);
-		i++;
-	}
-	arg = ft_split(str, '\7');
-	free(str);
-	return (arg);
 }

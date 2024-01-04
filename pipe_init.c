@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:04:19 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 10:00:05 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 12:26:33 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	pipe_err(t_root *root, char *line)
 
 void	pipe_var_init(t_root *root)
 {
-	root->pipe->pid = 1;
-	root->pipe->fd_last[0] = -1;
-	root->pipe->fd_last[1] = -1;
-	root->pipe->count = 0;
-	root->pipe->total_count = 0;
+	root->pipe.pid = 1;
+	root->pipe.fd_last[0] = -1;
+	root->pipe.fd_last[1] = -1;
+	root->pipe.count = 0;
+	root->pipe.total_count = 0;
 }
 
 pid_t	pipe_init(t_root *root, char *line, t_fd_info *fd_info)
@@ -38,14 +38,14 @@ pid_t	pipe_init(t_root *root, char *line, t_fd_info *fd_info)
 	head = root->input;
 	while (head != NULL)
 	{
-		root->pipe->count++;
+		root->pipe.count++;
 		pipe_init_helper(head, root);
-		root->pipe->pid = fork();
-		if (root->pipe->pid == -1)
+		root->pipe.pid = fork();
+		if (root->pipe.pid == -1)
 			pipe_err(root, line);
-		else if (root->pipe->pid != 0)
+		else if (root->pipe.pid != 0)
 		{
-			close(root->pipe->fd[1]);
+			close(root->pipe.fd[1]);
 			head = head->next;
 		}
 		else
@@ -56,47 +56,27 @@ pid_t	pipe_init(t_root *root, char *line, t_fd_info *fd_info)
 
 void	pipe_init_helper(t_lexer *head, t_root *root)
 {
-	if (root->pipe->fd_last[0] != -1)
-		close(root->pipe->fd_last[0]);
-	if (root->pipe->count >= 2)
-		root->pipe->fd_last[0] = root->pipe->fd[0];
+	if (root->pipe.fd_last[0] != -1)
+		close(root->pipe.fd_last[0]);
+	if (root->pipe.count >= 2)
+		root->pipe.fd_last[0] = root->pipe.fd[0];
 	if (head->next == NULL)
 	{
-		root->pipe->total_count = root->pipe->count;
-		root->pipe->count = 0;
+		root->pipe.total_count = root->pipe.count;
+		root->pipe.count = 0;
 	}
 	else
-		pipe(root->pipe->fd);
+		pipe(root->pipe.fd);
 }
 
 pid_t	pipe_init_helper_2(t_root *root, t_lexer *head, t_fd_info *fd_info)
 {
-	if (root->pipe->pid != 0)
+	if (root->pipe.pid != 0)
 	{
-		close(root->pipe->fd_last[0]);
-		return (root->pipe->total_count);
+		close(root->pipe.fd_last[0]);
+		return (root->pipe.total_count);
 	}
-	cp_function(root->pipe->count, root->pipe->fd, root->pipe->fd_last);
+	cp_function(root->pipe.count, root->pipe.fd, root->pipe.fd_last);
 	execute_cmd(root, head, root->envp, fd_info);
-	return (root->pipe->pid);
-}
-
-void	cp_function(int count, int fd[2], int prev_fd[2])
-{
-	if (count == 1)
-	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-	}
-	else if (count == 0)
-		dup2(prev_fd[0], STDIN_FILENO);
-	else
-	{
-		close(fd[0]);
-		dup2(prev_fd[0], STDIN_FILENO);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-		close(prev_fd[0]);
-	}
+	return (root->pipe.pid);
 }

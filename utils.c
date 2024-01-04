@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/04 11:36:45 by jteoh             #+#    #+#             */
+/*   Updated: 2024/01/04 12:29:24 by jteoh            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ms.h"
 
-int get_arraysize(char **array)
+int	get_arraysize(char **array)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (array[i])
@@ -25,19 +37,6 @@ char	**arr_dup_n(char **arr, int start, int end)
 	}
 	ret[i] = NULL;
 	return (ret);
-}
-
-int		is_token_str(char *str, int pos)
-{
-	if (str[pos] == '<' || str[pos] == '>')
-	{
-		if (str[pos + 1] == '<' || str[pos + 1] == '>')
-			return (2);
-		return (1);
-	}
-	else if (str[pos] == '|')
-		return (1);
-	return (0);
 }
 
 char	*ft_strjoin_free(char *s1, char *s2)
@@ -64,21 +63,4 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	s3[i] = '\0';
 	free(s1);
 	return (s3);
-}
-
-char	*str_dup_n(char *str, int start, int end)
-{
-	char	*ret;
-	int		i;
-
-	i = 0;
-	ret = malloc (sizeof(char) * (end - start + 2));
-	while((start < end) && str[i])
-	{
-		ret[i] = str[start];
-		i++;
-		start++;
-	}
-	ret[i] = 0;
-	return (ret);
 }

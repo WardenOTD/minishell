@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/03 11:42:52 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 12:40:17 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ void	call(t_root *root, t_lexer *input, char **envp)
 			if (root->has_pipe == 1)
 				exit(127);
 			else
+			{
+				g_status_code = 127;
 				return ;
+			}
 		}
 		else if (err_num == -2)
 			printf("Command '' not found\n");
@@ -63,5 +66,6 @@ int	call_builtins(t_root *root, t_lexer *input, char **envp)
 		unset(input, root->env);
 	else
 		return (0);
+	g_status_code = 0;
 	return (1);
 }

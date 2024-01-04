@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 09:43:16 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 12:25:53 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,56 +14,66 @@
 
 int		g_status_code;
 
-void	handle(char *line, t_env *env)
-{
-	printf("exit\n");
-	env = free_env(env);
-	free(line);
-	exit (0);
-}
-
 void	free2d(char **line)
 {
 	int	i;
 
 	i = -1;
-	// for (int i = 0; line[i]; i++)
-	// 	dprintf(1, "%s\n", line[i]);
 	while (line[++i])
 		free(line[i]);
 	free(line);
 }
 
-void	ctrlc(int sig)
+void	main_helper_1(char *line, t_root *root, t_fd_info *fd_info)
 {
-	signal(sig, SIG_IGN);
-	rl_replace_line("", 0);
-	write(0, "\n", 1);
-	rl_on_new_line();
-	rl_redisplay();
-	signal(SIGINT, ctrlc);
+	if (line == NULL || !ft_strncmp(line, "exit", 5))
+		handle(line, root->env, fd_info);
+	if (ft_strlen(line))
+		add_history(line);
+	if (find_unclosed_quote(line))
+		printf("Unclosed quote detected\n");
+	else if (ft_strlen(line))
+		main_helper_2(root, fd_info, line);
 }
 
-// void	init(t_data *data)
-// {
-// 	data->env = NULL;
-// 	data->input = NULL;
-// 	data->exp = NULL;
-// 	data->in_fd = dup(STDIN_FILENO);
-// 	data->out_fd = dup(STDOUT_FILENO);
-// }
-
-void	init(t_root *root, t_fd_info *fd_info, char **envp)
+void	main_helper_2(t_root *root, t_fd_info *fd_info, char *line)
 {
-	(root->env) = NULL;
-	(root->input) = NULL;
-	(root->exp) = NULL;
-	root->envp = envp;
-	fd_info->in_fd = 0;
-	fd_info->out_fd = 1;
-	fd_info->saved_in_fd = dup(STDIN_FILENO);
-	fd_info->saved_out_fd = dup(STDOUT_FILENO);
-	tcgetattr(STDOUT_FILENO, &fd_info->term_attr);
+	pid_t	pid;
+
+	root->exp = get_exp(root->exp, root->env);
+	if (lexer(root, line) == 1)
+	{
+		root->has_pipe = 1;
+		pid = pipe_init(root, line, fd_info);
+		if (pid == 0)
+			exit (0);
+		else
+			main_helper_3(pid);
+	}
+	else
+		execute_cmd(root, root->input, root->envp, fd_info);
+	root->input = freelexer(root->input);
+	root->exp = free_exp(root->exp);
+}
+
+void	main_helper_3(pid_t pid)
+{
+	int	err;
+
+	err = 0;
+	while (pid)
+	{
+		signal(SIGINT, SIG_IGN);
+		waitpid(-1, &err, 0);
+		pid--;
+	}
+	if (WIFSIGNALED(err))
+	{
+		write(0, "\n", 1);
+		g_status_code = (WTERMSIG(err) + 128);
+	}
+	else
+		g_status_code = WEXITSTATUS(err);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -71,70 +81,18 @@ int	main(int argc, char **argv, char **envp)
 	t_root		root;
 	t_fd_info	fd_info;
 	char		*line;
-	pid_t		pid;
-	int			err;
 
 	g_status_code = 0;
-	signal(SIGINT, ctrlc);
-	signal(SIGQUIT, SIG_IGN);
 	(void)argc;
 	(void)argv;
-	init(&root, &fd_info, envp);
-	root.env = get_env(root.env, envp);
-	err = 0;
+	init_2(&root, &fd_info, envp);
 	while (1)
 	{
 		root.has_pipe = 0;
 		line = readline("Minishell$ ");
-		if (line == NULL || !ft_strncmp(line, "exit", 5))
-			handle(line, root.env);
-		if (ft_strlen(line))
-			add_history(line);
-		if (find_unclosed_quote(line))
-			printf("Unclosed quote detected\n");
-		else if (ft_strlen(line))
-		{
-			root.exp = get_exp(root.exp, root.env);
-			// if (WIFSIGNALED(status)){
-				// printf("signal");
-				// root.input = lexer(root.input, line, root.env, (const int)WTERMSIG(status));
-			// }
-			// else
-			if (lexer(&root, line) == 1)
-			{
-				root.has_pipe = 1;
-				pid = pipe_init(&root, line, &fd_info);
-				if (pid == 0)
-				{
-					// execute_cmd(&root, envp, &fd_info);
-					exit (0);
-				}
-				// call(input, env, exp, envp);
-				else
-				{
-					while (pid)
-					{
-						signal(SIGINT, SIG_IGN);
-						waitpid(-1, &err, 0);
-						pid--;
-					}
-					if (WIFSIGNALED(err))
-					{
-						write(0, "\n", 1);
-						g_status_code = (WTERMSIG(err) + 128);
-					}
-					else
-						g_status_code = WEXITSTATUS(err);
-				}
-			}
-			else
-				execute_cmd(&root, root.input, envp, &fd_info);
-			root.input = freelexer(root.input);
-			root.exp = free_exp(root.exp);
-		}
+		main_helper_1(line, &root, &fd_info);
 		signal(SIGINT, ctrlc);
 		free(line);
-		// if (pid == 0)
-		// 	exit(0);
 	}
+	return (0);
 }
