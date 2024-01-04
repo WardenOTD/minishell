@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_init2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:26:41 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 12:26:46 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 13:59:39 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,23 @@ void	cp_function(int count, int fd[2], int prev_fd[2])
 		close(fd[1]);
 		close(prev_fd[0]);
 	}
+}
+
+int		invalid_pipe(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ')
+		{
+			if (str[i] != '|' && str[i] != '\'' && str[i] != '\"')
+				break ;
+			else if (str[i] == '|')
+				return (1);
+		}
+		i++;
+	}
+	return (0);
 }

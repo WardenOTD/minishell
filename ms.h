@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 12:32:32 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 13:43:18 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ int			do_redirections(char *token_type, char **args, int token_pos, t_fd_info *f
 int			find_next_redir(char **args, int prev_i);
 char		*identify_token(char *str);
 
+int			check_first_arg(char **args);
 char		**renew_arg_rm_redir(char **args);
 
 int			redir_output(char *filename, int out_fd);
@@ -211,5 +212,6 @@ void		pipe_init_helper(t_lexer *head, t_root *root);
 pid_t		pipe_init_helper_2(t_root *root, t_lexer *head, t_fd_info *fd_info);
 void		pipe_err(t_root *root, char *line);
 void		cp_function(int count, int fd[2], int nig[2]);
+int			invalid_pipe(char *str);
 
 #endif

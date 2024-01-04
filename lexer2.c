@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:16:08 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 12:24:02 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 14:00:47 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,16 @@ char	*get_str_token(char *str, int *pos)
 	i = *pos;
 	ret = NULL;
 	if (str[i] == '|')
-		ret = strdup("|");
+		ret = ft_strdup("|");
 	else if (str[i] == '<' && str[i + 1] == '<')
-		ret = strdup("<<");
+		ret = ft_strdup("<<");
 	else if (str[i] == '<' && str[i + 1] != '<')
-		ret = strdup("<");
+		ret = ft_strdup("<");
 	else if (str[i] == '>' && str[i + 1] == '>')
-		ret = strdup(">>");
+		ret = ft_strdup(">>");
 	else if (str[i] == '>' && str[i + 1] != '>')
-		ret = strdup(">");
-	*pos += strlen(ret);
+		ret = ft_strdup(">");
+	*pos += ft_strlen(ret);
 	return (ret);
 }
 
