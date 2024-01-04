@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:04:19 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/22 15:21:46 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/04 10:00:05 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,63 +21,64 @@ void	pipe_err(t_root *root, char *line)
 	exit(2);
 }
 
-pid_t	pipe_init(t_root *root, char *line, char **envp, t_fd_info *fd_info)
+void	pipe_var_init(t_root *root)
 {
-	int		fd[2];
-	pid_t	pid;
-	int		fd_last[2];
-	t_lexer	*head;
-	int		count;
-	int		total_count;
+	root->pipe->pid = 1;
+	root->pipe->fd_last[0] = -1;
+	root->pipe->fd_last[1] = -1;
+	root->pipe->count = 0;
+	root->pipe->total_count = 0;
+}
 
-	pid = 1;
-	fd_last[0] = -1;
-	fd_last[1] = -1;
+pid_t	pipe_init(t_root *root, char *line, t_fd_info *fd_info)
+{
+	t_lexer	*head;
+
+	pipe_var_init(root);
 	head = root->input;
-	count = 0;
 	while (head != NULL)
 	{
-		count++;
-
-		if (fd_last[0] != -1)
-			close(fd_last[0]);
-
-		if (count >= 2)
-		{
-			fd_last[0] = fd[0];
-		}
-		if (head->next == NULL)
-		{
-			total_count = count;
-			count = 0;
-		}
-		else
-		{
-			pipe(fd);
-		}
-		pid = fork();
-		if (pid == -1)
-		{
+		root->pipe->count++;
+		pipe_init_helper(head, root);
+		root->pipe->pid = fork();
+		if (root->pipe->pid == -1)
 			pipe_err(root, line);
-		}
-		else if (pid != 0)
+		else if (root->pipe->pid != 0)
 		{
-			close(fd[1]);
+			close(root->pipe->fd[1]);
 			head = head->next;
 		}
 		else
-		{
-			break;
-		}
+			break ;
 	}
-	if (pid != 0)
+	return (pipe_init_helper_2(root, head, fd_info));
+}
+
+void	pipe_init_helper(t_lexer *head, t_root *root)
+{
+	if (root->pipe->fd_last[0] != -1)
+		close(root->pipe->fd_last[0]);
+	if (root->pipe->count >= 2)
+		root->pipe->fd_last[0] = root->pipe->fd[0];
+	if (head->next == NULL)
 	{
-		close(fd_last[0]);
-		return (total_count);
+		root->pipe->total_count = root->pipe->count;
+		root->pipe->count = 0;
 	}
-	cp_function(count, fd, fd_last);
-	execute_cmd(root, head, envp, fd_info);
-	return (pid);
+	else
+		pipe(root->pipe->fd);
+}
+
+pid_t	pipe_init_helper_2(t_root *root, t_lexer *head, t_fd_info *fd_info)
+{
+	if (root->pipe->pid != 0)
+	{
+		close(root->pipe->fd_last[0]);
+		return (root->pipe->total_count);
+	}
+	cp_function(root->pipe->count, root->pipe->fd, root->pipe->fd_last);
+	execute_cmd(root, head, root->envp, fd_info);
+	return (root->pipe->pid);
 }
 
 void	cp_function(int count, int fd[2], int prev_fd[2])
@@ -89,9 +90,7 @@ void	cp_function(int count, int fd[2], int prev_fd[2])
 		close(fd[1]);
 	}
 	else if (count == 0)
-	{
 		dup2(prev_fd[0], STDIN_FILENO);
-	}
 	else
 	{
 		close(fd[0]);

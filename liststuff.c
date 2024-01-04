@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 15:31:18 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/03 17:22:33 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 09:22:37 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,14 @@ t_exp	*explstnew(char *k, char *v)
 	if (!head->export)
 		return (0);
 	head->export[j] = 0;
-	return (explstnew_helper(head, k, v));
+	return (explstnew_helper(head, k, v, -1));
 }
 
-t_exp	*explstnew_helper(t_exp *head, char *k, char *v)
+t_exp	*explstnew_helper(t_exp *head, char *k, char *v, int j)
 {
 	int	i;
-	int	j;
 
 	i = -1;
-	j = -1;
 	if (v)
 	{
 		while (k[++i])

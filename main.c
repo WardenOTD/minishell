@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/03 10:51:56 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 09:43:16 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	main(int argc, char **argv, char **envp)
 			if (lexer(&root, line) == 1)
 			{
 				root.has_pipe = 1;
-				pid = pipe_init(&root, line, envp, &fd_info);
+				pid = pipe_init(&root, line, &fd_info);
 				if (pid == 0)
 				{
 					// execute_cmd(&root, envp, &fd_info);

@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/03 17:22:58 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 10:00:18 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,15 @@ typedef struct s_fd_info{
 
 }				t_fd_info;
 
+typedef struct s_pipe{
+	int		fd[2];
+	pid_t	pid;
+	int		fd_last[2];
+	int		count;
+	int		total_count;
+}				t_pipe;
+
+
 typedef struct s_root{
 	t_lexer	*input;
 	t_env	*env;
@@ -64,6 +73,7 @@ typedef struct s_root{
 	char	**envp;
 	char	**env_paths;
 	int		has_pipe;
+	t_pipe	*pipe;
 }				t_root;
 
 // typedef struct s_data{
@@ -84,7 +94,7 @@ void		ctrlc(int sig);
 t_lexer		*lexerlstnew(char **arr);
 t_env		*envlstnew(char *k, char *v);
 t_exp		*explstnew(char *k, char *v);
-t_exp		*explstnew_helper(t_exp *head, char *k, char *v);
+t_exp		*explstnew_helper(t_exp *head, char *k, char *v, int j);
 t_exp		*explstnew_helper_helper(t_exp *head, int i);
 
 //--env.c--
@@ -198,7 +208,10 @@ int			redir_heredoc(char *delimiter, int in_fd);
 int			redir_heredoc_helper(char *delimiter, int *pipe_fd);
 
 //--pipe_init.c--
-pid_t		pipe_init(t_root *root, char *line, char **envp, t_fd_info *fd_info);
+void		pipe_var_init(t_root *root);
+pid_t		pipe_init(t_root *root, char *line, t_fd_info *fd_info);
+void		pipe_init_helper(t_lexer *head, t_root *root);
+pid_t		pipe_init_helper_2(t_root *root, t_lexer *head, t_fd_info *fd_info);
 void		pipe_err(t_root *root, char *line);
 void		cp_function(int count, int fd[2], int nig[2]);
 
