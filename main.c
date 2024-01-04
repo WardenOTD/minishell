@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/26 12:52:02 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/04 09:57:50 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	init(t_root *root, t_fd_info *fd_info)
 	fd_info->saved_in_fd = dup(STDIN_FILENO);
 	fd_info->saved_out_fd = dup(STDOUT_FILENO);
 
-	tcgetattr(STDOUT_FILENO, &fd_info->term_attr);
+	tcgetattr(STDIN_FILENO, &fd_info->saved_attr);
+	
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -80,6 +81,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	init(&root, &fd_info);
+
+	tcgetattr(STDIN_FILENO, &fd_info.new_attr);
+	fd_info.new_attr.c_lflag &= ~ECHO;
+	tcsetattr(STDIN_FILENO, TCSANOW, &fd_info.new_attr);
+
 	root.env = get_env(root.env, envp);
 	err = 0;
 	while (1)
@@ -90,6 +96,8 @@ int	main(int argc, char **argv, char **envp)
 			handle(line, root.env);
 		if (ft_strlen(line))
 			add_history(line);
+		tcsetattr(STDIN_FILENO, TCSAFLUSH, &fd_info.saved_attr);
+		
 		if (find_unclosed_quote(line))
 			printf("Unclosed quote detected\n");
 		else if (ft_strlen(line))
@@ -134,7 +142,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		signal(SIGINT, ctrlc);
 		free(line);
-		// if (pid == 0)
-		// 	exit(0);
+
 	}
+	tcsetattr(STDIN_FILENO, TCSANOW, &fd_info.saved_attr);
 }

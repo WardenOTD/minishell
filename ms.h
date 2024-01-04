@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2023/12/28 18:10:55 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/04 09:30:30 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ typedef struct s_fd_info{
 	int				saved_in_fd;
 	int				saved_out_fd;
 
-	struct termios	term_attr;
+	struct termios	saved_attr;
+	struct termios	new_attr;
 
 }				t_fd_info;
 
