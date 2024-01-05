@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 18:05:40 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/05 18:56:10 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void		free_node(t_env *node);
 int			lexer(t_root *root, char *line);
 void		lexer_helper(t_root *root, char *line);
 t_lexer		*freelexer(t_lexer *input);
+int			find_unclosed_quote(char *str);
 
 //--lexer2.c--
 char		*create_str(char *str, int i, int j, int size);
@@ -153,13 +154,17 @@ char		*get_str_inquote(char *str, int info, int *pos);
 char		*get_str_outquote(char *str, int *pos);
 char		*get_str_token(char *str, int *pos);
 char		**splitter(char *str);
-int			find_unclosed_quote(char *str);
 
 //--lexer3.c--
 char		***arr_arr_split(char **arr);
 int			is_token(char c);
 int			get_new_len(char *str);
+int			get_new_len_helper(int *type, int *in_quote, char *str, int *i);
 char		*remove_quote_helper(char *str);
+
+//--lexer4.c--
+char		*remove_quote_helper_2(int type, int in_quote,
+				char *str, char *ret);
 char		**remove_quotes(char **arr);
 
 //--expansion.c--

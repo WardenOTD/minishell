@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:16:08 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 17:21:08 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/05 18:13:36 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*create_str(char *str, int i, int j, int size)
 	k = 0;
 	ret = malloc (sizeof(char) * size);
 	while (j < i)
-			ret[k++] = str[j++];
+		ret[k++] = str[j++];
 	ret[k] = 0;
 	return (ret);
 }
@@ -39,8 +39,10 @@ char	*get_str_inquote(char *str, int info, int *pos)
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 			in_quote++;
-		if ((is_token(str[i]) && in_quote % 2 == 0) || (str[i] == ' ' && in_quote % 2 == 0)
-				|| (str[i] == info && in_quote % 2 == 1 && (!str[i + 1] || str[i] == ' ')))
+		if ((is_token(str[i]) && in_quote % 2 == 0)
+			|| (str[i] == ' ' && in_quote % 2 == 0)
+			|| (str[i] == info && in_quote % 2 == 1
+				&& (!str[i + 1] || str[i] == ' ')))
 			break ;
 		i++;
 	}
@@ -63,7 +65,8 @@ char	*get_str_outquote(char *str, int *pos)
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 			in_quote++;
-		if ((is_token(str[i]) && in_quote % 2 == 0) || (str[i] == ' ' && in_quote % 2 == 0))
+		if ((is_token(str[i]) && in_quote % 2 == 0)
+			|| (str[i] == ' ' && in_quote % 2 == 0))
 			break ;
 		i++;
 	}
@@ -119,28 +122,4 @@ char	**splitter(char *str)
 	}
 	ret[j] = 0;
 	return (ret);
-}
-
-int	find_unclosed_quote(char *str)
-{
-	int		i;
-	int		pendulum;
-	char	type;
-
-	i = 0;
-	type = 0;
-	pendulum = 0;
-	while (str[i])
-	{
-		if ((str[i] == '\"' || str[i] == '\'') && pendulum == 0)
-		{
-			type = str[i];
-			pendulum = 1;
-		}
-		else if ((str[i] == '\"' || str[i] == '\'') && pendulum > 0)
-			if (str[i] == type)
-				pendulum = 0;
-		i++;
-	}
-	return (pendulum);
 }

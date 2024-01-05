@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_helper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:07:20 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 17:08:51 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/05 18:51:42 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	expand_flags_set(char arg, int *flag, int *dflag)
 	}
 	else if (arg == '\"')
 	{
-		if (*dflag == 0)
+		if (*dflag == 0 && *flag == 0)
 			*dflag = 1;
 		else
 			*dflag = 0;

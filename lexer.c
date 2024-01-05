@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 17:56:38 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/05 18:13:39 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,28 @@ t_lexer	*freelexer(t_lexer *input)
 	free(head);
 	input = NULL;
 	return (input);
+}
+
+int	find_unclosed_quote(char *str)
+{
+	int		i;
+	int		pendulum;
+	char	type;
+
+	i = 0;
+	type = 0;
+	pendulum = 0;
+	while (str[i])
+	{
+		if ((str[i] == '\"' || str[i] == '\'') && pendulum == 0)
+		{
+			type = str[i];
+			pendulum = 1;
+		}
+		else if ((str[i] == '\"' || str[i] == '\'') && pendulum > 0)
+			if (str[i] == type)
+				pendulum = 0;
+		i++;
+	}
+	return (pendulum);
 }
