@@ -6,30 +6,39 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:16:08 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 14:28:29 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/05 14:52:57 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-int		is_token(char c)
+char	*create_str(char *str, int i, int j, int size)
 {
-	if (c == '|' || c == '>' || c == '<')
-		return (1);
-	return (0);
+	int		k;
+	char	*ret;
+
+	k = 0;
+	ret = malloc (sizeof(char) * size);
+	while (j < i)
+	{
+		if (str[j] == '\'' || str[j] == '\"')
+			j++;
+		else
+			ret[k++] = str[j++];
+	}
+	ret[k] = 0;
+	return (ret);
 }
 
 char	*get_str_inquote(char *str, int info, int *pos)
 {
 	int		i;
 	int		j;
-	int		k;
 	char	*ret;
 	int		in_quote;
 
 	i = *pos;
 	j = i;
-	k = 0;
 	in_quote = 1;
 	while (str[i])
 	{
@@ -40,15 +49,7 @@ char	*get_str_inquote(char *str, int info, int *pos)
 			break ;
 		i++;
 	}
-	ret = malloc (sizeof(char) * (i - *pos + 1 - in_quote + 1));
-	while (j < i)
-	{
-		if (str[j] == '\'' || str[j] == '\"')
-			j++;
-		else
-			ret[k++] = str[j++];
-	}
-	ret[k] = 0;
+	ret = create_str(str, i, j, (i - *pos + 1 - in_quote + 1));
 	*pos = i;
 	return (ret);
 }
@@ -57,13 +58,11 @@ char	*get_str_outquote(char *str, int *pos)
 {
 	int		i;
 	int		j;
-	int		k;
 	char	*ret;
 	int		in_quote;
 
 	i = *pos;
 	j = i;
-	k = 0;
 	in_quote = 0;
 	while (str[i])
 	{
@@ -73,15 +72,7 @@ char	*get_str_outquote(char *str, int *pos)
 			break ;
 		i++;
 	}
-	ret = malloc (sizeof(char) * (i - *pos + 1 - in_quote));
-	while (j < i)
-	{
-		if (str[j] == '\'' || str[j] == '\"')
-			j++;
-		else
-			ret[k++] = str[j++];
-	}
-	ret[k] = 0;
+	ret = create_str(str, i, j, (i - *pos + 1 - in_quote));
 	*pos = i;
 	return (ret);
 }
