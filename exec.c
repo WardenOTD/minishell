@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:06:25 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 15:59:32 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/06 00:35:41 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	exec_bin(t_root *root, t_lexer *input)
 		return (-1);
 	while (root->env_paths[i] != NULL)
 	{
-		arg[0] = append_path(root->env_paths[i], arg[0]);
+		if (ft_strncmp(arg[0] , "./", 2))
+			arg[0] = append_path(root->env_paths[i], arg[0]);
 		path = arg[0];
 		signal(SIGINT, SIG_DFL);
 		if (!(access(arg[0], X_OK)))
