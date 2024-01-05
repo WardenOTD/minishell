@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:16:08 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 14:52:57 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/05 17:21:08 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,7 @@ char	*create_str(char *str, int i, int j, int size)
 	k = 0;
 	ret = malloc (sizeof(char) * size);
 	while (j < i)
-	{
-		if (str[j] == '\'' || str[j] == '\"')
-			j++;
-		else
 			ret[k++] = str[j++];
-	}
 	ret[k] = 0;
 	return (ret);
 }
@@ -37,7 +32,7 @@ char	*get_str_inquote(char *str, int info, int *pos)
 	char	*ret;
 	int		in_quote;
 
-	i = *pos;
+	i = *pos + 1;
 	j = i;
 	in_quote = 1;
 	while (str[i])
@@ -45,11 +40,11 @@ char	*get_str_inquote(char *str, int info, int *pos)
 		if (str[i] == '\'' || str[i] == '\"')
 			in_quote++;
 		if ((is_token(str[i]) && in_quote % 2 == 0) || (str[i] == ' ' && in_quote % 2 == 0)
-				|| (str[i] == info && in_quote == 1 && (!str[i + 1] || str[i] == ' ')))
+				|| (str[i] == info && in_quote % 2 == 1 && (!str[i + 1] || str[i] == ' ')))
 			break ;
 		i++;
 	}
-	ret = create_str(str, i, j, (i - *pos + 1 - in_quote + 1));
+	ret = create_str(str, i, j - 1, (i - *pos + 1 + in_quote + 1));
 	*pos = i;
 	return (ret);
 }
@@ -72,7 +67,7 @@ char	*get_str_outquote(char *str, int *pos)
 			break ;
 		i++;
 	}
-	ret = create_str(str, i, j, (i - *pos + 1 - in_quote));
+	ret = create_str(str, i, j, (i - *pos + 1 + in_quote));
 	*pos = i;
 	return (ret);
 }
@@ -115,8 +110,7 @@ char	**splitter(char *str)
 			ret[j++] = get_str_outquote(str, &i);
 		else if (str[i] == '\"' || str[i] == '\'')
 		{
-			i++;
-			ret[j++] = get_str_inquote(str, str[i - 1], &i);
+			ret[j++] = get_str_inquote(str, str[i], &i);
 			if (str[i] == '\"' || str[i] == '\'')
 				i++;
 		}

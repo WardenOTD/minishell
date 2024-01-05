@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 15:17:12 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/05 18:03:00 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ extern int	g_status_code;
 typedef struct s_lexer
 {
 	char			**arg;
+	int				*tok_info;
 	struct s_lexer	*next;
 }				t_lexer;
 
@@ -154,6 +155,9 @@ int			find_unclosed_quote(char *str);
 //--lexer3.c--
 char		***arr_arr_split(char **arr);
 int			is_token(char c);
+int			get_new_len(char *str);
+char		*remove_quote_helper(char *str);
+char		**remove_quotes(char **arr);
 
 //--expansion.c--
 t_lexer		*expand(t_lexer *input, t_env *env);
