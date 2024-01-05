@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 16:12:24 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/05 14:29:45 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void		lexer_helper(t_root *root, char *line);
 t_lexer		*freelexer(t_lexer *input);
 
 //--lexer2.c--
+int			is_token(char c)
 char		*get_str_inquote(char *str, int info, int *pos);
 char		*get_str_outquote(char *str, int *pos);
 char		*get_str_token(char *str, int *pos);

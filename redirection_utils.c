@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:27:29 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 13:43:28 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/05 14:08:21 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	check_first_arg(char **args)
 {
+	if (!args[0])
+		return (0);
 	if (!ft_strncmp(args[0], ">", 1) || !ft_strncmp(args[0], "<", 1))
 	{
 		free2d(args);
@@ -38,7 +40,6 @@ char	**renew_arg_rm_redir(char **args)
 	while (i < max_len)
 	{
 		new[i] = ft_strdup(args[i]);
-		printf("see: %s\n", new[i]);
 		i++;
 	}
 	new[i] = NULL;

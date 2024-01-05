@@ -6,11 +6,18 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:16:08 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 14:00:47 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/05 14:28:29 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
+
+int		is_token(char c)
+{
+	if (c == '|' || c == '>' || c == '<')
+		return (1);
+	return (0);
+}
 
 char	*get_str_inquote(char *str, int info, int *pos)
 {
@@ -18,21 +25,31 @@ char	*get_str_inquote(char *str, int info, int *pos)
 	int		j;
 	int		k;
 	char	*ret;
+	int		in_quote;
 
 	i = *pos;
 	j = i;
 	k = 0;
-	while (str[i] && str[i] != info)
+	in_quote = 1;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			in_quote++;
+		if ((is_token(str[i]) && in_quote % 2 == 0) || (str[i] == ' ' && in_quote % 2 == 0)
+				|| (str[i] == info && in_quote == 1 && (!str[i + 1] || str[i] == ' ')))
+			break ;
 		i++;
-	ret = malloc (sizeof(char) * (i - *pos + 1));
+	}
+	ret = malloc (sizeof(char) * (i - *pos + 1 - in_quote + 1));
 	while (j < i)
 	{
-		ret[k] = str[j];
-		k++;
-		j++;
+		if (str[j] == '\'' || str[j] == '\"')
+			j++;
+		else
+			ret[k++] = str[j++];
 	}
 	ret[k] = 0;
-	*pos = i + 1;
+	*pos = i;
 	return (ret);
 }
 
@@ -42,19 +59,27 @@ char	*get_str_outquote(char *str, int *pos)
 	int		j;
 	int		k;
 	char	*ret;
+	int		in_quote;
 
 	i = *pos;
 	j = i;
 	k = 0;
-	while (str[i] && str[i] != ' ' && str[i] != '|'
-		&& str[i] != '<' && str[i] != '>')
+	in_quote = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			in_quote++;
+		if ((is_token(str[i]) && in_quote % 2 == 0) || (str[i] == ' ' && in_quote % 2 == 0))
+			break ;
 		i++;
-	ret = malloc (sizeof(char) * (i - *pos + 1));
+	}
+	ret = malloc (sizeof(char) * (i - *pos + 1 - in_quote));
 	while (j < i)
 	{
-		ret[k] = str[j];
-		k++;
-		j++;
+		if (str[j] == '\'' || str[j] == '\"')
+			j++;
+		else
+			ret[k++] = str[j++];
 	}
 	ret[k] = 0;
 	*pos = i;
@@ -101,6 +126,8 @@ char	**splitter(char *str)
 		{
 			i++;
 			ret[j++] = get_str_inquote(str, str[i - 1], &i);
+			if (str[i] == '\"' || str[i] == '\'')
+				i++;
 		}
 		else
 			i++;
