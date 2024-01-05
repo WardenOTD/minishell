@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:24:08 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 12:24:20 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/05 14:52:51 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,11 @@ char	***arr_arr_split(char **arr)
 	pp_i++;
 	ret[pp_i] = 0;
 	return (ret);
+}
+
+int		is_token(char c)
+{
+	if (c == '|' || c == '>' || c == '<')
+		return (1);
+	return (0);
 }

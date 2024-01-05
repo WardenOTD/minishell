@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 15:01:49 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/05 15:16:59 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	call(t_root *root, t_lexer *input, char **envp)
 {
 	int	err_num;
 
-	if (input == NULL || input->arg == NULL)
+	if (input == NULL || input->arg == NULL || !input->arg[0])
 		return ;
 	if (call_builtins(root, input, envp) == 0)
 	{

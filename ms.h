@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 15:14:08 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/05 15:17:12 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ void		lexer_helper(t_root *root, char *line);
 t_lexer		*freelexer(t_lexer *input);
 
 //--lexer2.c--
+char		*create_str(char *str, int i, int j, int size);
 char		*get_str_inquote(char *str, int info, int *pos);
 char		*get_str_outquote(char *str, int *pos);
 char		*get_str_token(char *str, int *pos);
@@ -152,6 +153,7 @@ int			find_unclosed_quote(char *str);
 
 //--lexer3.c--
 char		***arr_arr_split(char **arr);
+int			is_token(char c);
 
 //--expansion.c--
 t_lexer		*expand(t_lexer *input, t_env *env);

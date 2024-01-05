@@ -6,33 +6,51 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:16:08 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 14:00:47 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/05 14:52:57 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
+char	*create_str(char *str, int i, int j, int size)
+{
+	int		k;
+	char	*ret;
+
+	k = 0;
+	ret = malloc (sizeof(char) * size);
+	while (j < i)
+	{
+		if (str[j] == '\'' || str[j] == '\"')
+			j++;
+		else
+			ret[k++] = str[j++];
+	}
+	ret[k] = 0;
+	return (ret);
+}
+
 char	*get_str_inquote(char *str, int info, int *pos)
 {
 	int		i;
 	int		j;
-	int		k;
 	char	*ret;
+	int		in_quote;
 
 	i = *pos;
 	j = i;
-	k = 0;
-	while (str[i] && str[i] != info)
-		i++;
-	ret = malloc (sizeof(char) * (i - *pos + 1));
-	while (j < i)
+	in_quote = 1;
+	while (str[i])
 	{
-		ret[k] = str[j];
-		k++;
-		j++;
+		if (str[i] == '\'' || str[i] == '\"')
+			in_quote++;
+		if ((is_token(str[i]) && in_quote % 2 == 0) || (str[i] == ' ' && in_quote % 2 == 0)
+				|| (str[i] == info && in_quote == 1 && (!str[i + 1] || str[i] == ' ')))
+			break ;
+		i++;
 	}
-	ret[k] = 0;
-	*pos = i + 1;
+	ret = create_str(str, i, j, (i - *pos + 1 - in_quote + 1));
+	*pos = i;
 	return (ret);
 }
 
@@ -40,23 +58,21 @@ char	*get_str_outquote(char *str, int *pos)
 {
 	int		i;
 	int		j;
-	int		k;
 	char	*ret;
+	int		in_quote;
 
 	i = *pos;
 	j = i;
-	k = 0;
-	while (str[i] && str[i] != ' ' && str[i] != '|'
-		&& str[i] != '<' && str[i] != '>')
-		i++;
-	ret = malloc (sizeof(char) * (i - *pos + 1));
-	while (j < i)
+	in_quote = 0;
+	while (str[i])
 	{
-		ret[k] = str[j];
-		k++;
-		j++;
+		if (str[i] == '\'' || str[i] == '\"')
+			in_quote++;
+		if ((is_token(str[i]) && in_quote % 2 == 0) || (str[i] == ' ' && in_quote % 2 == 0))
+			break ;
+		i++;
 	}
-	ret[k] = 0;
+	ret = create_str(str, i, j, (i - *pos + 1 - in_quote));
 	*pos = i;
 	return (ret);
 }
@@ -101,6 +117,8 @@ char	**splitter(char *str)
 		{
 			i++;
 			ret[j++] = get_str_inquote(str, str[i - 1], &i);
+			if (str[i] == '\"' || str[i] == '\'')
+				i++;
 		}
 		else
 			i++;
