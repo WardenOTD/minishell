@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_helper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:07:20 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/03 15:05:37 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/05 17:08:51 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ char	*expand_helper_else_helper(char *arg, int count, int j)
 	int		i;
 
 	i = 0;
-	ex = (char *)malloc(sizeof(char) * (count + 1));
-	ex[count] = 0;
-	j -= count - 1;
+	ex = (char *)malloc(sizeof(char) * (count));
+	ex[--count] = 0;
+	j -= count;
 	while (i < count)
 		ex[i++] = arg[j++];
 	return (ex);
