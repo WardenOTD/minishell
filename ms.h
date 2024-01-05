@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 16:12:24 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/05 15:14:08 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_root
 	char	**env_paths;
 	int		has_pipe;
 	t_pipe	pipe;
+	char	*line;
 }				t_root;
 
 //--main.c--
@@ -93,6 +94,13 @@ void		init(t_root *root, t_fd_info *fd_info, char **envp);
 void		init_2(t_root *root, t_fd_info *fd_info, char **envp);
 void		ctrlc(int sig);
 void		handle_ctrlc(t_fd_info *fd_info);
+
+//--exit.c--
+int			exit_w_arg(t_root *root, char **arg);
+void		ghost_arg(char **arg, t_root *root);
+void		exit_w_arg_helper(int str, t_root *root, char **arg);
+int			is_str_num(char *arg);
+void		free4(t_root *root);
 
 //--liststuff.c--
 t_lexer		*lexerlstnew(char **arr);

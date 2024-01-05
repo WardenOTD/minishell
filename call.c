@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   call.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 13:18:55 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/05 15:01:49 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ void	call(t_root *root, t_lexer *input, char **envp)
 
 int	call_builtins(t_root *root, t_lexer *input, char **envp)
 {
-	if (!ft_strncmp(input->arg[0], "echo", 5))
+	if (!ft_strncmp(input->arg[0], "exit", 5))
+		return (exit_w_arg(root, input->arg));
+	else if (!ft_strncmp(input->arg[0], "echo", 5))
 		echo(input);
 	else if (!ft_strncmp(input->arg[0], "env", 4))
 		display_env(root->env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 13:41:50 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/05 14:44:38 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,16 @@ void	main_helper_3(pid_t pid)
 	if (WIFSIGNALED(err))
 	{
 		write(0, "\n", 1);
-		g_status_code = (WTERMSIG(err) + 128);
+		g_status_code = ((WTERMSIG(err) + 128) % 256);
 	}
 	else
-		g_status_code = WEXITSTATUS(err);
+		g_status_code = (WEXITSTATUS(err) % 256);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_root		root;
 	t_fd_info	fd_info;
-	char		*line;
 
 	g_status_code = 0;
 	(void)argc;
@@ -91,10 +90,10 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		root.has_pipe = 0;
-		line = readline("Minishell$ ");	
-		main_helper_1(line, &root, &fd_info);
+		root.line = readline("Minishell$ ");
+		main_helper_1(root.line, &root, &fd_info);
 		signal(SIGINT, ctrlc);
-		free(line);
+		free(root.line);
 	}
 	return (0);
 }
