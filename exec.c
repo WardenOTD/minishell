@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:06:25 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 15:40:20 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/05 15:59:32 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ int	exec_bin(t_root *root, t_lexer *input)
 	arg = turn_arr_into_str(input->arg);
 	i = 0;
 	root->env_paths = get_env_paths(root->env);
+	if (root->env_paths == NULL)
+		return (-1);
 	while (root->env_paths[i] != NULL)
 	{
 		arg[0] = append_path(root->env_paths[i], arg[0]);
 		path = arg[0];
-		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
 		if (!(access(arg[0], X_OK)))
 			return (exec_bin_helper(root, path, pidchild, arg));
@@ -108,8 +109,14 @@ char	**get_env_paths(t_env *env)
 	t_env	*head;
 
 	head = env;
-	while (ft_strncmp(head->key, "PATH", 5))
+	while (head)
+	{
+		if (!ft_strncmp(head->key, "PATH", 5))
+			break ;
 		head = head->next;
+		if (head == NULL)
+			return (NULL);
+	}
 	cmdpaths = ft_split(head->value, ':');
 	return (cmdpaths);
 }
