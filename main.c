@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 14:44:38 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/05 15:26:04 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ int	main(int argc, char **argv, char **envp)
 		root.has_pipe = 0;
 		root.line = readline("Minishell$ ");
 		main_helper_1(root.line, &root, &fd_info);
+		handle_ctrlc(&fd_info);
+		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, ctrlc);
 		free(root.line);
 	}

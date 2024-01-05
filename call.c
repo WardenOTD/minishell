@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:32:18 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 15:16:59 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/05 15:30:02 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	execute_cmd(t_root *root, t_lexer *input,
 	char **envp, t_fd_info *fd_info)
 {
+	signal(SIGQUIT, ctrlslash);
+	tcsetattr(STDIN_FILENO, TCSANOW, &fd_info->saved_attr);
 	if (handle_redirect(input->arg, fd_info) == -1)
 		return ;
 	input->arg = renew_arg_rm_redir(input->arg);

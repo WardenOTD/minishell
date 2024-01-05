@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 15:17:12 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/05 15:29:25 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,9 @@ void		ghost_arg(char **arg, t_root *root);
 void		exit_w_arg_helper(int str, t_root *root, char **arg);
 int			is_str_num(char *arg);
 void		free4(t_root *root);
+
+//--sig_stuff.c--
+void		ctrlslash(int sig);
 
 //--liststuff.c--
 t_lexer		*lexerlstnew(char **arr);

@@ -1,5 +1,6 @@
 SRC			= main.c main2.c\
 				exit.c\
+				sig_stuff.c\
 				liststuff.c\
 				env.c env2.c\
 				export.c export2.c\

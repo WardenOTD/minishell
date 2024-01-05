@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:06:25 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 12:22:57 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/05 15:40:20 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	exec_bin(t_root *root, t_lexer *input)
 	{
 		arg[0] = append_path(root->env_paths[i], arg[0]);
 		path = arg[0];
+		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
 		if (!(access(arg[0], X_OK)))
 			return (exec_bin_helper(root, path, pidchild, arg));
@@ -51,6 +52,7 @@ int	exec_bin_helper(t_root *root, char *path, int pidchild, char **arg)
 		}
 		else
 		{
+			signal(SIGQUIT, ctrlslash);
 			signal(SIGINT, SIG_IGN);
 			return (exec_bin_parent(pidchild, arg, root->env_paths));
 		}
