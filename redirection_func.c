@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_func.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:25:11 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 12:46:08 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/07 17:31:43 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ int	redir_input(char *filename, int in_fd)
 
 	fd = open(filename, O_RDONLY, 0777);
 	if (fd == -1)
+	{
+		error_msg(filename, "No such file or directory");
 		return (-1);
+	}
 	dup2(fd, in_fd);
 	return (0);
 }

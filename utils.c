@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:36:45 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 12:29:24 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/07 17:31:28 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,15 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	s3[i] = '\0';
 	free(s1);
 	return (s3);
+}
+
+void	error_msg(char *wrongcmd, char *msg)
+{
+	if (wrongcmd)
+	{
+		write (STDERR_FILENO, wrongcmd, ft_strlen(wrongcmd));
+		write (STDERR_FILENO, ": ", 2);
+	}
+	write (STDERR_FILENO, msg, ft_strlen(msg));
+	write (STDERR_FILENO, "\n", 1);
 }

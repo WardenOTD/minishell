@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 18:56:10 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/07 17:32:03 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,5 +256,6 @@ int			ft_pwd(void);
 int			get_arraysize(char **array);
 char		**arr_dup_n(char **arr, int start, int end);
 char		*ft_strjoin_free(char *s1, char *s2);
+void		error_msg(char *wrongcmd, char *msg);
 
 #endif
