@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/07 17:32:03 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/08 13:38:13 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int			main(int argc, char **argv, char **envp);
 
 //--main2.c--
 void		handle(char *line, t_env *env, t_fd_info *fd_info);
-void		init(t_root *root, t_fd_info *fd_info, char **envp);
+void		init(t_root *root, t_fd_info *fd_info);
 void		init_2(t_root *root, t_fd_info *fd_info, char **envp);
 void		ctrlc(int sig);
 void		handle_ctrlc(t_fd_info *fd_info);
@@ -125,6 +125,12 @@ char		**env_split(char *arr);
 char		**env_split_helper(int i, char *arr, char **ret);
 int			env_is_valid(char *str, t_env *env);
 t_env		*free_env(t_env *env);
+t_env		*shlvl(t_env *env);
+
+//--env3.c
+void		env_darr(t_root *root);
+char		*env_arr(t_env *head);
+int			envlist_len(t_env *env);
 
 //--export.c--
 void		display_exp(t_exp *exp);
@@ -170,7 +176,9 @@ char		**remove_quotes(char **arr);
 //--expansion.c--
 t_lexer		*expand(t_lexer *input, t_env *env);
 char		*expand_helper_1(char *arg, t_env *env, int j);
-void		expand_helper_purge(int *j, int *dflag, int *flag);
+int			yes_expand(char c1, char c2);
+char		*get_to_replace(char *str, int pos);
+char		*replace_expand(char *str, char *to_r, t_env *env);
 
 //--expansion_helper.c--
 void		expand_flags_set(char arg, int *flag, int *dflag);
@@ -184,6 +192,8 @@ char		*remove_exp(char *needle, char *haystack);
 char		*remove_exp_helper(int i, int j, char *haystack, char *needle);
 char		*add_exp(char *needle, char *haystack, char *val);
 char		*add_exp_helper(int ij[2], char *haystack, char *needle, char *val);
+char		*replace_expand_helper(char *str, char *to_r,
+				char *new_value, char *ret);
 
 //--pipe_init.c--
 void		pipe_err(t_root *root, char *line);

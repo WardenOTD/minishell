@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:09:27 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/03 13:32:38 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 13:39:45 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,30 @@ char	*add_exp_helper(int ij[2], char *haystack, char *needle, char *val)
 	while (haystack[++ij[0]])
 		ret[k++] = haystack[ij[0]];
 	free(haystack);
+	return (ret);
+}
+
+char	*replace_expand_helper(char *str, char *to_r,
+	char *new_value, char *ret)
+{
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	while (str[i])
+	{
+		if (yes_expand(str[i], str[i + 1]))
+		{
+			if (new_value)
+				while (new_value[k])
+					ret[j++] = new_value[k++];
+			i += ft_strlen(to_r);
+		}
+		else
+			ret[j++] = str[i++];
+	}
 	return (ret);
 }

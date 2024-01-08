@@ -2,7 +2,7 @@ SRC			= main.c main2.c\
 				exit.c\
 				sig_stuff.c\
 				liststuff.c\
-				env.c env2.c\
+				env.c env2.c env3.c\
 				export.c export2.c\
 				unset.c\
 				lexer.c lexer2.c lexer3.c lexer4.c\

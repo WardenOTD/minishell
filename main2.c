@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:25:00 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/04 12:26:00 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 12:23:58 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@ void	handle(char *line, t_env *env, t_fd_info *fd_info)
 	exit (0);
 }
 
-void	init(t_root *root, t_fd_info *fd_info, char **envp)
+void	init(t_root *root, t_fd_info *fd_info)
 {
 	(root->env) = NULL;
 	(root->input) = NULL;
 	(root->exp) = NULL;
-	root->envp = envp;
 	fd_info->in_fd = 0;
 	fd_info->out_fd = 1;
 	fd_info->saved_in_fd = dup(STDIN_FILENO);
@@ -38,9 +37,10 @@ void	init_2(t_root *root, t_fd_info *fd_info, char **envp)
 {
 	signal(SIGINT, ctrlc);
 	signal(SIGQUIT, SIG_IGN);
-	init(root, fd_info, envp);
+	init(root, fd_info);
 	handle_ctrlc(fd_info);
 	root->env = get_env(root->env, envp);
+	env_darr(root);
 }
 
 void	ctrlc(int sig)

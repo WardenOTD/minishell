@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:35:30 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 16:07:53 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 13:24:39 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_env	*get_env(t_env *env, char **envp)
 		free2d(tmp);
 		i++;
 	}
+	env = shlvl(env);
 	return (env);
 }
 
@@ -90,24 +91,26 @@ t_env	*add_env_helper(t_env *env, t_env *tail, char **tmp)
 
 char	*get_env_value(char *str, t_env *env)
 {
+	t_env	*head;
 	int		len;
 	char	*ret;
 	char	*str2;
 
+	head = env;
 	ret = NULL;
-	len = ft_strlen(str);
 	if (str[0] == '$')
 		str2 = &str[1];
 	else
 		str2 = str;
-	while (env)
+	len = ft_strlen(str2);
+	while (head)
 	{
-		if (ft_strncmp(str2, env->key, len) == 0)
+		if (ft_strncmp(str2, head->key, len + 1) == 0)
 		{
-			ret = ft_strdup(env->value);
+			ret = ft_strdup(head->value);
 			return (ret);
 		}
-		env = env->next;
+		head = head->next;
 	}
 	return (NULL);
 }

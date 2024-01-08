@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:06:25 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/06 00:35:41 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/08 13:44:14 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 int	exec_bin(t_root *root, t_lexer *input)
 {
-	int		pidchild;
 	char	**arg;
 	char	*path;
 	int		i;
 
-	pidchild = 0;
 	if (!ft_strncmp(input->arg[0], "", 1) || input->arg[0] == NULL)
 		return (-2);
 	arg = turn_arr_into_str(input->arg);
@@ -29,12 +27,12 @@ int	exec_bin(t_root *root, t_lexer *input)
 		return (-1);
 	while (root->env_paths[i] != NULL)
 	{
-		if (ft_strncmp(arg[0] , "./", 2))
+		if (ft_strncmp(arg[0], "./", 2))
 			arg[0] = append_path(root->env_paths[i], arg[0]);
 		path = arg[0];
 		signal(SIGINT, SIG_DFL);
 		if (!(access(arg[0], X_OK)))
-			return (exec_bin_helper(root, path, pidchild, arg));
+			return (exec_bin_helper(root, path, 0, arg));
 		i++;
 	}
 	free2d(arg);
