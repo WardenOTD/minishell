@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_init2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:26:41 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 15:15:35 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 20:53:20 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	cp_function(int count, int fd[2], int prev_fd[2])
 	}
 }
 
-int	invalid_pipe(char *str)
+int	invalid_pipe_front(char *str)
 {
 	int	i;
 
@@ -47,6 +47,25 @@ int	invalid_pipe(char *str)
 				return (1);
 		}
 		i++;
+	}
+	return (0);
+}
+
+int invalid_pipe_back(char *str)
+{
+	int	i;
+
+	i = ft_strlen(str) - 1;
+	while (i > 0)
+	{
+		if (str[i] != ' ')
+		{
+			if (str[i] != '|' && str[i] != '\'' && str[i] != '\"')
+				break ;
+			else if (str[i] == '|')
+				return (1);
+		}
+		i--;
 	}
 	return (0);
 }

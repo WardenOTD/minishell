@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:24:08 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 18:54:24 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 20:42:30 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	***arr_arr_split(char **arr)
 	i = 0;
 	j = 0;
 	pp_i = 0;
-	ret = (char ***) malloc (sizeof(char **) * 20);
+	ret = (char ***) malloc (sizeof(char **) * (get_tri_arr_size(arr) + 1));
 	while (arr[i])
 	{
 		if (!ft_strncmp(arr[i], "|", 2))

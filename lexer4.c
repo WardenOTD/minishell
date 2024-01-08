@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 18:53:55 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 18:54:35 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 20:57:20 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,44 @@ char	**remove_quotes(char **arr)
 	}
 	ret[i] = 0;
 	free2d(arr);
+	return (ret);
+}
+
+int	get_nor_arr_size(char *str)
+{
+	int	ret;
+	int	i;
+	int	in_quote;
+
+	ret = 0;
+	i = 0;
+	in_quote = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"' || str[i] == '\'')
+			in_quote++;
+		if ((str[i] == '|' || str[i] == '>' || str[i] == '<' 
+			|| str[i] == ' ') && in_quote % 2 == 0)
+			ret += 2;
+		i++;
+	}
+	ret++;
+	return (ret);
+}
+
+int	get_tri_arr_size(char **arr)
+{
+	int	ret;
+	int	i;
+
+	ret = 0;
+	i = 0;
+	while (arr[i])
+	{
+		if (!ft_strncmp(arr[i], "|", 2))
+			ret++;
+		i++;
+	}
+	ret++;
 	return (ret);
 }

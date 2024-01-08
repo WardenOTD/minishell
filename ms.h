@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 17:20:04 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/08 20:49:46 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,8 @@ char		*remove_quote_helper(char *str);
 char		*remove_quote_helper_2(int type, int in_quote,
 				char *str, char *ret);
 char		**remove_quotes(char **arr);
+int			get_nor_arr_size(char *str);
+int			get_tri_arr_size(char **arr);
 
 //--expansion.c--
 t_lexer		*expand(t_lexer *input, t_env *env);
@@ -190,7 +192,8 @@ pid_t		pipe_init_helper_2(t_root *root, t_lexer *head, t_fd_info *fd_info);
 
 //--pipe_init2.c--
 void		cp_function(int count, int fd[2], int nig[2]);
-int			invalid_pipe(char *str);
+int			invalid_pipe_front(char *str);
+int 		invalid_pipe_back(char *str);
 
 //--redirection.c--
 int			handle_redirect(char **args, t_fd_info *fd_info);
