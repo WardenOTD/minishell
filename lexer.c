@@ -6,16 +6,20 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 18:13:39 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 16:48:56 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-int	lexer(t_root *root, char *line)
+int	lexer(t_root *root, char *line, int segregation)
 {
 	lexer_helper(root, line);
-	root->input = expand(root->input, root->env);
+	if (segregation == 0)
+	{
+		root->input = expand(root->input, root->env);
+		return (lexer(root, lexer_to_str(root->input), 1));
+	}
 	root->input->arg = remove_quotes(root->input->arg);
 	if (root->input->next != NULL)
 		return (1);

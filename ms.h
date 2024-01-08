@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 15:14:04 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 16:26:57 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ extern int	g_status_code;
 typedef struct s_lexer
 {
 	char			**arg;
-	int				*tok_info;
 	struct s_lexer	*next;
 }				t_lexer;
 
@@ -149,7 +148,7 @@ void		remove_node(t_env **env, char *remove);
 void		free_node(t_env *node);
 
 //--lexer.c--
-int			lexer(t_root *root, char *line);
+int			lexer(t_root *root, char *line, int segregation);
 void		lexer_helper(t_root *root, char *line);
 t_lexer		*freelexer(t_lexer *input);
 int			find_unclosed_quote(char *str);
@@ -187,6 +186,13 @@ char		*add_exp(char *needle, char *haystack, char *val);
 char		*add_exp_helper(int ij[2], char *haystack, char *needle, char *val);
 char		*replace_expand_helper(char *str, char *to_r,
 				char *new_value, char *ret);
+
+//--re_string.c--
+char		*lexer_to_str(t_lexer *input);
+char		*darr_to_arr_malloc(char **darr);
+char		*darr_to_arr_copy(char **darr, char *arr, int space);
+char		*append_w_pipe_malloc(char *str1, char *str2);
+char		*append_w_pipe_copy(char *app, char *str1, char *str2);
 
 //--pipe_init.c--
 void		pipe_err(t_root *root, char *line);

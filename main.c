@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 15:26:04 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 15:27:49 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	main_helper_2(t_root *root, t_fd_info *fd_info, char *line)
 	pid_t	pid;
 
 	root->exp = get_exp(root->exp, root->env);
-	if (lexer(root, line) == 1)
+	if (lexer(root, line, 0) == 1)
 	{
 		root->has_pipe = 1;
 		pid = pipe_init(root, line, fd_info);
