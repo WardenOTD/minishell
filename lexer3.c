@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:24:08 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 17:59:47 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 18:21:21 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ char	***arr_arr_split(char **arr)
 			pp_i++;
 		}
 		if (!(arr[i]))
+		{
+			printf("Missing arguement after pipe: \"|\" <-\n");
 			break ;
+		}
 		i++;
 	}
 	ret[pp_i] = arr_dup_n(arr, j, i);
