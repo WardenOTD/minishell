@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 19:07:28 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 15:34:11 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 17:12:18 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ char	*expand_helper_1(char *arg, t_env *env, int j)
 			sflag++;
 		if (yes_expand(arg[j], arg[j + 1]) && sflag % 2 == 0)
 		{
-			to_replace = get_to_replace(arg, j);
+			if (yes_expand(arg[j], arg[j + 1]) == 2)
+				to_replace = ft_strdup("$");
+			else
+				to_replace = get_to_replace(arg, j);
 			arg = replace_expand(arg, to_replace, env);
 			sflag = 0;
 			j = 0;
@@ -60,8 +63,10 @@ int	yes_expand(char c1, char c2)
 {
 	if (c1 != '$')
 		return (0);
-	if (c2 == ' ' || c2 == '$' || c2 == 0 || c2 == '\"' || c2 == '\'')
+	if (c2 == ' ' || c2 == '$' || c2 == 0)
 		return (0);
+	if (c2 == '\"' || c2 == '\'')
+		return (2);
 	return (1);
 }
 

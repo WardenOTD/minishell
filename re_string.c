@@ -6,13 +6,13 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:41:33 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 16:49:19 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 16:58:33 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-char	*lexer_to_str(t_lexer *input)
+char	*lexer_to_str(t_root *root)
 {
 	char	*ret;
 	char	*str;
@@ -20,7 +20,7 @@ char	*lexer_to_str(t_lexer *input)
 	t_lexer	*head;
 
 	ret = NULL;
-	head = input;
+	head = root->input;
 	while (head)
 	{
 		str = darr_to_arr_malloc(head->arg);
@@ -36,8 +36,7 @@ char	*lexer_to_str(t_lexer *input)
 		free(str);
 		head = head->next;
 	}
-	printf("in lexer_to_str: ret = %s\n", ret);
-	input = freelexer(input);
+	root->input = freelexer(root->input);
 	return (ret);
 }
 
@@ -52,11 +51,9 @@ char	*darr_to_arr_malloc(char **darr)
 	while (darr[i])
 	{
 		j += ft_strlen(darr[i]);
-		printf("dtam: darr = %s\ndtam: j = %d\ndtam: i = %d\n", darr[i],  j, i);
 		i++;
 	}
 	j += --i;
-	printf("j after plus --i: %d\n", j);
 	arr = (char *)malloc(sizeof(char) * (j + 1));
 	arr[j] = 0;
 	arr = darr_to_arr_copy(darr, arr, i);
@@ -91,7 +88,6 @@ char	*append_w_pipe_malloc(char *str1, char *str2)
 
 	i = 0;
 	j = 0;
-	printf("append: str1 = %s\nappend: str2 = %s\n", str1, str2);
 	if (str1 != NULL)
 		i = ft_strlen(str1);
 	if (str2 != NULL)

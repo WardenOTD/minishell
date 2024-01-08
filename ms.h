@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 16:26:57 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 16:56:45 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ char		*replace_expand_helper(char *str, char *to_r,
 				char *new_value, char *ret);
 
 //--re_string.c--
-char		*lexer_to_str(t_lexer *input);
+char		*lexer_to_str(t_root *root);
 char		*darr_to_arr_malloc(char **darr);
 char		*darr_to_arr_copy(char **darr, char *arr, int space);
 char		*append_w_pipe_malloc(char *str1, char *str2);

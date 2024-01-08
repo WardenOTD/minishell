@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 16:48:56 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 16:57:45 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	lexer(t_root *root, char *line, int segregation)
 	if (segregation == 0)
 	{
 		root->input = expand(root->input, root->env);
-		return (lexer(root, lexer_to_str(root->input), 1));
+		return (lexer(root, lexer_to_str(root), 1));
 	}
 	root->input->arg = remove_quotes(root->input->arg);
 	if (root->input->next != NULL)
