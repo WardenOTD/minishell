@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:24:08 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 17:30:38 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 17:59:47 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,12 @@ char	***arr_arr_split(char **arr)
 		if (!ft_strncmp(arr[i], "|", 2))
 		{
 			ret[pp_i] = arr_dup_n(arr, j, i);
+			i++;
 			j = i;
 			pp_i++;
 		}
+		if (!(arr[i]))
+			break ;
 		i++;
 	}
 	ret[pp_i] = arr_dup_n(arr, j, i);

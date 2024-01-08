@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:41:33 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 17:26:22 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 17:48:49 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@ char	*lexer_to_str(t_root *root)
 	while (head)
 	{
 		str = darr_to_arr_malloc(head->arg);
+		printf("str: %s\n", str);
 		if (head->next)
 		{
 			head = head->next;
 			tmp = darr_to_arr_malloc(head->arg);
+			printf("tmp: %s\n", tmp);
 			ret = append_w_pipe_malloc(str, tmp);
+			printf("%s\n", ret);
 			free(tmp);
 		}
 		else
@@ -36,6 +39,7 @@ char	*lexer_to_str(t_root *root)
 		free(str);
 		head = head->next;
 	}
+	printf("%s\n", ret);
 	root->input = freelexer(root->input);
 	return (ret);
 }
@@ -124,6 +128,6 @@ char	*append_w_pipe_copy(char *app, char *str1, char *str2)
 	}
 	if (str2)
 		while (str2[j])
-			app[++i] = str2[j++];
+			app[i++] = str2[j++];
 	return (app);
 }
