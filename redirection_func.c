@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_func.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:25:11 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/07 17:31:43 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/08 14:53:37 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	redir_heredoc_helper(char *delimiter, int *pipe_fd)
 			printf(" by end-of-file (wanted `%s')\n", delimiter);
 			exit(0);
 		}
-		if (!ft_strncmp(line, delimiter, ft_strlen(line)))
+		if (!ft_strncmp(line, delimiter, ft_strlen(line) + 1))
 		{
 			free(line);
 			break ;

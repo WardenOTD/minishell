@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 13:38:13 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 15:14:04 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,13 +181,6 @@ char		*get_to_replace(char *str, int pos);
 char		*replace_expand(char *str, char *to_r, t_env *env);
 
 //--expansion_helper.c--
-void		expand_flags_set(char arg, int *flag, int *dflag);
-int			expand_helper_if(char **arg, int j, int flag, int dflag);
-int			expand_helper_else_if(char **arg, int j, int flag, int dflag);
-void		expand_helper_else(char **arg, t_env *env, int j);
-char		*expand_helper_else_helper(char *arg, int count, int j);
-
-//--expansion_helper_2.c--
 char		*remove_exp(char *needle, char *haystack);
 char		*remove_exp_helper(int i, int j, char *haystack, char *needle);
 char		*add_exp(char *needle, char *haystack, char *val);

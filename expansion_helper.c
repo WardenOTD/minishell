@@ -1,102 +1,132 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion_helper.c                                 :+:      :+:    :+:   */
+/*   expansion_helper_2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/02 17:07:20 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 18:51:42 by jteoh            ###   ########.fr       */
+/*   Created: 2024/01/02 17:09:27 by jteoh             #+#    #+#             */
+/*   Updated: 2024/01/08 15:12:54 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-void	expand_flags_set(char arg, int *flag, int *dflag)
+char	*remove_exp(char *needle, char *haystack)
 {
-	if (arg == '\'')
-	{
-		if (*flag == 0)
-			*flag = 1;
-		else
-			*flag = 0;
-	}
-	else if (arg == '\"')
-	{
-		if (*dflag == 0 && *flag == 0)
-			*dflag = 1;
-		else
-			*dflag = 0;
-	}
-}
-
-int	expand_helper_if(char **arg, int j, int flag, int dflag)
-{
-	if ((*arg)[j + 1] == ' ' || (*arg)[j + 1] == '"'
-		|| (*arg)[j + 1] == '\'' || (*arg)[j + 1] == '$'
-		|| !(*arg)[j + 1])
-	{
-		if ((*arg)[j + 1] == 0)
-			return (0);
-		if (flag == 0 && dflag == 0
-			&& ((*arg)[j + 1] == '"' || (*arg)[j + 1] == '\''))
-		{
-			*arg = remove_exp("$", *arg);
-			return (1);
-		}
-	}
-	return (-1);
-}
-
-int	expand_helper_else_if(char **arg, int j, int flag, int dflag)
-{
-	if (((*arg)[j] == '$' && flag == 0) || ((*arg)[j] == '$' && dflag == 1))
-	{
-		if ((*arg)[j + 1] == '?')
-		{
-			(*arg) = add_exp("$?", (*arg), ft_itoa(g_status_code));
-			return (1);
-		}
-	}
-	return (-1);
-}
-
-void	expand_helper_else(char **arg, t_env *env, int j)
-{
-	char	*ex;
-	char	*val;
-	int		count;
-
-	count = 1;
-	ex = NULL;
-	val = NULL;
-	while ((*arg)[j] && (*arg)[j] != ' '
-		&& (*arg)[j + 1] != '$' && (*arg)[j] != '"'
-		&& (*arg)[j] != '\'')
-	{
-		count++;
-		j++;
-	}
-	ex = expand_helper_else_helper(*arg, count, j);
-	val = get_env_value(ex, env);
-	if (val == NULL)
-		*arg = remove_exp(ex, *arg);
-	else
-		*arg = add_exp(ex, *arg, val);
-	free(val);
-	free(ex);
-}
-
-char	*expand_helper_else_helper(char *arg, int count, int j)
-{
-	char	*ex;
-	int		i;
+	int	i;
+	int	j;
 
 	i = 0;
-	ex = (char *)malloc(sizeof(char) * (count));
-	ex[--count] = 0;
-	j -= count;
-	while (i < count)
-		ex[i++] = arg[j++];
-	return (ex);
+	while (haystack[i])
+	{
+		j = 0;
+		while (haystack[i + j] == needle[j] && haystack[i + j])
+		{
+			if (needle[j + 1] == 0 && (haystack[i + j + 1] == '\''
+					|| haystack[i + j + 1] == '"'
+					|| haystack[i + j + 1] == ' '
+					|| !haystack[i + j + 1]))
+				return (remove_exp_helper(i, j, haystack, needle));
+			j++;
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+char	*remove_exp_helper(int i, int j, char *haystack, char *needle)
+{
+	char	*ret;
+	int		k;
+
+	ret = (char *)malloc(sizeof(char) * (ft_strlen(haystack)
+				- ft_strlen(needle) + 1));
+	ret[ft_strlen(haystack) - ft_strlen(needle)] = 0;
+	k = -1;
+	while (++k != i)
+		ret[k] = haystack[k];
+	i += j;
+	while (haystack[++i])
+		ret[k++] = haystack[i];
+	free(haystack);
+	return (ret);
+}
+
+char	*add_exp(char *needle, char *haystack, char *val)
+{
+	int	i;
+	int	j;
+	int	ij[2];
+
+	i = 0;
+	while (haystack[i])
+	{
+		j = 0;
+		while (haystack[i + j] == needle[j] && haystack[i + j])
+		{
+			if (needle[j + 1] == 0 && (haystack[i + j + 1] == '\''
+					|| haystack[i + j + 1] == '"'
+					|| haystack[i + j + 1] == ' '
+					|| haystack[i + j + 1] == '$' || !haystack[i + j + 1]))
+			{
+				ij[0] = i;
+				ij[1] = j;
+				return (add_exp_helper(ij, haystack, needle, val));
+			}
+			j++;
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+char	*add_exp_helper(int ij[2], char *haystack, char *needle, char *val)
+{
+	char	*ret;
+	int		k;
+
+	ret = (char *)malloc(sizeof(char) * (ft_strlen(haystack)
+				- ft_strlen(needle) + ft_strlen(val) + 1));
+	ret[ft_strlen(haystack) - ft_strlen(needle)
+		+ ft_strlen(val)] = 0;
+	k = -1;
+	while (++k != ij[0])
+		ret[k] = haystack[k];
+	ij[0] += ij[1];
+	ij[1] = 0;
+	while (val[ij[1]])
+		ret[k++] = val[ij[1]++];
+	while (haystack[++ij[0]])
+		ret[k++] = haystack[ij[0]];
+	free(haystack);
+	return (ret);
+}
+
+char	*replace_expand_helper(char *str, char *to_r,
+	char *new_value, char *ret)
+{
+	int		i;
+	int		j;
+	int		k;
+	int		once;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	once = 0;
+	while (str[i])
+	{
+		if (yes_expand(str[i], str[i + 1]) && !once)
+		{
+			if (new_value)
+				while (new_value[k])
+					ret[j++] = new_value[k++];
+			i += ft_strlen(to_r);
+			once = 1;
+		}
+		else
+			ret[j++] = str[i++];
+	}
+	return (ret);
 }

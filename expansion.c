@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 19:07:28 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 13:40:08 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 15:04:47 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char	*replace_expand(char *str, char *to_r, t_env *env)
 	ret = malloc (sizeof(char) * (ft_strlen(str)
 				- ft_strlen(to_r) + n_len + 1));
 	ret[(ft_strlen(str) - ft_strlen(to_r) + n_len)] = 0;
+	printf("str = %s\n", str);
 	ret = replace_expand_helper(str, to_r, new_value, ret);
 	if (new_value)
 		free(new_value);
