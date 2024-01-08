@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/07 17:32:03 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/08 17:20:04 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,20 +170,16 @@ char		**remove_quotes(char **arr);
 //--expansion.c--
 t_lexer		*expand(t_lexer *input, t_env *env);
 char		*expand_helper_1(char *arg, t_env *env, int j);
-void		expand_helper_purge(int *j, int *dflag, int *flag);
+void		set_arr_to_zero(int *arr, int size);
+void		get_flag(int *flag, char c, int pos);
+int			analyze_flag(int *flag);
 
 //--expansion_helper.c--
-void		expand_flags_set(char arg, int *flag, int *dflag);
-int			expand_helper_if(char **arg, int j, int flag, int dflag);
-int			expand_helper_else_if(char **arg, int j, int flag, int dflag);
-void		expand_helper_else(char **arg, t_env *env, int j);
-char		*expand_helper_else_helper(char *arg, int count, int j);
-
-//--expansion_helper_2.c--
-char		*remove_exp(char *needle, char *haystack);
-char		*remove_exp_helper(int i, int j, char *haystack, char *needle);
-char		*add_exp(char *needle, char *haystack, char *val);
-char		*add_exp_helper(int ij[2], char *haystack, char *needle, char *val);
+int			yes_expand(char c1, char c2);
+char		*get_to_replace(char *str, int pos);
+char		*get_new_value(char *to_r, t_env *env);
+int			ft_strlen_checknull(char *str);
+char		*replace_expand(char *str, int pos, char *to_r, t_env *env);
 
 //--pipe_init.c--
 void		pipe_err(t_root *root, char *line);

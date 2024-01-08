@@ -3,100 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_helper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:07:20 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 18:51:42 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/08 17:18:38 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-void	expand_flags_set(char arg, int *flag, int *dflag)
+int	yes_expand(char c1, char c2)
 {
-	if (arg == '\'')
-	{
-		if (*flag == 0)
-			*flag = 1;
-		else
-			*flag = 0;
-	}
-	else if (arg == '\"')
-	{
-		if (*dflag == 0 && *flag == 0)
-			*dflag = 1;
-		else
-			*dflag = 0;
-	}
+	if (c1 != '$')
+		return (0);
+	if (c2 == ' ' || c2 == '$' || c2 == 0 || c2 == '\"' || c2 == '\'')
+		return (0);
+	return (1);
 }
 
-int	expand_helper_if(char **arg, int j, int flag, int dflag)
+char	*get_to_replace(char *str, int pos)
 {
-	if ((*arg)[j + 1] == ' ' || (*arg)[j + 1] == '"'
-		|| (*arg)[j + 1] == '\'' || (*arg)[j + 1] == '$'
-		|| !(*arg)[j + 1])
-	{
-		if ((*arg)[j + 1] == 0)
-			return (0);
-		if (flag == 0 && dflag == 0
-			&& ((*arg)[j + 1] == '"' || (*arg)[j + 1] == '\''))
-		{
-			*arg = remove_exp("$", *arg);
-			return (1);
-		}
-	}
-	return (-1);
-}
-
-int	expand_helper_else_if(char **arg, int j, int flag, int dflag)
-{
-	if (((*arg)[j] == '$' && flag == 0) || ((*arg)[j] == '$' && dflag == 1))
-	{
-		if ((*arg)[j + 1] == '?')
-		{
-			(*arg) = add_exp("$?", (*arg), ft_itoa(g_status_code));
-			return (1);
-		}
-	}
-	return (-1);
-}
-
-void	expand_helper_else(char **arg, t_env *env, int j)
-{
-	char	*ex;
-	char	*val;
-	int		count;
-
-	count = 1;
-	ex = NULL;
-	val = NULL;
-	while ((*arg)[j] && (*arg)[j] != ' '
-		&& (*arg)[j + 1] != '$' && (*arg)[j] != '"'
-		&& (*arg)[j] != '\'')
-	{
-		count++;
-		j++;
-	}
-	ex = expand_helper_else_helper(*arg, count, j);
-	val = get_env_value(ex, env);
-	if (val == NULL)
-		*arg = remove_exp(ex, *arg);
-	else
-		*arg = add_exp(ex, *arg, val);
-	free(val);
-	free(ex);
-}
-
-char	*expand_helper_else_helper(char *arg, int count, int j)
-{
-	char	*ex;
 	int		i;
+	int		j;
+	char	*ret;
+
+	if (str[pos + 1] == '?')
+		return (ft_strdup("$?"));
+	i = pos + 1;
+	j = 0;
+	while (str[i] && ft_isalpha(str[i]))
+		i++;
+	ret = malloc (sizeof(char) * (i - pos + 1));
+	while (pos < i)
+	{
+		ret[j++] = str[pos++];
+	}
+	ret[j] = 0;
+	return (ret);
+}
+
+char	*get_new_value(char *to_r, t_env *env)
+{
+	char *new_value;
+
+	new_value = NULL;
+	if (!ft_strncmp(to_r, "$?", 3))
+		new_value = ft_itoa(g_status_code);
+	else
+		new_value = get_env_value(to_r, env);
+	return (new_value);
+}
+
+int	ft_strlen_checknull(char *str)
+{
+	int	len;
+
+	if (!str)
+		len = 0;
+	else
+		len = ft_strlen(str);
+	return (len);
+}
+
+char	*replace_expand(char *str, int pos, char *to_r, t_env *env)
+{
+	char	*new_value;
+	char	*ret;
+	int		i;
+	int		j;
+	int		k;
 
 	i = 0;
-	ex = (char *)malloc(sizeof(char) * (count));
-	ex[--count] = 0;
-	j -= count;
-	while (i < count)
-		ex[i++] = arg[j++];
-	return (ex);
+	j = 0;
+	k = 0;
+	new_value = get_new_value(to_r, env);
+	ret = malloc (sizeof(char) * (ft_strlen(str) - ft_strlen(to_r) + ft_strlen_checknull(new_value) + 1));
+	while (i < pos)
+		ret[j++] = str[i++];
+	if (new_value)
+		while (new_value[k])
+			ret[j++] = new_value[k++];
+	i += ft_strlen(to_r);
+	while (str[i])
+		ret[j++] = str[i++];
+	ret[j] = 0;
+	if (new_value)
+		free(new_value);
+	free(str);
+	return (ret);
 }
