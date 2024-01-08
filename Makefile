@@ -6,7 +6,7 @@ SRC			= main.c main2.c\
 				export.c export2.c\
 				unset.c\
 				lexer.c lexer2.c lexer3.c lexer4.c\
-				expansion.c expansion_helper.c expansion_helper_2.c\
+				expansion.c expansion_helper.c\
 				pipe_init.c pipe_init2.c\
 				redirection.c redirection_utils.c redirection_func.c\
 				call.c\
