@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:41:33 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 11:23:46 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 14:23:56 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ char	*lexer_to_str(t_root *root)
 		free(ret);
 		ret = ft_strdup(tmp);
 		free(tmp);
-		printf("%s\n", ret);
 		free(str);
 		head = head->next;
 	}

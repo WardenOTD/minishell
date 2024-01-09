@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:16:08 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 20:47:18 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/09 12:22:03 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ char	*create_str(char *str, int i, int j, int size)
 	k = 0;
 	ret = malloc (sizeof(char) * size);
 	while (j < i)
+	{
 		ret[k++] = str[j++];
+	}
 	ret[k] = 0;
 	return (ret);
 }
@@ -30,23 +32,26 @@ char	*get_str_inquote(char *str, int info, int *pos)
 	int		i;
 	int		j;
 	char	*ret;
-	int		in_quote;
+	int		flag[4];
 
-	i = *pos + 1;
+	i = *pos;
 	j = i;
-	in_quote = 1;
+	set_arr_to_zero(flag, 4);
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
-			in_quote++;
-		if ((is_token(str[i]) && in_quote % 2 == 0)
-			|| (str[i] == ' ' && in_quote % 2 == 0)
-			|| (str[i] == info && in_quote % 2 == 1
-				&& (!str[i + 1] || str[i] == ' ')))
+			get_flag(flag, str[i], i);
+		if ((is_token(str[i]) && analyze_flag_2(flag) == 1)
+			|| (str[i] == ' ' && analyze_flag_2(flag) == 1)
+			|| (str[i] == info
+				&& (!str[i + 1] || str[i + 1] == ' ')))
+		{
+			i++;
 			break ;
+		}
 		i++;
 	}
-	ret = create_str(str, i, j - 1, (i - *pos + 1 + in_quote + 1));
+	ret = create_str(str, i, j, (i - *pos + 1 + flag[0] + flag[2] + 1));
 	*pos = i;
 	return (ret);
 }
@@ -56,21 +61,21 @@ char	*get_str_outquote(char *str, int *pos)
 	int		i;
 	int		j;
 	char	*ret;
-	int		in_quote;
+	int		flag[4];
 
 	i = *pos;
 	j = i;
-	in_quote = 0;
+	set_arr_to_zero(flag, 4);
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
-			in_quote++;
-		if ((is_token(str[i]) && in_quote % 2 == 0)
-			|| (str[i] == ' ' && in_quote % 2 == 0))
+			get_flag(flag, str[i], i);
+		if ((is_token(str[i]) && analyze_flag_2(flag) == 1)
+			|| (str[i] == ' ' && analyze_flag_2(flag) == 1))
 			break ;
 		i++;
 	}
-	ret = create_str(str, i, j, (i - *pos + 1 + in_quote));
+	ret = create_str(str, i, j, (i - *pos + 1 + flag[0] + flag[2]));
 	*pos = i;
 	return (ret);
 }

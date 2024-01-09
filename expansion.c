@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 19:07:28 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 13:03:20 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 14:19:09 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,7 @@ char	*expand_helper_1(char *arg, t_env *env, int j)
 			get_flag(flag, arg[j], j);
 		if (yes_expand(arg[j], arg[j + 1]) && analyze_flag(flag))
 		{
-			if (yes_expand(arg[j], arg[j + 1]) == 2 && (flag[0] % 2 == 1 || flag[2] % 2 == 1)){
-				j++;
-				printf("here1\n");
-				continue ;
-			}
-			if (yes_expand(arg[j], arg[j + 1]) == 2 && (flag[0] % 2 == 0 || flag[2] % 2 == 0)){
-				to_replace = ft_strdup("$");
-				printf("here2\n");}
-			else
-				to_replace = get_to_replace(arg, j);
+			to_replace = get_to_replace(arg, j);
 			arg = replace_expand(arg, to_replace, env);
 			set_arr_to_zero(flag, 4);
 			j = 0;
@@ -71,8 +62,6 @@ int	yes_expand(char c1, char c2)
 		return (0);
 	if (c2 == ' ' || c2 == '$' || c2 == 0)
 		return (0);
-	if (c2 == '\"' || c2 == '\'')
-		return (2);
 	return (1);
 }
 
@@ -130,13 +119,42 @@ void	get_flag(int *flag, char c, int pos)
 int	analyze_flag(int *flag)
 {
 	if (flag[0] % 2 == 0 && flag[2] % 2 == 0)
-		return (1);
+		return (1); // outside any quotes
 	else if (flag[0] % 2 == 1 && flag[2] % 2 == 0)
-		return (1);
+	{
+		if (flag[1] < flag[3])
+			return (1); // only inside ""
+	}
 	else if (flag[0] % 2 == 0 && flag[2] % 2 == 1)
-		return (0);
+	{
+		if (flag[1] > flag[3])
+			return (1); // only inside ''
+	}
 	else if (flag[0] % 2 == 1 && flag[2] % 2 == 1)
 		if (flag[1] < flag[3])
-			return (1);
+			return (1); // inside "''"
+	return (0);
+}
+int	analyze_flag_2(int *flag)
+{
+	if (flag[0] % 2 == 0 && flag[2] % 2 == 0)
+		return (1); // outside any quotes
+	else if (flag[0] % 2 == 1 && flag[2] % 2 == 0)
+	{
+		if (flag[1] < flag[3])
+			return (2); // only inside ""
+	}
+	else if (flag[0] % 2 == 0 && flag[2] % 2 == 1)
+	{
+		if (flag[1] > flag[3])
+			return (3); // only inside ''
+	}
+	else if (flag[0] % 2 == 1 && flag[2] % 2 == 1)
+	{
+		if (flag[1] < flag[3])
+			return (4); // inside "''"
+		else
+			return (5); // inside '""'
+	}
 	return (0);
 }
