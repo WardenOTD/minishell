@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 18:13:39 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 10:30:43 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 
 int	lexer(t_root *root, char *line)
 {
-	lexer_helper(root, line);
-	root->input = expand(root->input, root->env);
+	char	*str;
+
+	str = ft_strdup(line);
+	str = expand_helper_1(str, root->env, 0);
+	lexer_helper(root, str);
+	// root->input = expand(root->input, root->env);
 	root->input->arg = remove_quotes(root->input->arg);
+	free(str);
 	if (root->input->next != NULL)
 		return (1);
 	return (0);
