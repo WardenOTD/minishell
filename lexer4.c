@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 18:53:55 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 14:35:32 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 17:49:59 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	get_nor_arr_size(char *str)
 		i++;
 	}
 	ret++;
+	printf("ret:: %d\n", ret);
 	return (ret);
 }
 
