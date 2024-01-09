@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:27:29 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 20:31:06 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 21:02:49 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,29 @@ int	invalid_redir(char *str)
 				return (1);
 		}
 		i--;
+	}
+	return (0);
+}
+int	invalid_redir_mod(char *str)
+{
+	int	i;
+	int	modpos;
+
+	i = 0;
+	modpos = 0;
+	while (str[i])
+	{
+		if (str[i] == '|')
+			modpos = i - 1;
+		if (modpos > 0)
+		{
+			while (modpos > 0 && str[modpos] == ' ')
+				modpos--;
+			if (str[modpos] == '>' || str[modpos] == '<')
+				return (1);
+			modpos = 0;
+		}
+		i++;
 	}
 	return (0);
 }

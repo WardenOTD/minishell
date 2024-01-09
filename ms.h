@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 19:56:52 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 21:03:10 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,7 @@ char		*identify_token(char *str);
 int			check_first_arg(char **args);
 char		**renew_arg_rm_redir(char **args);
 int			invalid_redir(char *str);
+int			invalid_redir_mod(char *str);
 
 //--redirection_func.c--
 int			redir_output(char *filename, int out_fd);
