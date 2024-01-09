@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:26:41 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 20:53:20 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/09 09:05:19 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int invalid_pipe_back(char *str)
 	{
 		if (str[i] != ' ')
 		{
-			if (str[i] != '|' && str[i] != '\'' && str[i] != '\"')
+			if (str[i] != '|')
 				break ;
 			else if (str[i] == '|')
 				return (1);
