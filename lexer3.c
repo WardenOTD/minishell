@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:24:08 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 17:58:01 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 19:02:45 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,9 @@ int	get_new_len(char *str)
 	while (str[i])
 	{
 		j += get_new_len_helper(&type, &in_quote, str, &i);
-		printf("j = %d\n", j);
 		i++;
 	}
 	j += 1;
-	printf("total j = %d\n", j);
 	return (j);
 }
 
@@ -87,7 +85,6 @@ int	get_new_len_helper(char *type, int *in_quote, char *str, int *i)
 	}
 	else if (str[*i] != '\"' || str[*i] != '\'')
 		j++;
-	printf("str c = %c\n", str[*i]);
 	return (j);
 }
 

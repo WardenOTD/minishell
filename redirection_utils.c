@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:27:29 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 18:22:12 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 20:31:06 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	**renew_arg_rm_redir(char **args)
 	free2d(args);
 	return (new);
 }
+
 int	invalid_redir(char *str)
 {
 	int	i;

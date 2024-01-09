@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:09:27 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 14:33:27 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 20:08:42 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,30 +56,46 @@ int	ft_strlen_checknull(char *str)
 	return (len);
 }
 
-char	*replace_expand_helper(char *str, char *to_r,
+char	*replace_expand_helper(char *str, int pos,
 	char *new_value, char *ret)
 {
 	int	i;
 	int	j;
-	int	k;
-	int	once;
 
 	i = 0;
 	j = 0;
-	k = 0;
-	once = 0;
 	while (str[i])
 	{
-		if (yes_expand(str[i], str[i + 1]) && !once)
+		if (i == pos)
 		{
-			if (new_value)
-				while (new_value[k])
-					ret[j++] = new_value[k++];
-			i += ft_strlen(to_r);
-			once = 1;
+			if (new_value == NULL)
+				break ;
+			else
+				while (new_value[j])
+					ret[i++] = new_value[j++];
 		}
-		else
-			ret[j++] = str[i++];
+		i++;
+	}
+	return (ret);
+}
+
+char	*copy_backwards(char *str, int pos, int *size, char *ret)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (i == pos)
+		{
+			i += size[0];
+			j += size[1];
+		}
+		ret[j] = str[i];
+		j++;
+		i++;
 	}
 	return (ret);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:16:08 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 12:22:03 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/09 19:02:19 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,10 @@ char	*get_str_inquote(char *str, int info, int *pos)
 			|| (str[i] == ' ' && analyze_flag_2(flag) == 1)
 			|| (str[i] == info
 				&& (!str[i + 1] || str[i + 1] == ' ')))
-		{
-			i++;
 			break ;
-		}
 		i++;
 	}
-	ret = create_str(str, i, j, (i - *pos + 1 + flag[0] + flag[2] + 1));
+	ret = create_str(str, i, j, (i - *pos + 1));
 	*pos = i;
 	return (ret);
 }
@@ -75,7 +72,7 @@ char	*get_str_outquote(char *str, int *pos)
 			break ;
 		i++;
 	}
-	ret = create_str(str, i, j, (i - *pos + 1 + flag[0] + flag[2]));
+	ret = create_str(str, i, j, (i - *pos + 1));
 	*pos = i;
 	return (ret);
 }

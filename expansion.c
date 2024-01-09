@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 19:07:28 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 15:12:36 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 20:10:09 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*expand_helper_1(char *arg, t_env *env, int j)
 		if (yes_expand(arg[j], arg[j + 1]) && analyze_flag(flag))
 		{
 			to_replace = get_to_replace(arg, j);
-			arg = replace_expand(arg, to_replace, env);
+			arg = replace_expand(arg, to_replace, env, j);
 			set_arr_to_zero(flag, 4);
 			j = 0;
 			free(to_replace);
@@ -65,24 +65,26 @@ int	yes_expand(char c1, char c2)
 	return (1);
 }
 
-char	*replace_expand(char *str, char *to_r, t_env *env)
+char	*replace_expand(char *str, char *to_r, t_env *env, int pos)
 {
 	char	*new_value;
 	char	*ret;
-	int		n_len;
+	int		size[2];
 
 	if (!ft_strncmp(to_r, "$?", 3))
 		new_value = ft_itoa(g_status_code);
 	else
 		new_value = get_env_value(to_r, env);
 	if (!new_value)
-		n_len = 0;
+		size[1] = 0;
 	else
-		n_len = ft_strlen(new_value);
+		size[1] = ft_strlen(new_value);
+	size[0] = ft_strlen(to_r);
 	ret = malloc (sizeof(char) * (ft_strlen(str)
-				- ft_strlen(to_r) + n_len + 1));
-	ret[(ft_strlen(str) - ft_strlen(to_r) + n_len)] = 0;
-	ret = replace_expand_helper(str, to_r, new_value, ret);
+				- size[0] + size[1] + 1));
+	ret[(ft_strlen(str) - size[0] + size[1])] = 0;
+	ret = copy_backwards(str, pos, size, ret);
+	ret = replace_expand_helper(str, pos, new_value, ret);
 	if (new_value)
 		free(new_value);
 	free(str);
