@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:25:11 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 14:53:37 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 10:57:19 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ int	redir_heredoc(char *delimiter, int in_fd)
 	int		fd;
 	int		pipe_fd[2];
 
+	if (!delimiter)
+	{
+		printf("minishell: syntax error near unexpected token `newline'\n");
+		return (0);
+	}
 	pipe(pipe_fd);
 	fd = fork();
 	if (fd == 0)

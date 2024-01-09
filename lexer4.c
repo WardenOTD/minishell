@@ -6,13 +6,13 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 18:53:55 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 18:54:35 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 13:55:11 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-char	*remove_quote_helper_2(int type, int in_quote, char *str, char *ret)
+char	*remove_quote_helper_2(char type, int in_quote, char *str, char *ret)
 {
 	int	i;
 	int	j;
@@ -57,5 +57,51 @@ char	**remove_quotes(char **arr)
 	}
 	ret[i] = 0;
 	free2d(arr);
+	return (ret);
+}
+
+int	get_nor_arr_size(char *str)
+{
+	int		ret;
+	int		i;
+	int		in_quote;
+	char	type;
+
+	ret = 0;
+	i = 0;
+	in_quote = 0;
+	type = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"' || str[i] == '\'')
+		{
+			if (in_quote % 2 == 0)
+				type = str[i];
+			if (str[i] == type)
+				in_quote++;
+		}
+		if ((str[i] == '|' || str[i] == '>' || str[i] == '<'
+			|| str[i] == ' ') && in_quote % 2 == 0)
+			ret += 2;
+		i++;
+	}
+	ret++;
+	return (ret);
+}
+
+int	get_tri_arr_size(char **arr)
+{
+	int	ret;
+	int	i;
+
+	ret = 0;
+	i = 0;
+	while (arr[i])
+	{
+		if (!ft_strncmp(arr[i], "|", 2))
+			ret++;
+		i++;
+	}
+	ret++;
 	return (ret);
 }

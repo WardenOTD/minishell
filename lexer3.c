@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:24:08 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 18:21:21 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 12:13:41 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	***arr_arr_split(char **arr)
 	i = 0;
 	j = 0;
 	pp_i = 0;
-	ret = (char ***) malloc (sizeof(char **) * 20);
+	ret = (char ***) malloc (sizeof(char **) * (get_tri_arr_size(arr) + 1));
 	while (arr[i])
 	{
 		if (!ft_strncmp(arr[i], "|", 2))
@@ -54,14 +54,13 @@ int	is_token(char c)
 
 int	get_new_len(char *str)
 {
-	int	i;
-	int	j;
-	int	type;
-	int	in_quote;
+	int		i;
+	int		j;
+	char	type;
+	int		in_quote;
 
 	i = 0;
 	j = 0;
-	type = 0;
 	in_quote = 0;
 	while (str[i])
 	{
@@ -72,7 +71,7 @@ int	get_new_len(char *str)
 	return (j);
 }
 
-int	get_new_len_helper(int *type, int *in_quote, char *str, int *i)
+int	get_new_len_helper(char *type, int *in_quote, char *str, int *i)
 {
 	int	j;
 

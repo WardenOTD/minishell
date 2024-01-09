@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 16:56:45 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 14:05:31 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,26 +164,29 @@ char		**splitter(char *str);
 char		***arr_arr_split(char **arr);
 int			is_token(char c);
 int			get_new_len(char *str);
-int			get_new_len_helper(int *type, int *in_quote, char *str, int *i);
+int			get_new_len_helper(char *type, int *in_quote, char *str, int *i);
 char		*remove_quote_helper(char *str);
 
 //--lexer4.c--
-char		*remove_quote_helper_2(int type, int in_quote,
+char		*remove_quote_helper_2(char type, int in_quote,
 				char *str, char *ret);
 char		**remove_quotes(char **arr);
+int			get_nor_arr_size(char *str);
+int			get_tri_arr_size(char **arr);
 
 //--expansion.c--
 t_lexer		*expand(t_lexer *input, t_env *env);
 char		*expand_helper_1(char *arg, t_env *env, int j);
-int			yes_expand(char c1, char c2);
-char		*get_to_replace(char *str, int pos);
 char		*replace_expand(char *str, char *to_r, t_env *env);
 
 //--expansion_helper.c--
-char		*remove_exp(char *needle, char *haystack);
-char		*remove_exp_helper(int i, int j, char *haystack, char *needle);
-char		*add_exp(char *needle, char *haystack, char *val);
-char		*add_exp_helper(int ij[2], char *haystack, char *needle, char *val);
+void		set_arr_to_zero(int *arr, int size);
+void		get_flag(int *flag, char c, int pos);
+int			analyze_flag(int *flag);
+int			yes_expand(char c1, char c2);
+char		*get_to_replace(char *str, int pos);
+char		*get_new_value(char *to_r, t_env *env);
+int			ft_strlen_checknull(char *str);
 char		*replace_expand_helper(char *str, char *to_r,
 				char *new_value, char *ret);
 
@@ -203,7 +206,8 @@ pid_t		pipe_init_helper_2(t_root *root, t_lexer *head, t_fd_info *fd_info);
 
 //--pipe_init2.c--
 void		cp_function(int count, int fd[2], int nig[2]);
-int			invalid_pipe(char *str);
+int			invalid_pipe_front(char *str);
+int 		invalid_pipe_back(char *str);
 
 //--redirection.c--
 int			handle_redirect(char **args, t_fd_info *fd_info);

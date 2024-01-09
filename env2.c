@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:22:31 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 11:03:23 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 11:12:26 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ t_env	*shlvl(t_env *env)
 			break ;
 		head = head->next;
 	}
+	free(head->value);
 	head->value = ft_itoa((ft_atoi(head->value) + 1));
 	return (env);
 }

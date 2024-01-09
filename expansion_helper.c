@@ -1,115 +1,66 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion_helper_2.c                               :+:      :+:    :+:   */
+/*   expansion_helper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:09:27 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 15:12:54 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 11:41:17 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-char	*remove_exp(char *needle, char *haystack)
+char	*get_to_replace(char *str, int pos)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	while (haystack[i])
-	{
-		j = 0;
-		while (haystack[i + j] == needle[j] && haystack[i + j])
-		{
-			if (needle[j + 1] == 0 && (haystack[i + j + 1] == '\''
-					|| haystack[i + j + 1] == '"'
-					|| haystack[i + j + 1] == ' '
-					|| !haystack[i + j + 1]))
-				return (remove_exp_helper(i, j, haystack, needle));
-			j++;
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-char	*remove_exp_helper(int i, int j, char *haystack, char *needle)
-{
+	int		i;
+	int		j;
 	char	*ret;
-	int		k;
 
-	ret = (char *)malloc(sizeof(char) * (ft_strlen(haystack)
-				- ft_strlen(needle) + 1));
-	ret[ft_strlen(haystack) - ft_strlen(needle)] = 0;
-	k = -1;
-	while (++k != i)
-		ret[k] = haystack[k];
-	i += j;
-	while (haystack[++i])
-		ret[k++] = haystack[i];
-	free(haystack);
+	if (str[pos + 1] == '?')
+		return (ft_strdup("$?"));
+	i = pos + 1;
+	j = 0;
+	while (str[i] && ft_isalpha(str[i]))
+		i++;
+	ret = malloc (sizeof(char) * (i - pos + 1));
+	while (pos < i)
+		ret[j++] = str[pos++];
+	ret[j] = 0;
 	return (ret);
 }
 
-char	*add_exp(char *needle, char *haystack, char *val)
+char	*get_new_value(char *to_r, t_env *env)
 {
-	int	i;
-	int	j;
-	int	ij[2];
+	char *new_value;
 
-	i = 0;
-	while (haystack[i])
-	{
-		j = 0;
-		while (haystack[i + j] == needle[j] && haystack[i + j])
-		{
-			if (needle[j + 1] == 0 && (haystack[i + j + 1] == '\''
-					|| haystack[i + j + 1] == '"'
-					|| haystack[i + j + 1] == ' '
-					|| haystack[i + j + 1] == '$' || !haystack[i + j + 1]))
-			{
-				ij[0] = i;
-				ij[1] = j;
-				return (add_exp_helper(ij, haystack, needle, val));
-			}
-			j++;
-		}
-		i++;
-	}
-	return (NULL);
+	new_value = NULL;
+	if (!ft_strncmp(to_r, "$?", 3))
+		new_value = ft_itoa(g_status_code);
+	else
+		new_value = get_env_value(to_r, env);
+	return (new_value);
 }
 
-char	*add_exp_helper(int ij[2], char *haystack, char *needle, char *val)
+int	ft_strlen_checknull(char *str)
 {
-	char	*ret;
-	int		k;
+	int	len;
 
-	ret = (char *)malloc(sizeof(char) * (ft_strlen(haystack)
-				- ft_strlen(needle) + ft_strlen(val) + 1));
-	ret[ft_strlen(haystack) - ft_strlen(needle)
-		+ ft_strlen(val)] = 0;
-	k = -1;
-	while (++k != ij[0])
-		ret[k] = haystack[k];
-	ij[0] += ij[1];
-	ij[1] = 0;
-	while (val[ij[1]])
-		ret[k++] = val[ij[1]++];
-	while (haystack[++ij[0]])
-		ret[k++] = haystack[ij[0]];
-	free(haystack);
-	return (ret);
+	if (!str)
+		len = 0;
+	else
+		len = ft_strlen(str);
+	return (len);
 }
 
 char	*replace_expand_helper(char *str, char *to_r,
 	char *new_value, char *ret)
 {
-	int		i;
-	int		j;
-	int		k;
-	int		once;
+	int	i;
+	int	j;
+	int	k;
+	int	once;
 
 	i = 0;
 	j = 0;
