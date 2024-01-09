@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_flags.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:30:39 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 15:12:28 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 16:59:46 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	analyze_flag(int *flag)
 		return (1);
 	else if (flag[0] % 2 == 1 && flag[2] % 2 == 0)
 	{
-		if (flag[1] < flag[3])
+		if ((flag[1] < flag[3] && flag[3]) || !flag[3])
 			return (1);
 	}
 	else if (flag[0] % 2 == 0 && flag[2] % 2 == 1)

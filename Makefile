@@ -33,7 +33,6 @@ all:	${NAME}
 
 ${NAME}: ${LIBFT} ${SRC}
 	${CC} ${CFLAGS} ${FSANITIZE} ${SRC} ${RAED} ${LIBFT} -o ${NAME} ${DSYM}
-	${CC} leak_check.c -o leak
 
 ${LIBFT}:
 	make -s all -C libft/

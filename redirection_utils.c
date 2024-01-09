@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:27:29 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 14:08:21 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/09 17:35:56 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,22 @@ char	**renew_arg_rm_redir(char **args)
 	new[i] = NULL;
 	free2d(args);
 	return (new);
+}
+int	invalid_redir(char *str)
+{
+	int	i;
+
+	i = ft_strlen(str) - 1;
+	while (i > 0)
+	{
+		if (str[i] != ' ')
+		{
+			if (str[i] != '<' || str[i] != '>')
+				break ;
+			else if (str[i] == '<' || str[i] == '>')
+				return (1);
+		}
+		i--;
+	}
+	return (0);
 }
