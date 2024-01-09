@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:30:39 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 20:10:43 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 20:44:19 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	analyze_flag(int *flag)
 	else if (flag[0] % 2 == 1 && flag[2] % 2 == 0)
 		return (1);
 	else if (flag[0] % 2 == 0 && flag[2] % 2 == 1)
-		return (1);
+		return (0);
 	else if (flag[0] % 2 == 1 && flag[2] % 2 == 1)
 	{
 		if (flag[3] < flag[1])
