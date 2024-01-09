@@ -20,8 +20,8 @@ SRC			= main.c main2.c\
 CC			= gcc
 RM			= rm -rf
 CFLAGS		= -Wall -Wextra -Werror
-FSANITIZE	= -fsanitize=address -g3
-DSYM		= && rm -rf *.dSYM
+# FSANITIZE	= -fsanitize=address -g3
+# DSYM		= && rm -rf *.dSYM
 
 RAED		= -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 
@@ -33,6 +33,7 @@ all:	${NAME}
 
 ${NAME}: ${LIBFT} ${SRC}
 	${CC} ${CFLAGS} ${FSANITIZE} ${SRC} ${RAED} ${LIBFT} -o ${NAME} ${DSYM}
+	${CC} leak_check.c -o leak
 
 ${LIBFT}:
 	make -s all -C libft/
@@ -43,7 +44,7 @@ clean:
 	make -s clean -C libft/
 
 fclean: clean
-	${RM} ${NAME} ${LIBFT}
+	${RM} ${NAME} ${LIBFT} leak
 	make -s fclean -C libft/
 
 re: fclean all

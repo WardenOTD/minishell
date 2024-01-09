@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:26:28 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/05 15:13:41 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 16:12:41 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,11 @@ void	exit_w_arg_helper(int str, t_root *root, char **arg)
 	arg1 = ft_atoi(arg[1]) % 256;
 	free4(root);
 	if (str == 1)
+	{
+		system("leaks -q minishell");
 		exit (arg1);
+	}
+	system("leaks -q minishell");
 	exit (255);
 }
 

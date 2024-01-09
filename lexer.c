@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:58:04 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 10:56:45 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 15:31:33 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int	lexer(t_root *root, char *line, int segregation)
 {
 	lexer_helper(root, line);
+	if (segregation == 1)
+		free(line);
 	if (segregation == 0)
 	{
 		root->input = expand(root->input, root->env);

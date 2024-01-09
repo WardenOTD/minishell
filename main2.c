@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:25:00 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 12:23:58 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 16:12:23 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	handle(char *line, t_env *env, t_fd_info *fd_info)
 	env = free_env(env);
 	free(line);
 	tcsetattr(STDIN_FILENO, TCSANOW, &fd_info->saved_attr);
+	system("leaks -q minishell");
 	exit (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:35:30 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 13:24:39 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 15:35:38 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_env	*add_env(t_env *env, char *arg)
 	while (tail)
 	{
 		head = tail;
-		if (!ft_strncmp(tmp[0], tail->key, ft_strlen(tmp[0])))
+		if (!ft_strncmp(tmp[0], tail->key, ft_strlen(tmp[0]) + 1))
 			return (add_env_helper(env, tail, tmp));
 		tail = tail->next;
 	}
