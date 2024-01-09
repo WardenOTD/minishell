@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_init2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:26:41 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 09:05:19 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/09 14:36:13 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	invalid_pipe_front(char *str)
 	return (0);
 }
 
-int invalid_pipe_back(char *str)
+int	invalid_pipe_back(char *str)
 {
 	int	i;
 

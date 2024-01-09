@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:09:27 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 14:11:47 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 14:33:27 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_to_replace(char *str, int pos)
 
 char	*get_new_value(char *to_r, t_env *env)
 {
-	char *new_value;
+	char	*new_value;
 
 	new_value = NULL;
 	if (!ft_strncmp(to_r, "$?", 3))

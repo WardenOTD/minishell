@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:24:08 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 12:13:41 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 14:37:14 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,6 @@ char	***arr_arr_split(char **arr)
 			i++;
 			j = i;
 			pp_i++;
-		}
-		if (!(arr[i]))
-		{
-			printf("Missing arguement after pipe: \"|\" <-\n");
-			break ;
 		}
 		i++;
 	}

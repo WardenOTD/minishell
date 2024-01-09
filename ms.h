@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 14:19:22 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 14:35:57 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,21 +177,21 @@ int			get_tri_arr_size(char **arr);
 //--expansion.c--
 t_lexer		*expand(t_lexer *input, t_env *env);
 char		*expand_helper_1(char *arg, t_env *env, int j);
-char		*replace_expand(char *str, char *to_r, t_env *env);
-
-//--expansion_helper.c--
-void		set_arr_to_zero(int *arr, int size);
-void		get_flag(int *flag, char c, int pos);
-int			analyze_flag(int *flag);
-int			analyze_flag_2(int *flag);
-
-//--expansion_helper.c--
 int			yes_expand(char c1, char c2);
+char		*replace_expand(char *str, char *to_r, t_env *env);
+void		set_arr_to_zero(int *arr, int size);
+
+//--expansion_helper.c--
 char		*get_to_replace(char *str, int pos);
 char		*get_new_value(char *to_r, t_env *env);
 int			ft_strlen_checknull(char *str);
 char		*replace_expand_helper(char *str, char *to_r,
 				char *new_value, char *ret);
+
+//--expansion_flags.c--
+void		get_flag(int *flag, char c, int pos);
+int			analyze_flag(int *flag);
+int			analyze_flag_2(int *flag);
 
 //--re_string.c--
 char		*lexer_to_str(t_root *root);
@@ -210,7 +210,7 @@ pid_t		pipe_init_helper_2(t_root *root, t_lexer *head, t_fd_info *fd_info);
 //--pipe_init2.c--
 void		cp_function(int count, int fd[2], int nig[2]);
 int			invalid_pipe_front(char *str);
-int 		invalid_pipe_back(char *str);
+int			invalid_pipe_back(char *str);
 
 //--redirection.c--
 int			handle_redirect(char **args, t_fd_info *fd_info);

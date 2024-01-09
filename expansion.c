@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 19:07:28 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 14:19:09 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/09 14:31:03 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,62 +99,4 @@ void	set_arr_to_zero(int *arr, int size)
 		arr[i] = 0;
 		i++;
 	}
-}
-
-void	get_flag(int *flag, char c, int pos)
-{
-	if (c == '\"')
-	{
-		flag[0] += 1;
-		flag[1] = pos;
-	}
-	else
-	{
-		if (flag[0] % 2 == 0)
-			flag[2] += 1;
-		flag[3] = pos;
-	}
-}
-
-int	analyze_flag(int *flag)
-{
-	if (flag[0] % 2 == 0 && flag[2] % 2 == 0)
-		return (1); // outside any quotes
-	else if (flag[0] % 2 == 1 && flag[2] % 2 == 0)
-	{
-		if (flag[1] < flag[3])
-			return (1); // only inside ""
-	}
-	else if (flag[0] % 2 == 0 && flag[2] % 2 == 1)
-	{
-		if (flag[1] > flag[3])
-			return (1); // only inside ''
-	}
-	else if (flag[0] % 2 == 1 && flag[2] % 2 == 1)
-		if (flag[1] < flag[3])
-			return (1); // inside "''"
-	return (0);
-}
-int	analyze_flag_2(int *flag)
-{
-	if (flag[0] % 2 == 0 && flag[2] % 2 == 0)
-		return (1); // outside any quotes
-	else if (flag[0] % 2 == 1 && flag[2] % 2 == 0)
-	{
-		if (flag[1] < flag[3])
-			return (2); // only inside ""
-	}
-	else if (flag[0] % 2 == 0 && flag[2] % 2 == 1)
-	{
-		if (flag[1] > flag[3])
-			return (3); // only inside ''
-	}
-	else if (flag[0] % 2 == 1 && flag[2] % 2 == 1)
-	{
-		if (flag[1] < flag[3])
-			return (4); // inside "''"
-		else
-			return (5); // inside '""'
-	}
-	return (0);
 }
