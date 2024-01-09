@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 20:49:46 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/09 11:46:50 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,11 +170,11 @@ int			get_nor_arr_size(char *str);
 int			get_tri_arr_size(char **arr);
 
 //--expansion.c--
-t_lexer		*expand(t_lexer *input, t_env *env);
 char		*expand_helper_1(char *arg, t_env *env, int j);
 void		set_arr_to_zero(int *arr, int size);
 void		get_flag(int *flag, char c, int pos);
 int			analyze_flag(int *flag);
+int			analyze_flag_2(int *flag);
 
 //--expansion_helper.c--
 int			yes_expand(char c1, char c2);
