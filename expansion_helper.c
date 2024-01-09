@@ -6,7 +6,7 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:07:20 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 17:18:38 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/09 11:22:33 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	*get_to_replace(char *str, int pos)
 
 	if (str[pos + 1] == '?')
 		return (ft_strdup("$?"));
+	else if (str[pos + 1] == ' ' || str[pos + 1] == '\"')
+		return (ft_strdup("$"));
 	i = pos + 1;
 	j = 0;
 	while (str[i] && ft_isalpha(str[i]))

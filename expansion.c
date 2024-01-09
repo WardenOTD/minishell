@@ -6,30 +6,11 @@
 /*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 19:07:28 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/08 17:18:54 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/09 11:18:00 by jutong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
-
-t_lexer	*expand(t_lexer *input, t_env *env)
-{
-	t_lexer	*lhead;
-	int		i;
-
-	lhead = input;
-	while (lhead)
-	{
-		i = 0;
-		while (lhead->arg[i])
-		{
-			lhead->arg[i] = expand_helper_1(lhead->arg[i], env, 0);
-			i++;
-		}
-		lhead = lhead->next;
-	}
-	return (input);
-}
 
 char	*expand_helper_1(char *arg, t_env *env, int j)
 {
