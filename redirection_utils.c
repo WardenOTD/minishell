@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:27:29 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 17:35:56 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/09 18:22:12 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	invalid_redir(char *str)
 	{
 		if (str[i] != ' ')
 		{
-			if (str[i] != '<' || str[i] != '>')
+			if (str[i] != '<' && str[i] != '>')
 				break ;
 			else if (str[i] == '<' || str[i] == '>')
 				return (1);
