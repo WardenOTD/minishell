@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:22:31 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 11:12:26 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/10 16:27:42 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ t_env	*free_env(t_env *env)
 t_env	*shlvl(t_env *env)
 {
 	t_env	*head;
+	int		i;
 
 	head = env;
 	while (head)
@@ -108,7 +109,9 @@ t_env	*shlvl(t_env *env)
 			break ;
 		head = head->next;
 	}
+	i = ft_atoi(head->value);
+	i += 1;
 	free(head->value);
-	head->value = ft_itoa((ft_atoi(head->value) + 1));
+	head->value = ft_itoa(i);
 	return (env);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 21:03:10 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/10 17:46:26 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@
 # include <errno.h>
 
 int	g_status_code;
+//for wsl comment int and uncomment extern int
+//uncomment int in main file
+//extern int	g_status_code;
 
 typedef struct s_lexer
 {
@@ -191,7 +194,7 @@ char		*copy_backwards(char *str, int pos, int *size, char *ret);
 
 //--expansion_flags.c--
 void		get_flag(int *flag, char c, int pos);
-int			analyze_flag(int *flag);
+int			analyze_flag(int *flag, char here, char there);
 int			analyze_flag_2(int *flag);
 
 //--re_string.c--

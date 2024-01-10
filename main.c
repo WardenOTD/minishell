@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jutong <jutong@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 21:03:40 by jutong           ###   ########.fr       */
+/*   Updated: 2024/01/10 17:46:21 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
+
+//int	g_status_code;
 
 void	free2d(char **line)
 {
@@ -95,7 +97,8 @@ int	main(int argc, char **argv, char **envp)
 		handle_ctrlc(&fd_info);
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, ctrlc);
-		free(root.line);
+		if (root.line)
+			free(root.line);
 	}
 	return (0);
 }
