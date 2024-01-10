@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/10 10:39:43 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/10 15:43:54 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ int	main(int argc, char **argv, char **envp)
 		handle_ctrlc(&fd_info);
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, ctrlc);
-		free(root.line);
+		if (root.line)
+			free(root.line);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 19:07:28 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/10 12:25:56 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/10 17:26:27 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ char	*expand_helper_1(char *arg, t_env *env, int j)
 	{
 		if (arg[j] == '\'' || arg[j] == '\"')
 			get_flag(flag, arg[j], j);
-		if (yes_expand(arg[j], arg[j + 1]) && analyze_flag(flag))
+		if (yes_expand(arg[j], arg[j + 1])
+			&& analyze_flag(flag, arg[j], arg[j + 1]))
 		{
 			to_replace = get_to_replace(arg, j);
 			arg = replace_expand(arg, to_replace, env, j);

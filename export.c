@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 10:25:02 by jteoh             #+#    #+#             */
-/*   Updated: 2023/11/07 14:20:16 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/10 15:38:11 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,13 @@ t_exp	*free_exp(t_exp *exp)
 	while (tmp)
 	{
 		tmpnxt = tmp->next;
-		free(tmp->export);
+		if (tmp->export)
+			free(tmp->export);
 		free(tmp);
 		tmp = tmpnxt;
 	}
-	free(head->export);
+	if (head->export)
+		free(head->export);
 	free(head);
 	exp = NULL;
 	return (exp);

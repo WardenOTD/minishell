@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/10 10:39:27 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/10 17:02:38 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ char		*copy_backwards(char *str, int pos, int *size, char *ret);
 
 //--expansion_flags.c--
 void		get_flag(int *flag, char c, int pos);
-int			analyze_flag(int *flag);
+int			analyze_flag(int *flag, char here, char there);
 int			analyze_flag_2(int *flag);
 
 //--re_string.c--
