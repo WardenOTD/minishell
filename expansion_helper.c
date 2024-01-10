@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:09:27 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 20:08:42 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/10 12:32:05 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*replace_expand_helper(char *str, int pos,
 			else
 				while (new_value[j])
 					ret[i++] = new_value[j++];
+			break ;
 		}
 		i++;
 	}
@@ -92,6 +93,7 @@ char	*copy_backwards(char *str, int pos, int *size, char *ret)
 		{
 			i += size[0];
 			j += size[1];
+			continue ;
 		}
 		ret[j] = str[i];
 		j++;

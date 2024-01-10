@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 19:07:28 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 20:10:09 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/10 12:25:56 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*replace_expand(char *str, char *to_r, t_env *env, int pos)
 	else
 		size[1] = ft_strlen(new_value);
 	size[0] = ft_strlen(to_r);
-	ret = malloc (sizeof(char) * (ft_strlen(str)
+	ret = (char *)malloc(sizeof(char) * (ft_strlen(str)
 				- size[0] + size[1] + 1));
 	ret[(ft_strlen(str) - size[0] + size[1])] = 0;
 	ret = copy_backwards(str, pos, size, ret);

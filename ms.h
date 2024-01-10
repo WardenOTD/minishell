@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:31:53 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 19:56:52 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/10 10:39:27 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@
 # include <errno.h>
 
 int	g_status_code;
+//for wsl comment int and uncomment extern int
+//uncomment int in main file
+//extern int	g_status_code;
 
 typedef struct s_lexer
 {

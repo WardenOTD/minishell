@@ -6,11 +6,13 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/09 18:23:11 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/10 10:39:43 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
+
+//int	g_status_code;
 
 void	free2d(char **line)
 {
