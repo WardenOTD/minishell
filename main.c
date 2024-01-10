@@ -6,7 +6,7 @@
 /*   By: jteoh <jteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:11:13 by jteoh             #+#    #+#             */
-/*   Updated: 2024/01/10 17:46:21 by jteoh            ###   ########.fr       */
+/*   Updated: 2024/01/10 17:48:04 by jteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	main_helper_1(char *line, t_root *root, t_fd_info *fd_info)
 		add_history(line);
 	if (find_unclosed_quote(line))
 		printf("Unclosed quote detected\n");
-	else if (invalid_pipe_front(line) || invalid_pipe_back(line) || invalid_redir_mod(line))
+	else if (invalid_pipe_front(line) || invalid_pipe_back(line)
+		|| invalid_redir_mod(line))
 		printf("minishell: syntax error near unexpected token '|'\n");
 	else if (invalid_redir(line))
 		printf("minishell: syntax error near unexpected token `newline'\n");
